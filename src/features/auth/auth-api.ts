@@ -1,35 +1,37 @@
-import { instance } from 'common/api/common-api';
+import { instance } from "common/api/common-api";
 
 export const authAPI = {
-    register: (params: ArgRegisterType) => {
-        return instance.post<ProfileType>('auth/register', params);
+    register: (data: ArgRegisterType) => {
+        return instance.post<RegisterResponseType>("auth/register", data);
     },
-    login: (params: ArgLoginType) => {
-        return instance.post('auth/login', params);
-    }
+    login: (data: ArgLoginType) => {
+        return instance.post<LoginResponseType>("auth/login", data);
+    },
 };
 
+// types
+export type ArgRegisterType = Omit<ArgLoginType, "rememberMe">;
+export type ArgLoginType = {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+};
 
-type ArgRegisterType = {
-    email: string
-    password: string
-}
-type ArgLoginType = {
-    email: string
-    password: string
-    rememberMe: boolean
-}
-type ProfileType = {
-    addedUser: {
-        _id: string;
-        email: string;
-        rememberMe: boolean;
-        isAdmin: boolean;
-        name: string;
-        verified: boolean;
-        publicCardPacksCount: number;
-        created: string;
-        updated: string;
-        __v: number;
-    }
-}
+type RegisterResponseType = {
+    addedUser: Omit<LoginResponseType, "token" | "tokenDeathTime">;
+};
+
+type LoginResponseType = {
+    _id: string;
+    email: string;
+    rememberMe: boolean;
+    isAdmin: boolean;
+    name: string;
+    verified: boolean;
+    publicCardPacksCount: number;
+    created: string;
+    updated: string;
+    __v: number;
+    token: string;
+    tokenDeathTime: number;
+};

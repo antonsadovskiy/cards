@@ -1,31 +1,33 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { authAPI } from 'features/auth/auth-api';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ArgLoginType, ArgRegisterType, authAPI } from "features/auth/auth-api";
 
-const register = createAsyncThunk('auth/register', async (arg, thunkAPI) => {
-    const { dispatch, getState, rejectWithValue } = thunkAPI;
-    try {
-        const res = await authAPI.register({ email: 'antonsadovskiy6@gmail.com', password: '123987456' });
-    } catch (e) {
-        console.log(e);
+const register = createAsyncThunk(
+    "auth/register",
+    async (arg: ArgRegisterType, thunkAPI) => {
+        const { dispatch, getState, rejectWithValue } = thunkAPI;
+        try {
+            const res = await authAPI.register(arg);
+        } catch (e) {
+            console.log(e);
+        }
     }
-});
-const login = createAsyncThunk('auth/login', async (arg, thunkAPI) => {
-    const { dispatch, getState } = thunkAPI;
-    try {
-        const res = await authAPI.login({
-            email: 'antonsadovskiy6@gmail.com',
-            password: '123987456',
-            rememberMe: false
-        });
-    } catch (e) {
-        console.log(e);
+);
+const login = createAsyncThunk(
+    "auth/login",
+    async (arg: ArgLoginType, thunkAPI) => {
+        const { dispatch, getState, rejectWithValue } = thunkAPI;
+        try {
+            const res = await authAPI.login(arg);
+        } catch (e) {
+            console.log(e);
+        }
     }
-});
+);
 
 const slice = createSlice({
-    name: 'auth',
+    name: "auth",
     initialState: {},
-    reducers: {}
+    reducers: {},
 });
 
 export const authReducer = slice.reducer;
