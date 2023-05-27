@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const Packs = () => {
-    return <div>packs</div>;
+  return <div>packs</div>;
 };
 
 export default Packs;
