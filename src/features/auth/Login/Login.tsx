@@ -16,7 +16,6 @@ import FormTitle from "features/auth/common/FormTitle/FormTitle";
 const Login = () => {
   const dispatch = useAppDispatch();
 
-  // TODO add error handlers on email and password inputs
   const {
     register,
     handleSubmit,

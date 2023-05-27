@@ -16,7 +16,6 @@ type RegisterType = ArgRegisterType & { confirmPassword: string };
 const Login = () => {
   const dispatch = useAppDispatch();
 
-  // TODO add error handlers on email and two password inputs
   const {
     register,
     handleSubmit,
