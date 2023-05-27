@@ -1,4 +1,5 @@
 import { instance } from "common/api/common-api";
+import axios from "axios";
 
 export const authAPI = {
   register: (data: ArgRegisterType) => {
@@ -6,6 +7,12 @@ export const authAPI = {
   },
   login: (data: ArgLoginType) => {
     return instance.post<ProfileType>("auth/login", data);
+  },
+  forgot: (data: ForgotPasswordType) => {
+    return axios.post<ForgotPasswordResponseType>(
+      "https://neko-back.herokuapp.com/2.0/auth/forgot",
+      data
+    );
   },
 };
 
@@ -19,6 +26,17 @@ export type ArgLoginType = {
 
 type RegisterResponseType = {
   addedUser: Omit<ProfileType, "token" | "tokenDeathTime">;
+};
+export type ForgotPasswordType = {
+  email: string;
+  from?: string;
+  message: string;
+};
+export type ForgotPasswordResponseType = {
+  answer: boolean;
+  html: boolean;
+  info: string;
+  success: boolean;
 };
 
 export type ProfileType = {

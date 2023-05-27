@@ -1,0 +1,13 @@
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  text-align: center;
+  color: gray;
+}
+.button {
+  color: white;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+}
