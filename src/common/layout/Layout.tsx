@@ -4,7 +4,6 @@ import styleContainer from "../../common/styles/Container.module.css";
 import style from "./Layout.module.css";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth-slice";
-import Preloader from "common/preloader/Preloader";
 
 const Layout = (props: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -17,7 +16,7 @@ const Layout = (props: { children: ReactNode }) => {
     dispatch(authThunks.me());
   }, []);
 
-  if (!isAppInitialized) return <Preloader />;
+  //if (!isAppInitialized) return <Preloader />;
 
   return (
     <div>

@@ -1,7 +1,6 @@
 import React from "react";
 import styleForm from "../../../common/styles/Form.module.css";
 import style from "./ForgotPassword.module.css";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -9,6 +8,8 @@ import { authThunks } from "features/auth/auth-slice";
 import { useAppDispatch } from "app/hooks";
 import { NavLink, useNavigate } from "react-router-dom";
 import FormTitle from "features/auth/common/FormTitle/FormTitle";
+import EmailInput from "components/EmailInput/EmailInput";
+import { validate } from "features/auth/Login/Login";
 
 type ForgotPasswordType = {
   email: string;
@@ -20,11 +21,9 @@ const ForgotPassword = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  //
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<ForgotPasswordType>();
 
@@ -46,10 +45,13 @@ const ForgotPassword = () => {
     <form className={styleForm.form} onSubmit={handleSubmit(onSubmit)}>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <FormTitle title={"Forgot your password?"} />
-        <TextField
-          label={"Email"}
-          variant={"standard"}
-          {...register("email")}
+        <EmailInput
+          color={errors.email ? "error" : "primary"}
+          register={register("email", {
+            required: "email is required",
+            validate: validate,
+          })}
+          helperText={errors?.email?.message && errors.email.message}
         />
         <div style={{ color: "gray", marginTop: "10px" }}>
           Enter your email address and we will send you further instructions

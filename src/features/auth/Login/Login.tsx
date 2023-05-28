@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth-slice";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import TextField from "@mui/material/TextField";
 import styleForm from "../../../common/styles/Form.module.css";
 import style from "./Login.module.css";
 import Button from "@mui/material/Button";
@@ -13,16 +12,22 @@ import { ArgLoginType } from "features/auth/auth-api";
 import { Navigate, NavLink } from "react-router-dom";
 import FormTitle from "features/auth/common/FormTitle/FormTitle";
 import PasswordInput from "components/PasswordInput/PasswordInput";
+import EmailInput from "components/EmailInput/EmailInput";
+
+export const validate = {
+  matchPattern: (v: string) =>
+    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+    "Invalid email address",
+};
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
 
-  //
   const {
     register,
     handleSubmit,
-    watch,
+
     formState: { errors },
   } = useForm<ArgLoginType>();
 
@@ -41,12 +46,20 @@ const Login = () => {
     <form className={styleForm.form} onSubmit={handleSubmit(onSubmit)}>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <FormTitle title={"Sign in"} />
-        <TextField
-          label={"Email"}
-          variant={"standard"}
-          {...register("email")}
+        <EmailInput
+          color={errors.email ? "error" : "primary"}
+          register={register("email", {
+            required: "email is required",
+            validate: validate,
+          })}
+          helperText={errors?.email?.message && errors.email.message}
         />
-        <PasswordInput label={"Password"} register={register("password")} />
+        <PasswordInput
+          label={"Password"}
+          color={errors.password ? "error" : "primary"}
+          register={register("password", { required: "password is required" })}
+          helperText={errors.password && errors.password?.message}
+        />
         <FormControlLabel
           control={
             <Checkbox
