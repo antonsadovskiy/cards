@@ -1,0 +1,10 @@
+.profile {
+  gap: 20px;
+  align-items: center;
+}
+.profile p {
+  margin: 0;
+}
+.email {
+  color: gray;
+}

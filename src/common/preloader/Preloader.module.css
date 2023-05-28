@@ -1,0 +1,6 @@
+.preloader {
+  position: fixed;
+  top: 40%;
+  text-align: center;
+  width: 100%
+}

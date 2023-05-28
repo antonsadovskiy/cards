@@ -1,15 +1,21 @@
-import { instance } from "common/api/common-api";
 import axios from "axios";
+import { instance } from "app/instance";
 
 export const authAPI = {
+  me: () => {
+    return instance.post<ProfileType>("auth/me");
+  },
   register: (data: ArgRegisterType) => {
     return instance.post<RegisterResponseType>("auth/register", data);
   },
   login: (data: ArgLoginType) => {
     return instance.post<ProfileType>("auth/login", data);
   },
+  logout: () => {
+    return instance.delete("auth/me");
+  },
   forgot: (data: ForgotPasswordType) => {
-    return axios.post<ForgotPasswordResponseType>(
+    return axios.post<ForgotPasswordRequestType>(
       "https://neko-back.herokuapp.com/2.0/auth/forgot",
       data
     );
@@ -32,17 +38,23 @@ export type ForgotPasswordType = {
   from?: string;
   message: string;
 };
+export type ForgotPasswordRequestType = {
+  answer: boolean;
+  html: boolean;
+  info: string;
+  success: boolean;
+};
 export type ForgotPasswordResponseType = {
   answer: boolean;
   html: boolean;
   info: string;
   success: boolean;
 };
-
 export type ProfileType = {
   _id: string;
   email: string;
   rememberMe: boolean;
+  avatar?: string;
   isAdmin: boolean;
   name: string;
   verified: boolean;

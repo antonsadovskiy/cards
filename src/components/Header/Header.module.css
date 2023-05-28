@@ -10,3 +10,9 @@
   width: 209px;
   height: 48px;
 }
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
