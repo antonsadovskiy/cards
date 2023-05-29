@@ -1,15 +1,24 @@
-import React, { FC } from "react";
+import React from "react";
 import TextField from "@mui/material/TextField";
-import { InputPropsType } from "components/PasswordInput/PasswordInput";
+import { useFormContext } from "react-hook-form";
+import { validateEmail } from "common/utils/validate";
 
-const EmailInput: FC<InputPropsType> = (props) => {
+const EmailInput = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<{ email: string }>();
+
   return (
     <TextField
       label={"Email"}
       variant={"standard"}
-      color={props.color}
-      {...props.register}
-      helperText={props.helperText}
+      color={errors.email ? "error" : "primary"}
+      {...register("email", {
+        required: "email is required",
+        validate: validateEmail,
+      })}
+      helperText={errors.email && errors.email?.message}
     />
   );
 };

@@ -3,20 +3,17 @@ import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { UseFormRegisterReturn } from "react-hook-form";
 import TextField from "@mui/material/TextField";
+import { useFormContext } from "react-hook-form";
 
-export type InputPropsType = {
-  label?: string;
-  color?: "error" | "primary" | "info" | "warning" | "success" | "secondary";
-  register: UseFormRegisterReturn<string>;
-  helperText?: string | undefined;
-};
-
-const PasswordInput: FC<InputPropsType> = (props) => {
+const PasswordInput: FC<{ label: string }> = ({ label }) => {
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<{ password: string }>();
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -29,10 +26,12 @@ const PasswordInput: FC<InputPropsType> = (props) => {
       <TextField
         type={showPassword ? "text" : "password"}
         variant={"standard"}
-        label={props.label}
-        color={props.color}
-        helperText={props.helperText}
-        {...props.register}
+        label={label}
+        color={errors.password ? "error" : "primary"}
+        {...register("password", {
+          required: "password is required",
+        })}
+        helperText={errors.password && errors.password?.message}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">

@@ -20,6 +20,12 @@ export const authAPI = {
       data
     );
   },
+  setNewPassword: (data: SetNewPasswordType) => {
+    return axios.post<SetNewPasswordResponseType>(
+      "https://neko-back.herokuapp.com/2.0/auth/set-new-password",
+      data
+    );
+  },
 };
 
 // types
@@ -29,8 +35,16 @@ export type ArgLoginType = {
   password: string;
   rememberMe: boolean;
 };
+export type SetNewPasswordType = {
+  password: string;
+  resetPasswordToken: string;
+};
+export type SetNewPasswordResponseType = {
+  info: string;
+  error: string;
+};
 
-type RegisterResponseType = {
+export type RegisterResponseType = {
   addedUser: Omit<ProfileType, "token" | "tokenDeathTime">;
 };
 export type ForgotPasswordType = {

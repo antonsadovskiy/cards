@@ -11,6 +11,7 @@ import { authThunks } from "features/auth/auth-slice";
 import { Navigate } from "react-router-dom";
 import EditableName from "features/profile/Profile/EditableName/EditableName";
 import { UserModelToUpdateType } from "features/profile/profile-api";
+import Preloader from "common/preloader/Preloader";
 
 const Profile = () => {
   const dispatch = useAppDispatch();

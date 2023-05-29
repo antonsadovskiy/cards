@@ -5,6 +5,7 @@ import {
   authAPI,
   ForgotPasswordType,
   ProfileType,
+  SetNewPasswordType,
 } from "features/auth/auth-api";
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk";
 import {
@@ -53,51 +54,101 @@ const register = createAppAsyncThunk<void, ArgRegisterType>(
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   "auth/login",
   async (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    const res = await authAPI.login(arg);
-    dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-    return { profile: res.data };
+    const { dispatch, rejectWithValue } = thunkAPI;
+    dispatch(appActions.setStatus({ status: "loading" }));
+    try {
+      const res = await authAPI.login(arg);
+      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+      dispatch(appActions.setStatus({ status: "success" }));
+      return { profile: res.data };
+    } catch (e) {
+      dispatch(appActions.setStatus({ status: "error" }));
+      return rejectWithValue(null);
+    }
   }
 );
 const logout = createAppAsyncThunk<{ profile: null }>(
   "auth/logout",
   async (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    const res = await authAPI.logout();
-    dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-    return { profile: null };
+    const { dispatch, rejectWithValue } = thunkAPI;
+    dispatch(appActions.setStatus({ status: "loading" }));
+    try {
+      const res = await authAPI.logout();
+      dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+      dispatch(appActions.setStatus({ status: "success" }));
+      return { profile: null };
+    } catch (e) {
+      dispatch(appActions.setStatus({ status: "error" }));
+      return rejectWithValue(null);
+    }
   }
 );
-const forgot = createAppAsyncThunk<{}, ForgotPasswordType>(
+const forgot = createAppAsyncThunk<void, ForgotPasswordType>(
   "auth/forgot",
   async (arg, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
     const payload: ForgotPasswordType = {
       email: arg.email,
       message: arg.message,
       from: arg.from,
     };
-    const res = await authAPI.forgot(payload);
+    dispatch(appActions.setStatus({ status: "loading" }));
+    try {
+      const res = await authAPI.forgot(payload);
+      dispatch(appActions.setStatus({ status: "success" }));
+    } catch (e) {
+      dispatch(appActions.setStatus({ status: "error" }));
+      return rejectWithValue(null);
+    }
   }
 );
-const me = createAppAsyncThunk<{ profile: ProfileType }>(
+const me = createAppAsyncThunk<{ profile: ProfileType }, void>(
   "auth/me",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    const res = await authAPI.me();
-
-    dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-    return { profile: res.data };
+    try {
+      const res = await authAPI.me();
+      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+      return { profile: res.data };
+    } catch (e) {
+      return rejectWithValue(null);
+    } finally {
+      dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
+    }
   }
 );
+const setNewPassword = createAppAsyncThunk<void, SetNewPasswordType>(
+  "auth/set-new-password",
+  async (arg, thunkAPI) => {
+    const res = await authAPI.setNewPassword(arg);
+    console.log(res);
+  }
+);
+
 const updateMe = createAppAsyncThunk<
   { profile: UpdateUserResponseType },
   UserModelToUpdateType
 >("profile/update", async (arg, thunkAPI) => {
-  const res = await profileAPI.updateUser(arg);
-
-  return { profile: res.data };
+  const { dispatch, rejectWithValue } = thunkAPI;
+  dispatch(appActions.setStatus({ status: "loading" }));
+  try {
+    const res = await profileAPI.updateUser(arg);
+    dispatch(appActions.setStatus({ status: "success" }));
+    return { profile: res.data };
+  } catch (e) {
+    dispatch(appActions.setStatus({ status: "error" }));
+    return rejectWithValue(null);
+  }
 });
 
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
-export const authThunks = { me, register, login, logout, forgot, updateMe };
+export const authThunks = {
+  me,
+  register,
+  login,
+  logout,
+  forgot,
+  setNewPassword,
+  updateMe,
+};
