@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { authThunks } from "features/auth/auth-slice";
+import { userThunks } from "features/auth/auth-slice";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import styleForm from "../../../common/styles/Form.module.css";
@@ -26,7 +26,7 @@ const Login = () => {
       password: data.password,
       rememberMe: data.rememberMe,
     };
-    dispatch(authThunks.login(payload));
+    dispatch(userThunks.login(payload));
   };
 
   if (isLoggedIn) return <Navigate to={"/profile"} />;

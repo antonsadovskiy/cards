@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import PasswordInput from "components/PasswordInput/PasswordInput";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "app/hooks";
-import { authThunks } from "features/auth/auth-slice";
+import { userThunks } from "features/auth/auth-slice";
 
 const SetNewPassword = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ const SetNewPassword = () => {
         password: data.password,
         resetPasswordToken: params.token,
       };
-      dispatch(authThunks.setNewPassword(payload));
+      dispatch(userThunks.setNewPassword(payload));
     }
   };
 

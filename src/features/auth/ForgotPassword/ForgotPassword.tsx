@@ -4,7 +4,7 @@ import style from "./ForgotPassword.module.css";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { authThunks } from "features/auth/auth-slice";
+import { userThunks } from "features/auth/auth-slice";
 import { useAppDispatch } from "app/hooks";
 import { NavLink, useNavigate } from "react-router-dom";
 import FormTitle from "features/auth/common/FormTitle/FormTitle";
@@ -29,8 +29,7 @@ const ForgotPassword = () => {
       from: "anton sadovskiy front dev",
       message: MESSAGE,
     };
-    dispatch(authThunks.forgot(payload));
-    navigate("/check-email");
+    dispatch(userThunks.forgot(payload));
   };
 
   return (

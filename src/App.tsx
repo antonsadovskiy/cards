@@ -22,7 +22,7 @@ const router = createHashRouter([
   { path: "/register", element: <Register /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/check-email", element: <CheckEmail /> },
-  { path: "/set-new-password/:token", element: <SetNewPassword /> },
+  { path: "/set-new-password/:token", element: <SetNewPassword /> }
 ]);
 
 function App() {

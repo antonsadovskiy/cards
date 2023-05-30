@@ -14,6 +14,7 @@ import {
   UserModelToUpdateType,
 } from "features/profile/profile-api";
 import { appActions } from "app/app-slice";
+import { redirect } from "react-router-dom";
 
 const initialState = {
   profile: null as ProfileType | null,
@@ -21,7 +22,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
     setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
@@ -30,10 +31,10 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(me.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
       })
-      .addCase(me.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
       })
       .addCase(logout.fulfilled, (state, action) => {
@@ -46,19 +47,34 @@ const slice = createSlice({
 });
 
 const register = createAppAsyncThunk<void, ArgRegisterType>(
-  "auth/register",
+  "user/register",
   async (arg, thunkAPI) => {
     const res = await authAPI.register(arg);
   }
 );
+const me = createAppAsyncThunk<{ profile: ProfileType }, void>(
+  "user/me",
+  async (arg, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
+      const res = await authAPI.me();
+      dispatch(userActions.setIsLoggedIn({ isLoggedIn: true }));
+      return { profile: res.data };
+    } catch (e) {
+      return rejectWithValue(null);
+    } finally {
+      dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
+    }
+  }
+);
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
-  "auth/login",
+  "user/login",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     dispatch(appActions.setStatus({ status: "loading" }));
     try {
       const res = await authAPI.login(arg);
-      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
+      dispatch(userActions.setIsLoggedIn({ isLoggedIn: true }));
       dispatch(appActions.setStatus({ status: "success" }));
       return { profile: res.data };
     } catch (e) {
@@ -68,13 +84,13 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   }
 );
 const logout = createAppAsyncThunk<{ profile: null }>(
-  "auth/logout",
+  "user/logout",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     dispatch(appActions.setStatus({ status: "loading" }));
     try {
       const res = await authAPI.logout();
-      dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
+      dispatch(userActions.setIsLoggedIn({ isLoggedIn: false }));
       dispatch(appActions.setStatus({ status: "success" }));
       return { profile: null };
     } catch (e) {
@@ -84,7 +100,7 @@ const logout = createAppAsyncThunk<{ profile: null }>(
   }
 );
 const forgot = createAppAsyncThunk<void, ForgotPasswordType>(
-  "auth/forgot",
+  "user/forgot",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     const payload: ForgotPasswordType = {
@@ -96,39 +112,29 @@ const forgot = createAppAsyncThunk<void, ForgotPasswordType>(
     try {
       const res = await authAPI.forgot(payload);
       dispatch(appActions.setStatus({ status: "success" }));
+      dispatch(redirect("/check-email"));
     } catch (e) {
       dispatch(appActions.setStatus({ status: "error" }));
       return rejectWithValue(null);
     }
   }
 );
-const me = createAppAsyncThunk<{ profile: ProfileType }, void>(
-  "auth/me",
+const setNewPassword = createAppAsyncThunk<void, SetNewPasswordType>(
+  "user/set-new-password",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
-      const res = await authAPI.me();
-      dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-      return { profile: res.data };
+      const res = await authAPI.setNewPassword(arg);
+      dispatch(redirect("/check-email"));
     } catch (e) {
       return rejectWithValue(null);
-    } finally {
-      dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
     }
   }
 );
-const setNewPassword = createAppAsyncThunk<void, SetNewPasswordType>(
-  "auth/set-new-password",
-  async (arg, thunkAPI) => {
-    const res = await authAPI.setNewPassword(arg);
-    console.log(res);
-  }
-);
-
 const updateMe = createAppAsyncThunk<
   { profile: UpdateUserResponseType },
   UserModelToUpdateType
->("profile/update", async (arg, thunkAPI) => {
+>("user/update", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   dispatch(appActions.setStatus({ status: "loading" }));
   try {
@@ -141,9 +147,9 @@ const updateMe = createAppAsyncThunk<
   }
 });
 
-export const authReducer = slice.reducer;
-export const authActions = slice.actions;
-export const authThunks = {
+export const userReducer = slice.reducer;
+export const userActions = slice.actions;
+export const userThunks = {
   me,
   register,
   login,

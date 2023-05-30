@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch } from "app/hooks";
-import { authThunks } from "features/auth/auth-slice";
+import { userThunks } from "features/auth/auth-slice";
 import styleForm from "../../../common/styles/Form.module.css";
 import style from "./Register.module.css";
 import Button from "@mui/material/Button";
@@ -24,7 +24,7 @@ const Register = () => {
       email: data.email,
       password: data.password,
     };
-    dispatch(authThunks.register(payload));
+    dispatch(userThunks.register(payload));
   };
 
   return (

@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { ProfileType } from "features/auth/auth-api";
-import { authThunks } from "features/auth/auth-slice";
+import { userThunks } from "features/auth/auth-slice";
 import { Navigate } from "react-router-dom";
 import EditableName from "features/profile/Profile/EditableName/EditableName";
 import { UserModelToUpdateType } from "features/profile/profile-api";
@@ -21,10 +21,10 @@ const Profile = () => {
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
 
   const updateUserHandler = (data: UserModelToUpdateType) => {
-    dispatch(authThunks.updateMe(data));
+    dispatch(userThunks.updateMe(data));
   };
 
-  const logoutHandler = () => dispatch(authThunks.logout());
+  const logoutHandler = () => dispatch(userThunks.logout());
 
   if (!isLoggedIn) return <Navigate to={"/login"} />;
 
