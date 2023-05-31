@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     counter: counterReducer,
     app: appReducer,
-    auth: userReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

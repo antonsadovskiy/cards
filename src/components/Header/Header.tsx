@@ -6,19 +6,24 @@ import logo from "../../assets/images/logo.png";
 import { useAppSelector } from "app/hooks";
 import { ProfileType } from "features/auth/auth-api";
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const profile = useAppSelector<ProfileType | null>(
-    (state) => state.auth.profile
+    (state) => state.user.profile
   );
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
+
+  const goToProfileHandler = () => navigate("/profile");
+  const goToLoginHandler = () => navigate("/login");
 
   return (
     <div className={style.header}>
       <div className={styleContainer.container}>
         <img className={style.logo} src={logo} alt="It-Incubator" />
         {isLoggedIn ? (
-          <div className={style.account}>
+          <div className={style.account} onClick={goToProfileHandler}>
             <p>{profile?.name}</p>
             <Avatar
               alt={profile?.name}
@@ -27,7 +32,9 @@ const Header = () => {
             />
           </div>
         ) : (
-          <Button variant={"contained"}>Sign in</Button>
+          <Button variant={"contained"} onClick={goToLoginHandler}>
+            Sign in
+          </Button>
         )}
       </div>
     </div>

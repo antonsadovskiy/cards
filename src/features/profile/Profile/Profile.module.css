@@ -1,10 +1,28 @@
 .profile {
   gap: 20px;
   align-items: center;
+  margin: 0px auto 80px auto;
+  height: 100%;
 }
 .profile p {
   margin: 0;
 }
 .email {
   color: gray;
+}
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+.returnBack {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    width: fit-content;
+}
+.returnBack p {
+    font-weight: 500;
 }

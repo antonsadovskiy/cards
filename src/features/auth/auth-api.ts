@@ -1,4 +1,3 @@
-import axios from "axios";
 import { instance } from "app/instance";
 
 export const authAPI = {
@@ -15,14 +14,11 @@ export const authAPI = {
     return instance.delete("auth/me");
   },
   forgot: (data: ForgotPasswordType) => {
-    return axios.post<ForgotPasswordRequestType>(
-      "https://neko-back.herokuapp.com/2.0/auth/forgot",
-      data
-    );
+    return instance.post<ForgotPasswordRequestType>("auth/forgot", data);
   },
   setNewPassword: (data: SetNewPasswordType) => {
-    return axios.post<SetNewPasswordResponseType>(
-      "https://neko-back.herokuapp.com/2.0/auth/set-new-password",
+    return instance.post<SetNewPasswordResponseType>(
+      "auth/set-new-password",
       data
     );
   },
@@ -43,7 +39,6 @@ export type SetNewPasswordResponseType = {
   info: string;
   error: string;
 };
-
 export type RegisterResponseType = {
   addedUser: Omit<ProfileType, "token" | "tokenDeathTime">;
 };

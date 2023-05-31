@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styleForm from "common/styles/Form.module.css";
 import FormTitle from "features/auth/common/FormTitle/FormTitle";
 import style from "features/auth/CheckEmail/CheckEmail.module.css";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import PasswordInput from "components/PasswordInput/PasswordInput";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "app/hooks";
-import { userThunks } from "features/auth/auth-slice";
+import { userActions, userThunks } from "features/auth/auth-slice";
 
 const SetNewPassword = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +22,7 @@ const SetNewPassword = () => {
         resetPasswordToken: params.token,
       };
       dispatch(userThunks.setNewPassword(payload));
+      return <Navigate to={"/login"} />;
     }
   };
 

@@ -5,6 +5,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import styleForm from "../../../common/styles/Form.module.css";
 import style from "./Login.module.css";
+import styleLink from "../../../common/styles/Link.module.css";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -16,7 +17,7 @@ import EmailInput from "components/EmailInput/EmailInput";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
 
   const methods = useForm<ArgLoginType>();
 
@@ -51,7 +52,9 @@ const Login = () => {
             }
             label="Remember me"
           />
-          <NavLink to={"/forgot-password"}>forgot password?</NavLink>
+          <NavLink className={styleLink.link} to={"/forgot-password"}>
+            forgot password?
+          </NavLink>
         </div>
         <div className={style.login}>
           <Button variant={"contained"} type={"submit"}>

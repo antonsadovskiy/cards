@@ -14,11 +14,12 @@ import {
   UserModelToUpdateType,
 } from "features/profile/profile-api";
 import { appActions } from "app/app-slice";
-import { redirect } from "react-router-dom";
 
 const initialState = {
   profile: null as ProfileType | null,
   isLoggedIn: false,
+  isMessageSent: false,
+  tempEmail: "",
 };
 
 const slice = createSlice({
@@ -27,6 +28,12 @@ const slice = createSlice({
   reducers: {
     setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
       state.isLoggedIn = action.payload.isLoggedIn;
+    },
+    setIsMessageSent(state, action: PayloadAction<{ isMessageSent: boolean }>) {
+      state.isMessageSent = action.payload.isMessageSent;
+    },
+    setTempEmail(state, action: PayloadAction<{ tempEmail: string }>) {
+      state.tempEmail = action.payload.tempEmail;
     },
   },
   extraReducers: (builder) => {
@@ -112,7 +119,8 @@ const forgot = createAppAsyncThunk<void, ForgotPasswordType>(
     try {
       const res = await authAPI.forgot(payload);
       dispatch(appActions.setStatus({ status: "success" }));
-      dispatch(redirect("/check-email"));
+      dispatch(userActions.setIsMessageSent({ isMessageSent: true }));
+      dispatch(userActions.setTempEmail({ tempEmail: arg.email }));
     } catch (e) {
       dispatch(appActions.setStatus({ status: "error" }));
       return rejectWithValue(null);
@@ -125,7 +133,8 @@ const setNewPassword = createAppAsyncThunk<void, SetNewPasswordType>(
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
       const res = await authAPI.setNewPassword(arg);
-      dispatch(redirect("/check-email"));
+      console.log(res);
+      debugger;
     } catch (e) {
       return rejectWithValue(null);
     }

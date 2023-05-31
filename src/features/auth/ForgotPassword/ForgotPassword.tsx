@@ -4,9 +4,9 @@ import style from "./ForgotPassword.module.css";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { userThunks } from "features/auth/auth-slice";
-import { useAppDispatch } from "app/hooks";
-import { NavLink, useNavigate } from "react-router-dom";
+import { userActions, userThunks } from "features/auth/auth-slice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import FormTitle from "features/auth/common/FormTitle/FormTitle";
 import EmailInput from "components/EmailInput/EmailInput";
 import { MESSAGE } from "common/utils/Message";
@@ -19,8 +19,10 @@ type ForgotPasswordType = {
 
 const ForgotPassword = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
+  const isMessageSent = useAppSelector<boolean>(
+    (state) => state.user.isMessageSent
+  );
   const methods = useForm<ForgotPasswordType>();
 
   const onSubmit: SubmitHandler<ForgotPasswordType> = (data) => {
@@ -31,6 +33,10 @@ const ForgotPassword = () => {
     };
     dispatch(userThunks.forgot(payload));
   };
+
+  if (isMessageSent) {
+    return <Navigate to={"/check-email"} />;
+  }
 
   return (
     <FormProvider {...methods}>

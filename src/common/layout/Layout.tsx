@@ -7,8 +7,9 @@ import { userThunks } from "features/auth/auth-slice";
 import Preloader from "common/preloader/Preloader";
 import LinearProgress from "@mui/material/LinearProgress";
 import { AppStatusType } from "app/app-slice";
+import { Outlet } from "react-router-dom";
 
-const Layout = (props: { children: ReactNode }) => {
+const Layout = () => {
   const dispatch = useAppDispatch();
 
   const isAppInitialized = useAppSelector<boolean>(
@@ -27,7 +28,9 @@ const Layout = (props: { children: ReactNode }) => {
       <Header />
       {status === "loading" && <LinearProgress />}
       <div className={styleContainer.container}>
-        <div className={style.main}>{props.children}</div>
+        <div className={style.main}>
+          <Outlet />
+        </div>
       </div>
     </div>
   );

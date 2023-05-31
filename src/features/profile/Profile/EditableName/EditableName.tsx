@@ -13,8 +13,11 @@ type PropsType = {
 
 const EditableName: FC<PropsType> = (props) => {
   const [editMode, setEditMode] = useState(false);
-  const [name, setName] = useState(props.name);
-  const setOnEditModeHandler = () => setEditMode(true);
+  const [name, setName] = useState("");
+  const setOnEditModeHandler = () => {
+    setName(props.name);
+    setEditMode(true);
+  };
   const setOffEditModeHandler = () => {
     props.updateUserHandler({ name });
     setEditMode(false);
@@ -23,7 +26,7 @@ const EditableName: FC<PropsType> = (props) => {
     setName(e.currentTarget.value);
   };
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && name.length) {
       setOffEditModeHandler();
     }
   };
@@ -41,7 +44,10 @@ const EditableName: FC<PropsType> = (props) => {
           sx={{ width: "35ch" }}
           InputProps={{
             endAdornment: (
-              <IconButton onClick={setOffEditModeHandler}>
+              <IconButton
+                onClick={setOffEditModeHandler}
+                disabled={!name.length}
+              >
                 <CheckIcon />
               </IconButton>
             ),
