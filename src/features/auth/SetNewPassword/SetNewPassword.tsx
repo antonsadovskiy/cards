@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styleForm from "common/styles/Form.module.css";
-import FormTitle from "features/auth/common/FormTitle/FormTitle";
+import Title from "common/components/Title/Title";
 import style from "features/auth/CheckEmail/CheckEmail.module.css";
 import Button from "@mui/material/Button";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import PasswordInput from "components/PasswordInput/PasswordInput";
+import PasswordInput from "common/components/PasswordInput/PasswordInput";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "app/hooks";
-import { userActions, userThunks } from "features/auth/auth-slice";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { userThunks } from "features/auth/authSlice";
 
 const SetNewPassword = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const params = useParams();
 
   const methods = useForm<{ password: string }>();
@@ -21,8 +22,9 @@ const SetNewPassword = () => {
         password: data.password,
         resetPasswordToken: params.token,
       };
-      dispatch(userThunks.setNewPassword(payload));
-      return <Navigate to={"/login"} />;
+      dispatch(userThunks.setNewPassword(payload)).then((res) => {
+        navigate("/login");
+      });
     }
   };
 
@@ -33,7 +35,7 @@ const SetNewPassword = () => {
         className={styleForm.form}
         style={{ gap: "40px" }}
       >
-        <FormTitle title={"Create new password"} />
+        <Title title={"Create new password"} />
         <PasswordInput label={"Password"} />
         <div className={style.title}>
           Create new password and we will send you further instructions to email

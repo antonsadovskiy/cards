@@ -1,13 +1,13 @@
-import React, { ReactNode, useEffect } from "react";
-import Header from "components/Header/Header";
-import styleContainer from "../../common/styles/Container.module.css";
+import React, { useEffect } from "react";
+import Header from "common/components/Header/Header";
+import styleContainer from "common/styles/Container.module.css";
 import style from "./Layout.module.css";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { userThunks } from "features/auth/auth-slice";
-import Preloader from "common/preloader/Preloader";
+import { userThunks } from "features/auth/authSlice";
+import Preloader from "common/components/Preloader/Preloader";
 import LinearProgress from "@mui/material/LinearProgress";
-import { AppStatusType } from "app/app-slice";
 import { Outlet } from "react-router-dom";
+import Toast from "common/components/Error/Toast";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 
 const Layout = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const Layout = () => {
   const isAppInitialized = useAppSelector<boolean>(
     (state) => state.app.isAppInitialized
   );
-  const status = useAppSelector<AppStatusType>((state) => state.app.status);
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
 
   useEffect(() => {
     dispatch(userThunks.me());
@@ -26,12 +26,13 @@ const Layout = () => {
   return (
     <div>
       <Header />
-      {status === "loading" && <LinearProgress />}
+      {isLoading && <LinearProgress />}
       <div className={styleContainer.container}>
         <div className={style.main}>
           <Outlet />
         </div>
       </div>
+      <Toast />
     </div>
   );
 };

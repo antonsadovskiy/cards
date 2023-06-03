@@ -1,19 +1,19 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { userThunks } from "features/auth/auth-slice";
+import { userThunks } from "features/auth/authSlice";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import styleForm from "../../../common/styles/Form.module.css";
+import styleForm from "common/styles/Form.module.css";
 import style from "./Login.module.css";
-import styleLink from "../../../common/styles/Link.module.css";
+import styleLink from "common/styles/Link.module.css";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { ArgLoginType } from "features/auth/auth-api";
+import { ArgLoginType } from "features/auth/authAPI";
 import { Navigate, NavLink } from "react-router-dom";
-import FormTitle from "features/auth/common/FormTitle/FormTitle";
-import PasswordInput from "components/PasswordInput/PasswordInput";
-import EmailInput from "components/EmailInput/EmailInput";
+import Title from "common/components/Title/Title";
+import PasswordInput from "common/components/PasswordInput/PasswordInput";
+import EmailInput from "common/components/EmailInput/EmailInput";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ const Login = () => {
     dispatch(userThunks.login(payload));
   };
 
-  if (isLoggedIn) return <Navigate to={"/profile"} />;
+  if (isLoggedIn) return <Navigate to={"/packs"} />;
 
   return (
     <FormProvider {...methods}>
@@ -39,7 +39,7 @@ const Login = () => {
         onSubmit={methods.handleSubmit(onSubmit)}
       >
         <div className={styleForm.inputs}>
-          <FormTitle title={"Sign in"} />
+          <Title title={"Sign in"} />
           <EmailInput />
           <PasswordInput label={"Password"} />
           <FormControlLabel

@@ -4,7 +4,7 @@ import style from "features/profile/Profile/EditableName/EditableName.module.css
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import TextField from "@mui/material/TextField";
 import CheckIcon from "@mui/icons-material/Check";
-import { UserModelToUpdateType } from "features/profile/profile-api";
+import { UserModelToUpdateType } from "features/profile/profileAPI";
 
 type PropsType = {
   name: string;

@@ -4,12 +4,13 @@ import style from "./ForgotPassword.module.css";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { userActions, userThunks } from "features/auth/auth-slice";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
-import FormTitle from "features/auth/common/FormTitle/FormTitle";
-import EmailInput from "components/EmailInput/EmailInput";
-import { MESSAGE } from "common/utils/Message";
+import { userThunks } from "features/auth/authSlice";
+import { NavLink, useNavigate } from "react-router-dom";
+import Title from "common/components/Title/Title";
+import EmailInput from "common/components/EmailInput/EmailInput";
+import { MESSAGE } from "common/utils";
+import { useAppDispatch } from "common/hooks";
+import { toast } from "react-toastify";
 
 type ForgotPasswordType = {
   email: string;
@@ -19,10 +20,7 @@ type ForgotPasswordType = {
 
 const ForgotPassword = () => {
   const dispatch = useAppDispatch();
-
-  const isMessageSent = useAppSelector<boolean>(
-    (state) => state.user.isMessageSent
-  );
+  const navigate = useNavigate();
   const methods = useForm<ForgotPasswordType>();
 
   const onSubmit: SubmitHandler<ForgotPasswordType> = (data) => {
@@ -31,12 +29,10 @@ const ForgotPassword = () => {
       from: "anton sadovskiy front dev",
       message: MESSAGE,
     };
-    dispatch(userThunks.forgot(payload));
+    dispatch(userThunks.forgot(payload)).then((res) => {
+      navigate("/check-email");
+    });
   };
-
-  if (isMessageSent) {
-    return <Navigate to={"/check-email"} />;
-  }
 
   return (
     <FormProvider {...methods}>
@@ -45,7 +41,7 @@ const ForgotPassword = () => {
         onSubmit={methods.handleSubmit(onSubmit)}
       >
         <div className={styleForm.inputs}>
-          <FormTitle title={"Forgot your password?"} />
+          <Title title={"Forgot your password?"} />
           <EmailInput />
           <div style={{ color: "gray", marginTop: "10px" }}>
             Enter your email address and we will send you further instructions

@@ -2,32 +2,30 @@ import React from "react";
 import styleForm from "common/styles/Form.module.css";
 import style from "features/profile/Profile/Profile.module.css";
 import LogoutIcon from "@mui/icons-material/Logout";
-import FormTitle from "features/auth/common/FormTitle/FormTitle";
+import Title from "common/components/Title/Title";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { ProfileType } from "features/auth/auth-api";
-import { userThunks } from "features/auth/auth-slice";
-import { Navigate, NavLink } from "react-router-dom";
+import { ProfileType } from "features/auth/authAPI";
+import { userThunks } from "features/auth/authSlice";
+import { NavLink } from "react-router-dom";
 import EditableName from "features/profile/Profile/EditableName/EditableName";
-import { UserModelToUpdateType } from "features/profile/profile-api";
+import { UserModelToUpdateType } from "features/profile/profileAPI";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import IconButton from "@mui/material/IconButton";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
+
   const profile = useAppSelector<ProfileType | null>(
     (state) => state.user.profile
   );
-  const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
 
   const updateUserHandler = (data: UserModelToUpdateType) => {
     dispatch(userThunks.updateMe(data));
   };
 
   const logoutHandler = () => dispatch(userThunks.logout());
-
-  if (!isLoggedIn) return <Navigate to={"/login"} />;
 
   return (
     <div className={style.profilePage}>
@@ -38,7 +36,7 @@ const Profile = () => {
         <p>Back to Packs List</p>
       </NavLink>
       <div className={`${styleForm.form} ${style.profile}`}>
-        <FormTitle title={"Personal information"} />
+        <Title title={"Personal information"} />
         <Avatar
           alt={profile?.name}
           src={profile?.avatar}
