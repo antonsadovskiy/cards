@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { FC } from "react";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import style from "features/packs/Packs/ShowPacksCards/ShowPacksCards.module.css";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { cardsActions } from "features/cards/cardsSlice";
 
 const ShowPacksCards = () => {
-  const [isMyPacks, setIsMyPacks] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const isMyPacks = useAppSelector<boolean>((state) => state.cards.isMyCards);
 
-  const setMyPacks = () => setIsMyPacks(true);
-  const setAllPacks = () => setIsMyPacks(false);
+  const setMyPacks = () => {
+    dispatch(cardsActions.setIsMyCards({ isMyCards: true }));
+  };
+  const setAllPacks = () => {
+    dispatch(cardsActions.setIsMyCards({ isMyCards: false }));
+  };
 
   return (
     <div className={style.showPacksCards}>

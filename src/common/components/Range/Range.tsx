@@ -5,20 +5,24 @@ import React, { FC } from "react";
 type PropsType = {
   value: number[];
   onChangeRangeHandler: (value: number[]) => void;
+  onChangeCommittedHandler: () => void;
 };
 
 const Range: FC<PropsType> = (props) => {
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    props.onChangeRangeHandler(newValue as number[]);
+  const onChangeHandler = (event: any, value: number[] | number) => {
+    props.onChangeRangeHandler(value as number[]);
   };
 
-  const onChangeCommitted = () => {};
+  const onChangeCommitted = () => {
+    props.onChangeCommittedHandler();
+  };
 
   return (
     <Box sx={{ width: 155 }}>
       <Slider
+        max={110}
         value={props.value}
-        onChange={handleChange}
+        onChange={onChangeHandler}
         onChangeCommitted={onChangeCommitted}
       />
     </Box>

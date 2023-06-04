@@ -4,28 +4,40 @@ import style from "./Packs.module.css";
 import Button from "@mui/material/Button";
 import Title from "common/components/Title/Title";
 import PacksTable from "features/packs/Packs/PacksTable/PacksTable";
-import { useAppSelector } from "common/hooks/useAppSelector";
 import Search from "features/packs/Packs/Search/Search";
 import ShowPacksCards from "features/packs/Packs/ShowPacksCards/ShowPacksCards";
 import NumberOfCards from "features/packs/Packs/NumberOfCards/NumberOfCards";
 import MyPagination from "common/components/Pagination/Pagination";
-import { useAppDispatch } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 import { cardsThunks } from "features/cards/cardsSlice";
 
 const Packs = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
 
+  const search = useAppSelector<string>((state) => state.cards.search);
+  const isMyCards = useAppSelector<boolean>((state) => state.cards.isMyCards);
+  const min = useAppSelector<number>((state) => state.cards.minCardsCount);
+  const max = useAppSelector<number>((state) => state.cards.maxCardsCount);
+  const page = useAppSelector<number>((state) => state.cards.page);
+  const pageCount = useAppSelector<number>((state) => state.cards.pageCount);
+
+  const user_id = useAppSelector<string | null>((state) =>
+    state.user.profile ? state.user.profile._id : null
+  );
+
   useEffect(() => {
-    const payload = {
-      packName: "eng",
-      min: 1,
-      max: 10,
-      page: 1,
-      pageCount: 10,
-    };
-    dispatch(cardsThunks.getCards(payload));
-  }, []);
+    dispatch(
+      cardsThunks.getCards({
+        packName: search,
+        user_id: isMyCards ? user_id : null,
+        page,
+        pageCount,
+        max,
+        min,
+      })
+    );
+  }, [search, isMyCards, min, max, page, pageCount, user_id]);
 
   if (!isLoggedIn) return <Navigate to={"/login"} />;
 

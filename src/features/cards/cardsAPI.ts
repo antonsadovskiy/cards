@@ -10,6 +10,7 @@ export const cardsAPI = {
         sortPacks: data.sortPacks,
         page: data.page,
         pageCount: data.pageCount,
+        user_id: data.user_id,
       },
     });
   },
@@ -22,6 +23,7 @@ export type getCardsArgsType = {
   sortPacks?: string;
   page?: number;
   pageCount?: number;
+  user_id?: string | null;
 };
 export type GetCardsResponseType = {
   cardPacks: CardsPackType[];
@@ -32,10 +34,20 @@ export type GetCardsResponseType = {
   pageCount: number;
 };
 export type CardsPackType = {
-  _id: string;
-  user_id: string;
-  name: string;
   cardsCount: number;
   created: string;
+  deckCover: string;
+  grade: number;
+  more_id: string;
+  name: string;
+  path: string;
+  private: boolean;
+  rating: number;
+  shots: number;
+  type: string;
   updated: string;
+  user_id: string;
+  user_name: string;
+  __v: number;
+  _id: string;
 };
