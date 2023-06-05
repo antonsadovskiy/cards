@@ -1,14 +1,19 @@
-import React, { ChangeEvent, FC, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import style from "features/packs/Packs/Search/Search.module.css";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDebounce } from "common/utils";
-import { useAppDispatch } from "common/hooks";
-import { cardsActions } from "features/cards/cardsSlice";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { packsActions } from "features/packs/packsSlice";
 
 const Search = () => {
   const dispatch = useAppDispatch();
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+  const packName = useAppSelector<string>(
+    (state) => state.packs.params.packName
+  );
+
   const [search, setSearch] = useState("");
   const debouncedValue = useDebounce<string>(search, 700);
 
@@ -17,7 +22,11 @@ const Search = () => {
   };
 
   useEffect(() => {
-    dispatch(cardsActions.setSearch({ search: debouncedValue }));
+    setSearch(packName);
+  }, [packName]);
+
+  useEffect(() => {
+    dispatch(packsActions.setSearch({ search: debouncedValue }));
   }, [dispatch, debouncedValue]);
 
   return (
@@ -26,6 +35,7 @@ const Search = () => {
       <TextField
         value={search}
         onChange={onChangeHandler}
+        disabled={isLoading}
         size={"small"}
         placeholder={"Provide your text"}
         InputProps={{

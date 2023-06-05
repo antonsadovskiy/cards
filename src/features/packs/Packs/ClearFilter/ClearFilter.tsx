@@ -1,24 +1,19 @@
-import React, { FC } from "react";
+import React from "react";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import IconButton from "@mui/material/IconButton";
 import style from "features/packs/Packs/ClearFilter/ClearFilter.module.css";
-import { cardsThunks } from "features/cards/cardsSlice";
-import { useAppDispatch } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { packsActions } from "features/packs/packsSlice";
 
-type PropsType = {
-  onClickClearFilterHandler: () => void;
-};
-
-const ClearFilter: FC<PropsType> = (props) => {
+const ClearFilter = () => {
   const dispatch = useAppDispatch();
-  const onClickHandler = () => {
-    props.onClickClearFilterHandler();
-    dispatch(cardsThunks.getCards({}));
-  };
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+
+  const onClearFilterHandler = () => dispatch(packsActions.clearFilters());
 
   return (
     <div className={style.filter}>
-      <IconButton onClick={onClickHandler}>
+      <IconButton onClick={onClearFilterHandler} disabled={isLoading}>
         <FilterAltOffIcon />
       </IconButton>
     </div>

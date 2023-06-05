@@ -5,24 +5,25 @@ import Select from "@mui/material/Select";
 import React from "react";
 import style from "./Pagination.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { cardsActions } from "features/cards/cardsSlice";
+import { packsActions } from "features/packs/packsSlice";
 
 const MyPagination = () => {
   const dispatch = useAppDispatch();
 
-  const pageCount = useAppSelector<number>((state) => state.cards.pageCount);
+  const pageCount = useAppSelector<number>((state) => state.packs.pageCount);
   const cardPacksTotalCount = useAppSelector<number>(
-    (state) => state.cards.cardPacksTotalCount
+    (state) => state.packs.cardPacksTotalCount
   );
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
 
   const lastPage = Math.ceil(cardPacksTotalCount / pageCount);
 
   const onChangePageHandler = (event: any, currentPage: number) => {
-    dispatch(cardsActions.setPage({ page: currentPage }));
+    dispatch(packsActions.setPage({ page: currentPage }));
   };
   const onChangePageCountHandler = (event: any) => {
     const pageCount = event.target.value;
-    dispatch(cardsActions.setPageCount({ pageCount }));
+    dispatch(packsActions.setPageCount({ pageCount }));
   };
 
   return (
@@ -31,12 +32,17 @@ const MyPagination = () => {
         color="primary"
         defaultPage={1}
         count={lastPage}
+        disabled={isLoading}
         shape="rounded"
         onChange={onChangePageHandler}
       />
       <span>Show</span>
       <FormControl sx={{ m: 1, minWidth: 50 }} size="small">
-        <Select value={pageCount} onChange={onChangePageCountHandler}>
+        <Select
+          disabled={isLoading}
+          value={pageCount}
+          onChange={onChangePageCountHandler}
+        >
           <MenuItem value={20}>20</MenuItem>
           <MenuItem value={10}>10</MenuItem>
           <MenuItem value={7}>7</MenuItem>

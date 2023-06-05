@@ -6,13 +6,18 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useAppSelector } from "common/hooks";
-import { CardsPackType } from "features/cards/cardsAPI";
+import { CardPackType } from "features/packs/packsAPI";
 import PacksTableRow from "features/packs/Packs/PacksTable/PacksTableRow/PacksTableRow";
 import { StyledTableCell } from "common/styles/StyleTableCell";
+import PacksNotFound from "common/components/PacksNotFount/PacksNotFound";
 
 const PacksTable = () => {
-  const cardPacks = useAppSelector<CardsPackType[]>(
-    (state) => state.cards.cardPacks
+  const cardPacks = useAppSelector<CardPackType[]>(
+    (state) => state.packs.cardPacks
+  );
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+  const user_id = useAppSelector<string | null>((state) =>
+    state.user.profile ? state.user.profile._id : null
   );
 
   return cardPacks.length > 0 ? (
@@ -28,19 +33,25 @@ const PacksTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {cardPacks.map((cardPack, index) => (
+          {cardPacks.map((cardPack) => (
             <PacksTableRow
+              key={cardPack._id}
+              packId={cardPack._id}
               name={cardPack.name}
               cardsCount={cardPack.cardsCount}
               updated={cardPack.updated}
               user_name={cardPack.user_name}
+              user_id={user_id}
+              packs_user_id={cardPack.user_id}
             />
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+  ) : isLoading ? (
+    <></>
   ) : (
-    <div>No decks with name entered were found. Change query settings</div>
+    <PacksNotFound />
   );
 };
 export default PacksTable;

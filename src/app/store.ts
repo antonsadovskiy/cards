@@ -1,15 +1,15 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import counterReducer from "features/counter/counterSlice";
 import { appReducer } from "app/appSlice";
 import { userReducer } from "features/auth/authSlice";
-import { cardsReducer } from "features/cards/cardsSlice";
+import { packsReducer } from "features/packs/packsSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     app: appReducer,
     user: userReducer,
-    cards: cardsReducer,
+    packs: packsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -25,3 +25,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+//@ts-ignore
+window.state = store.getState();

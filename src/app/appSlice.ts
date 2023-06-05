@@ -51,7 +51,6 @@ const appSlice = createSlice({
         },
         (state, action) => {
           state.isLoading = false;
-
           if (!action.payload.showGlobalError) return;
           const err = action.payload.e as Error | AxiosError<{ error: string }>;
           if (isAxiosError(err)) {

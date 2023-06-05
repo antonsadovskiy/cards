@@ -1,6 +1,8 @@
 .preloader {
-  position: fixed;
-  top: 40%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   width: 100%
 }

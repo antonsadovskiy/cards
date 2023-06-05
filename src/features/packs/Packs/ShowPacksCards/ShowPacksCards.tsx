@@ -1,19 +1,22 @@
-import React, { FC } from "react";
+import React from "react";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import style from "features/packs/Packs/ShowPacksCards/ShowPacksCards.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { cardsActions } from "features/cards/cardsSlice";
+import { packsActions } from "features/packs/packsSlice";
 
 const ShowPacksCards = () => {
   const dispatch = useAppDispatch();
-  const isMyPacks = useAppSelector<boolean>((state) => state.cards.isMyCards);
+  const isMyPacks = useAppSelector<boolean>(
+    (state) => state.packs.params.isMyCards
+  );
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
 
   const setMyPacks = () => {
-    dispatch(cardsActions.setIsMyCards({ isMyCards: true }));
+    dispatch(packsActions.setIsMyCards({ isMyCards: true }));
   };
   const setAllPacks = () => {
-    dispatch(cardsActions.setIsMyCards({ isMyCards: false }));
+    dispatch(packsActions.setIsMyCards({ isMyCards: false }));
   };
 
   return (
@@ -21,6 +24,7 @@ const ShowPacksCards = () => {
       <div style={{ fontWeight: "600" }}>Show packs cards</div>
       <ButtonGroup>
         <Button
+          disabled={isLoading}
           variant={isMyPacks ? "contained" : "outlined"}
           sx={{ width: "12ch" }}
           onClick={setMyPacks}
@@ -28,6 +32,7 @@ const ShowPacksCards = () => {
           My
         </Button>
         <Button
+          disabled={isLoading}
           variant={!isMyPacks ? "contained" : "outlined"}
           sx={{ width: "12ch" }}
           onClick={setAllPacks}

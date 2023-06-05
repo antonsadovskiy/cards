@@ -1,31 +1,49 @@
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
-import React, { FC } from "react";
+import React, { useEffect, useState } from "react";
+import style from "features/packs/Packs/NumberOfCards/NumberOfCards.module.css";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { packsActions } from "features/packs/packsSlice";
 
-type PropsType = {
-  value: number[];
-  onChangeRangeHandler: (value: number[]) => void;
-  onChangeCommittedHandler: () => void;
-};
+const Range = () => {
+  const dispatch = useAppDispatch();
 
-const Range: FC<PropsType> = (props) => {
-  const onChangeHandler = (event: any, value: number[] | number) => {
-    props.onChangeRangeHandler(value as number[]);
+  const minCardsCount = useAppSelector<number>(
+    (state) => state.packs.minCardsCount
+  );
+  const maxCardsCount = useAppSelector<number>(
+    (state) => state.packs.maxCardsCount
+  );
+
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+
+  const [value, setValue] = useState<number[]>([minCardsCount, maxCardsCount]);
+
+  useEffect(() => {
+    setValue([minCardsCount, maxCardsCount]);
+  }, [minCardsCount, maxCardsCount]);
+
+  const onChangeRangeHandler = (event: any, value: number[] | number) => {
+    setValue(value as number[]);
   };
-
-  const onChangeCommitted = () => {
-    props.onChangeCommittedHandler();
+  const onChangeCommittedHandler = () => {
+    dispatch(packsActions.setRangeCardsCount({ value: value }));
   };
 
   return (
-    <Box sx={{ width: 155 }}>
-      <Slider
-        max={110}
-        value={props.value}
-        onChange={onChangeHandler}
-        onChangeCommitted={onChangeCommitted}
-      />
-    </Box>
+    <>
+      <div className={style.value}>{value[0]}</div>
+      <Box sx={{ width: 155 }}>
+        <Slider
+          max={maxCardsCount}
+          value={value}
+          disabled={isLoading}
+          onChange={onChangeRangeHandler}
+          onChangeCommitted={onChangeCommittedHandler}
+        />
+      </Box>
+      <div className={style.value}>{value[1]}</div>
+    </>
   );
 };
 

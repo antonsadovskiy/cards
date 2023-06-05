@@ -1,8 +1,8 @@
 import { instance } from "app/instance";
 
-export const cardsAPI = {
-  getCards: (data: getCardsArgsType) => {
-    return instance.get<GetCardsResponseType>(`cards/pack`, {
+export const packsAPI = {
+  getPacks: (data: GetPacksArgsType) => {
+    return instance.get<GetPacksResponseType>("cards/pack", {
       params: {
         packName: data.packName,
         min: data.min,
@@ -14,9 +14,17 @@ export const cardsAPI = {
       },
     });
   },
+  addPack: (data: AddPackArgType) => {
+    return instance.post("cards/pack", data);
+  },
+  deletePack: (data: DeletePackArgType) => {
+    return instance.delete(`cards/pack?id=${data.id}`);
+  },
+  updatePack: (data: UpdatePackArgType) => {
+    return instance.put("cards/pack", data);
+  },
 };
-
-export type getCardsArgsType = {
+export type GetPacksArgsType = {
   packName?: string;
   min?: number;
   max?: number;
@@ -25,15 +33,16 @@ export type getCardsArgsType = {
   pageCount?: number;
   user_id?: string | null;
 };
-export type GetCardsResponseType = {
-  cardPacks: CardsPackType[];
+export type GetPacksResponseType = {
+  cardPacks: CardPackType[];
   cardPacksTotalCount: number;
   maxCardsCount: number;
   minCardsCount: number;
   page: number;
   pageCount: number;
 };
-export type CardsPackType = {
+
+export type CardPackType = {
   cardsCount: number;
   created: string;
   deckCover: string;
@@ -50,4 +59,23 @@ export type CardsPackType = {
   user_name: string;
   __v: number;
   _id: string;
+};
+
+export type AddPackArgType = {
+  cardsPack: {
+    name?: string;
+    deckCover?: string;
+    private?: boolean;
+  };
+};
+
+export type DeletePackArgType = {
+  id: string;
+};
+
+export type UpdatePackArgType = {
+  cardsPack: {
+    _id: string;
+    name?: string;
+  };
 };

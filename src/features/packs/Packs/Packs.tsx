@@ -9,35 +9,46 @@ import ShowPacksCards from "features/packs/Packs/ShowPacksCards/ShowPacksCards";
 import NumberOfCards from "features/packs/Packs/NumberOfCards/NumberOfCards";
 import MyPagination from "common/components/Pagination/Pagination";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { cardsThunks } from "features/cards/cardsSlice";
+import { packsThunks } from "features/packs/packsSlice";
 
 const Packs = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
 
-  const search = useAppSelector<string>((state) => state.cards.search);
-  const isMyCards = useAppSelector<boolean>((state) => state.cards.isMyCards);
-  const min = useAppSelector<number>((state) => state.cards.minCardsCount);
-  const max = useAppSelector<number>((state) => state.cards.maxCardsCount);
-  const page = useAppSelector<number>((state) => state.cards.page);
-  const pageCount = useAppSelector<number>((state) => state.cards.pageCount);
-
+  // const packName = useAppSelector<string>(
+  //   (state) => state.packs.params.packName
+  // );
+  // const isMyCards = useAppSelector<boolean>(
+  //   (state) => state.packs.params.isMyCards
+  // );
+  // const min = useAppSelector<number>((state) => state.packs.params.minRange);
+  // const max = useAppSelector<number>((state) => state.packs.params.maxRange);
+  //
+  // const page = useAppSelector<number>((state) => state.packs.params.page);
+  // const pageCount = useAppSelector<number>(
+  //   (state) => state.packs.params.pageCount
+  // );
+  const params = useAppSelector((state) => state.packs.params);
   const user_id = useAppSelector<string | null>((state) =>
     state.user.profile ? state.user.profile._id : null
   );
 
+  const onAddPackHandler = () => {
+    dispatch(packsThunks.addPack({ cardsPack: { name: "jajajaja" } }));
+  };
+
   useEffect(() => {
-    dispatch(
-      cardsThunks.getCards({
-        packName: search,
-        user_id: isMyCards ? user_id : null,
-        page,
-        pageCount,
-        max,
-        min,
-      })
-    );
-  }, [search, isMyCards, min, max, page, pageCount, user_id]);
+    const payload = {
+      packName: params.packName,
+      page: params.page,
+      pageCount: params.pageCount,
+      min: params.min,
+      max: params.max,
+      user_id: params.isMyCards ? user_id : null,
+    };
+    dispatch(packsThunks.getPacks(payload));
+  }, [dispatch, user_id, params]);
 
   if (!isLoggedIn) return <Navigate to={"/login"} />;
 
@@ -45,7 +56,13 @@ const Packs = () => {
     <div className={style.packs}>
       <div className={style.title}>
         <Title title={"Packs list"} />
-        <Button variant={"contained"}>add new pack</Button>
+        <Button
+          variant={"contained"}
+          disabled={isLoading}
+          onClick={onAddPackHandler}
+        >
+          add new pack
+        </Button>
       </div>
       <div className={style.table}>
         <div className={style.filters}>

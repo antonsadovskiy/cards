@@ -5,7 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 const Preloader = () => {
   return (
     <div className={style.preloader}>
-      <CircularProgress />
+      <CircularProgress size={30} />
     </div>
   );
 };

@@ -19,9 +19,7 @@ const Layout = () => {
 
   useEffect(() => {
     dispatch(userThunks.me());
-  }, []);
-
-  if (!isAppInitialized) return <Preloader />;
+  }, [dispatch]);
 
   return (
     <div>
@@ -29,7 +27,13 @@ const Layout = () => {
       {isLoading && <LinearProgress />}
       <div className={styleContainer.container}>
         <div className={style.main}>
-          <Outlet />
+          {!isAppInitialized && <Preloader />}
+          <div
+            className={style.content}
+            style={isAppInitialized ? {} : { display: "none" }}
+          >
+            <Outlet />
+          </div>
         </div>
       </div>
       <Toast />

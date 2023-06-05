@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { cardsThunks } from "features/cards/cardsSlice";
+import { packsThunks } from "features/packs/packsSlice";
 
 export const useSend = (text: string, numberOfCards: number[]) => {
   const dispatch = useAppDispatch();
@@ -14,7 +14,7 @@ export const useSend = (text: string, numberOfCards: number[]) => {
     itemsCountForPage: number
   ) => {
     dispatch(
-      cardsThunks.getCards({
+      packsThunks.getPacks({
         packName: text,
         min: numberOfCards[0],
         max: numberOfCards[1],
