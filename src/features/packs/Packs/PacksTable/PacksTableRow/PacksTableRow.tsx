@@ -8,6 +8,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { packsThunks } from "features/packs/packsSlice";
+import { convertDate } from "common/utils";
 
 type PropsType = {
   packId: string;
@@ -41,7 +42,7 @@ const PacksTableRow: FC<PropsType> = (props) => {
         {props.name.length > 35 ? "..." : ""}
       </TableCell>
       <TableCell className={style.numberOfCards}>{props.cardsCount}</TableCell>
-      <TableCell>{props.updated}</TableCell>
+      <TableCell>{convertDate(props.updated)}</TableCell>
       <TableCell>
         {props.user_name.slice(0, 20)}
         {props.user_name.length > 20 ? "..." : ""}
@@ -50,18 +51,22 @@ const PacksTableRow: FC<PropsType> = (props) => {
         <IconButton disabled={props.cardsCount === 0 || isLoading}>
           <SchoolIcon sx={{ width: "20px", height: "20px" }} />
         </IconButton>
-        <IconButton
-          onClick={onUpdatePackHandler}
-          disabled={isLoading || props.user_id !== props.packs_user_id}
-        >
-          <BorderColorIcon sx={{ width: "20px", height: "20px" }} />
-        </IconButton>
-        <IconButton
-          onClick={onDeletePackHandler}
-          disabled={isLoading || props.user_id !== props.packs_user_id}
-        >
-          <DeleteIcon sx={{ width: "20px", height: "20px" }} />
-        </IconButton>
+        {props.packs_user_id === props.user_id && (
+          <IconButton
+            onClick={onUpdatePackHandler}
+            disabled={isLoading || props.user_id !== props.packs_user_id}
+          >
+            <BorderColorIcon sx={{ width: "20px", height: "20px" }} />
+          </IconButton>
+        )}
+        {props.packs_user_id === props.user_id && (
+          <IconButton
+            onClick={onDeletePackHandler}
+            disabled={isLoading || props.user_id !== props.packs_user_id}
+          >
+            <DeleteIcon sx={{ width: "20px", height: "20px" }} />
+          </IconButton>
+        )}
       </TableCell>
     </TableRow>
   );
