@@ -3,7 +3,7 @@ import Slider from "@mui/material/Slider";
 import React, { useEffect, useState } from "react";
 import style from "features/packs/Packs/NumberOfCards/NumberOfCards.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { packsActions } from "features/packs/packsSlice";
+import { paramsActions } from "features/params/paramsSlice";
 
 const Range = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ const Range = () => {
     setValue(value as number[]);
   };
   const onChangeCommittedHandler = () => {
-    dispatch(packsActions.setRangeCardsCount({ value: value }));
+    dispatch(paramsActions.setRangeCardsCount({ value: value }));
   };
 
   return (

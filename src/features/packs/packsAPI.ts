@@ -3,15 +3,7 @@ import { instance } from "app/instance";
 export const packsAPI = {
   getPacks: (data: GetPacksArgsType) => {
     return instance.get<GetPacksResponseType>("cards/pack", {
-      params: {
-        packName: data.packName,
-        min: data.min,
-        max: data.max,
-        sortPacks: data.sortPacks,
-        page: data.page,
-        pageCount: data.pageCount,
-        user_id: data.user_id,
-      },
+      params: { ...data },
     });
   },
   addPack: (data: AddPackArgType) => {

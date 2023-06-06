@@ -5,11 +5,12 @@ import Select from "@mui/material/Select";
 import React from "react";
 import style from "./Pagination.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { packsActions } from "features/packs/packsSlice";
+import { paramsActions } from "features/params/paramsSlice";
 
 const MyPagination = () => {
   const dispatch = useAppDispatch();
 
+  const page = useAppSelector<number>((state) => state.packs.page);
   const pageCount = useAppSelector<number>((state) => state.packs.pageCount);
   const cardPacksTotalCount = useAppSelector<number>(
     (state) => state.packs.cardPacksTotalCount
@@ -19,18 +20,18 @@ const MyPagination = () => {
   const lastPage = Math.ceil(cardPacksTotalCount / pageCount);
 
   const onChangePageHandler = (event: any, currentPage: number) => {
-    dispatch(packsActions.setPage({ page: currentPage }));
+    dispatch(paramsActions.setPage({ page: currentPage }));
   };
   const onChangePageCountHandler = (event: any) => {
     const pageCount = event.target.value;
-    dispatch(packsActions.setPageCount({ pageCount }));
+    dispatch(paramsActions.setPageCount({ pageCount }));
   };
 
   return (
     <div className={style.pagination}>
       <Pagination
         color="primary"
-        defaultPage={1}
+        page={page}
         count={lastPage}
         disabled={isLoading}
         shape="rounded"

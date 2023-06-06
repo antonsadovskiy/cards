@@ -26,7 +26,7 @@ const PacksTableRow: FC<PropsType> = (props) => {
   const onUpdatePackHandler = () => {
     dispatch(
       packsThunks.updatePack({
-        cardsPack: { _id: props.packId, name: "pine apple pen" },
+        cardsPack: { _id: props.packId, name: "zhenya bet'" },
       })
     );
   };
@@ -43,8 +43,8 @@ const PacksTableRow: FC<PropsType> = (props) => {
       <TableCell className={style.numberOfCards}>{props.cardsCount}</TableCell>
       <TableCell>{props.updated}</TableCell>
       <TableCell>
-        {props.user_name.slice(0, 15)}
-        {props.user_name.length > 15 ? "..." : ""}
+        {props.user_name.slice(0, 20)}
+        {props.user_name.length > 20 ? "..." : ""}
       </TableCell>
       <TableCell>
         <IconButton disabled={props.cardsCount === 0 || isLoading}>

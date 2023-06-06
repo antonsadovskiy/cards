@@ -3,6 +3,7 @@ import counterReducer from "features/counter/counterSlice";
 import { appReducer } from "app/appSlice";
 import { userReducer } from "features/auth/authSlice";
 import { packsReducer } from "features/packs/packsSlice";
+import { paramsReducer } from "features/params/paramsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     app: appReducer,
     user: userReducer,
     packs: packsReducer,
+    params: paramsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

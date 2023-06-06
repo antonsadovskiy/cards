@@ -5,14 +5,12 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDebounce } from "common/utils";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { packsActions } from "features/packs/packsSlice";
+import { paramsActions } from "features/params/paramsSlice";
 
 const Search = () => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
-  const packName = useAppSelector<string>(
-    (state) => state.packs.params.packName
-  );
+  const packName = useAppSelector<string>((state) => state.params.packName);
 
   const [search, setSearch] = useState("");
   const debouncedValue = useDebounce<string>(search, 700);
@@ -26,7 +24,7 @@ const Search = () => {
   }, [packName]);
 
   useEffect(() => {
-    dispatch(packsActions.setSearch({ search: debouncedValue }));
+    dispatch(paramsActions.setPackName({ packName: debouncedValue }));
   }, [dispatch, debouncedValue]);
 
   return (

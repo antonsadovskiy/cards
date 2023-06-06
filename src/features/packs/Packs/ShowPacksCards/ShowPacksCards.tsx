@@ -3,20 +3,18 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import style from "features/packs/Packs/ShowPacksCards/ShowPacksCards.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { packsActions } from "features/packs/packsSlice";
+import { paramsActions } from "features/params/paramsSlice";
 
 const ShowPacksCards = () => {
   const dispatch = useAppDispatch();
-  const isMyPacks = useAppSelector<boolean>(
-    (state) => state.packs.params.isMyCards
-  );
+  const isMyPacks = useAppSelector<boolean>((state) => state.params.isMyCards);
   const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
 
   const setMyPacks = () => {
-    dispatch(packsActions.setIsMyCards({ isMyCards: true }));
+    dispatch(paramsActions.setIsMyCards({ isMyCards: true }));
   };
   const setAllPacks = () => {
-    dispatch(packsActions.setIsMyCards({ isMyCards: false }));
+    dispatch(paramsActions.setIsMyCards({ isMyCards: false }));
   };
 
   return (
