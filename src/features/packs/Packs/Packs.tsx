@@ -11,6 +11,7 @@ import MyPagination from "common/components/Pagination/Pagination";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { packsThunks } from "features/packs/packsSlice";
 import { ParamsType } from "features/params/paramsSlice";
+import { GetPacksArgsType } from "features/packs/packsAPI";
 
 const Packs = () => {
   const dispatch = useAppDispatch();
@@ -23,12 +24,21 @@ const Packs = () => {
   );
 
   const onAddPackHandler = () => {
-    dispatch(packsThunks.addPack({ cardsPack: { name: "jajajaja" } }));
+    dispatch(
+      packsThunks.addPack({
+        cardsPack: { name: "PACK PACK PACK pack PACK PACK" },
+      })
+    );
   };
 
   useEffect(() => {
-    const payload = {
-      ...params,
+    const payload: GetPacksArgsType = {
+      packName: params.packName,
+      min: params.min,
+      max: params.max,
+      sortPacks: params.sortPacks,
+      page: params.page,
+      pageCount: params.pageCount,
       user_id: params.isMyCards ? user_id : null,
     };
     dispatch(packsThunks.getPacks(payload));

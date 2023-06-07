@@ -27,7 +27,7 @@ const PacksTableRow: FC<PropsType> = (props) => {
   const onUpdatePackHandler = () => {
     dispatch(
       packsThunks.updatePack({
-        cardsPack: { _id: props.packId, name: "zhenya bet'" },
+        cardsPack: { _id: props.packId, name: "summertime sadness" },
       })
     );
   };
