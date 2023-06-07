@@ -1,0 +1,33 @@
+.title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.titleContainer {
+    padding: 24px 24px 24px 24px;
+    border-bottom: 1px solid lightgray;
+}
+
+.mainContainer {
+    padding: 0 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button {
+    width: 100px;
+}

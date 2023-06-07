@@ -1,11 +1,8 @@
-import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
-import React, { useEffect, useState } from "react";
-import style from "features/packs/Packs/NumberOfCards/NumberOfCards.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useEffect, useState } from "react";
 import { paramsActions } from "features/params/paramsSlice";
 
-const Range = () => {
+export const useRange = () => {
   const dispatch = useAppDispatch();
 
   const minCardsCount = useAppSelector<number>(
@@ -14,14 +11,22 @@ const Range = () => {
   const maxCardsCount = useAppSelector<number>(
     (state) => state.packs.maxCardsCount
   );
-
-  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+  const isResetRange = useAppSelector<boolean>(
+    (state) => state.params.isResetRange
+  );
 
   const [value, setValue] = useState<number[]>([minCardsCount, maxCardsCount]);
 
   useEffect(() => {
     setValue([minCardsCount, maxCardsCount]);
   }, [minCardsCount, maxCardsCount]);
+
+  useEffect(() => {
+    if (isResetRange) {
+      setValue([minCardsCount, maxCardsCount]);
+      dispatch(paramsActions.setIsResetRange({ isResetRange: false }));
+    }
+  }, [isResetRange]);
 
   const onChangeRangeHandler = (event: any, value: number[] | number) => {
     setValue(value as number[]);
@@ -30,21 +35,10 @@ const Range = () => {
     dispatch(paramsActions.setRangeCardsCount({ value: value }));
   };
 
-  return (
-    <>
-      <div className={style.value}>{value[0]}</div>
-      <Box sx={{ width: 155 }}>
-        <Slider
-          max={maxCardsCount}
-          value={value}
-          disabled={isLoading}
-          onChange={onChangeRangeHandler}
-          onChangeCommitted={onChangeCommittedHandler}
-        />
-      </Box>
-      <div className={style.value}>{value[1]}</div>
-    </>
-  );
+  return {
+    value,
+    maxCardsCount,
+    onChangeRangeHandler,
+    onChangeCommittedHandler,
+  };
 };
-
-export default Range;

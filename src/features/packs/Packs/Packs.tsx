@@ -1,48 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import style from "./Packs.module.css";
-import Button from "@mui/material/Button";
 import Title from "common/components/Title/Title";
-import PacksTable from "features/packs/Packs/PacksTable/PacksTable";
+import Table from "features/packs/Packs/Table/Table";
 import Search from "features/packs/Packs/Search/Search";
 import ShowPacksCards from "features/packs/Packs/ShowPacksCards/ShowPacksCards";
-import NumberOfCards from "features/packs/Packs/NumberOfCards/NumberOfCards";
-import MyPagination from "common/components/Pagination/Pagination";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import SetCardsCount from "features/packs/Packs/SetCardsCount/SetCardsCount";
+import MyPagination from "features/packs/Packs/Pagination/Pagination";
+import { usePacks } from "features/packs/hooks";
+import { useLoading } from "common/hooks";
+import { BasicModal } from "common/components/Modal/Modal";
+import AddPackModal from "features/packs/Packs/Modals/AddPackModal/AddPackModal";
+import Button from "@mui/material/Button";
 import { packsThunks } from "features/packs/packsSlice";
-import { ParamsType } from "features/params/paramsSlice";
-import { GetPacksArgsType } from "features/packs/packsAPI";
 
 const Packs = () => {
-  const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
-  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+  const isLoading = useLoading();
+  const { isLoggedIn, dispatch } = usePacks();
 
-  const params = useAppSelector<ParamsType>((state) => state.params);
-  const user_id = useAppSelector<string | null>((state) =>
-    state.user.profile ? state.user.profile._id : null
-  );
+  // for opening modal
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const onAddPackHandler = () => {
+  // add pack callback
+  const onAddPackHandler = (name: string, isPrivatePack: boolean) => {
     dispatch(
       packsThunks.addPack({
-        cardsPack: { name: "PACK PACK PACK pack PACK PACK" },
+        cardsPack: { name, private: isPrivatePack },
       })
     );
   };
-
-  useEffect(() => {
-    const payload: GetPacksArgsType = {
-      packName: params.packName,
-      min: params.min,
-      max: params.max,
-      sortPacks: params.sortPacks,
-      page: params.page,
-      pageCount: params.pageCount,
-      user_id: params.isMyCards ? user_id : null,
-    };
-    dispatch(packsThunks.getPacks(payload));
-  }, [dispatch, user_id, params, params.isMyCards]);
 
   if (!isLoggedIn) return <Navigate to={"/login"} />;
 
@@ -50,21 +38,32 @@ const Packs = () => {
     <div className={style.packs}>
       <div className={style.title}>
         <Title title={"Packs list"} />
-        <Button
-          variant={"contained"}
-          disabled={isLoading}
-          onClick={onAddPackHandler}
+        <BasicModal
+          onClose={handleClose}
+          open={open}
+          button={
+            <Button
+              variant={"contained"}
+              disabled={isLoading}
+              onClick={handleOpen}
+            >
+              Add new pack
+            </Button>
+          }
         >
-          add new pack
-        </Button>
+          <AddPackModal
+            onCloseModal={handleClose}
+            onAddPackHandler={onAddPackHandler}
+          />
+        </BasicModal>
       </div>
       <div className={style.table}>
         <div className={style.filters}>
           <Search />
           <ShowPacksCards />
-          <NumberOfCards />
+          <SetCardsCount />
         </div>
-        <PacksTable />
+        <Table />
         <MyPagination />
       </div>
     </div>

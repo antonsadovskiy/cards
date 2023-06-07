@@ -2,20 +2,12 @@ import React from "react";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import style from "features/packs/Packs/ShowPacksCards/ShowPacksCards.module.css";
-import { useAppDispatch, useAppSelector } from "common/hooks";
-import { paramsActions } from "features/params/paramsSlice";
+import { useShowPacksCards } from "features/packs/hooks";
+import { useLoading } from "common/hooks";
 
 const ShowPacksCards = () => {
-  const dispatch = useAppDispatch();
-  const isMyPacks = useAppSelector<boolean>((state) => state.params.isMyCards);
-  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
-
-  const setMyPacks = () => {
-    dispatch(paramsActions.setIsMyCards({ isMyCards: true }));
-  };
-  const setAllPacks = () => {
-    dispatch(paramsActions.setIsMyCards({ isMyCards: false }));
-  };
+  const isLoading = useLoading();
+  const { isMyPacks, setAllPacks, setMyPacks } = useShowPacksCards();
 
   return (
     <div className={style.showPacksCards}>

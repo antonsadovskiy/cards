@@ -9,7 +9,6 @@ import {
   UpdatePackArgType,
 } from "features/packs/packsAPI";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
-import { paramsActions } from "features/params/paramsSlice";
 
 export type PackStateType = {
   cardPacks: CardPackType[];
@@ -34,20 +33,20 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(packsThunks.getPacks.fulfilled, (state, action) => {
-        state.cardPacks = action.payload.packsData.cardPacks;
-        state.cardPacksTotalCount =
-          action.payload.packsData.cardPacksTotalCount;
-        state.page = action.payload.packsData.page;
-        state.pageCount = action.payload.packsData.pageCount;
-        state.minCardsCount = action.payload.packsData.minCardsCount;
-        state.maxCardsCount = action.payload.packsData.maxCardsCount;
-      })
-      .addCase(paramsActions.clearFilters, (state) => {
-        state.minCardsCount = 0;
-        state.maxCardsCount = 100;
-      });
+    builder.addCase(packsThunks.getPacks.fulfilled, (state, action) => {
+      state.cardPacks = action.payload.packsData.cardPacks;
+      state.cardPacksTotalCount = action.payload.packsData.cardPacksTotalCount;
+      state.page = action.payload.packsData.page;
+      state.pageCount = action.payload.packsData.pageCount;
+      if (
+        action.payload.packsData.minCardsCount === 0 &&
+        action.payload.packsData.maxCardsCount === 0
+      ) {
+        return;
+      }
+      state.minCardsCount = action.payload.packsData.minCardsCount;
+      state.maxCardsCount = action.payload.packsData.maxCardsCount;
+    });
   },
 });
 

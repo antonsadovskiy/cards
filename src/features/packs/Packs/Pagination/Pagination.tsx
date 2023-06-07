@@ -3,7 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Pagination from "@mui/material/Pagination";
 import Select from "@mui/material/Select";
 import React from "react";
-import style from "./Pagination.module.css";
+import style from "features/packs/Packs/Pagination/Pagination.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { paramsActions } from "features/params/paramsSlice";
 

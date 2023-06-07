@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { packsThunks } from "features/packs/packsSlice";
 
 export type SortByType = "name" | "cardsCount" | "updated";
 
@@ -10,6 +11,8 @@ export type ParamsType = {
   page: number;
   pageCount: number;
   isMyCards: boolean;
+  isResetRange: boolean;
+  modalIsOpen: boolean;
 };
 
 const initialState: ParamsType = {
@@ -20,6 +23,8 @@ const initialState: ParamsType = {
   sortPacks: "",
   packName: "",
   isMyCards: false,
+  isResetRange: false,
+  modalIsOpen: false,
 };
 
 const slice = createSlice({
@@ -34,6 +39,7 @@ const slice = createSlice({
       state.sortPacks = "";
       state.packName = "";
       state.isMyCards = false;
+      state.isResetRange = true;
     },
     setPackName: (state, action: PayloadAction<{ packName: string }>) => {
       state.packName = action.payload.packName;
@@ -54,6 +60,23 @@ const slice = createSlice({
     setSortPacks: (state, action: PayloadAction<{ sortPacks: string }>) => {
       state.sortPacks = action.payload.sortPacks;
     },
+    setIsResetRange: (
+      state,
+      action: PayloadAction<{ isResetRange: boolean }>
+    ) => {
+      state.isResetRange = action.payload.isResetRange;
+    },
+    setModalIsOpen: (
+      state,
+      action: PayloadAction<{ modalIsOpen: boolean }>
+    ) => {
+      state.modalIsOpen = action.payload.modalIsOpen;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(packsThunks.addPack.fulfilled, (state) => {
+      state.modalIsOpen = false;
+    });
   },
 });
 

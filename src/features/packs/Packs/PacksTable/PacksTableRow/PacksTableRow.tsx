@@ -1,18 +1,15 @@
 import React, { FC } from "react";
 import TableRow from "@mui/material/TableRow";
-import style from "features/packs/Packs/PacksTable/PacksTable.module.css";
-import TableCell from "@mui/material/TableCell";
-import IconButton from "@mui/material/IconButton";
-import SchoolIcon from "@mui/icons-material/School";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useAppDispatch, useAppSelector } from "common/hooks";
-import { packsThunks } from "features/packs/packsSlice";
-import { convertDate } from "common/utils";
+import Actions from "features/packs/Packs/PacksTable/PacksTableRow/Actions/Actions";
+import PackName from "features/packs/Packs/PacksTable/PacksTableRow/PackName/PackName";
+import CardsCount from "features/packs/Packs/PacksTable/PacksTableRow/CardsCount/CardsCount";
+import Updated from "features/packs/Packs/PacksTable/PacksTableRow/Updated/Updated";
+import CreatedBy from "features/packs/Packs/PacksTable/PacksTableRow/CreatedBy/CreatedBy";
 
 type PropsType = {
   packId: string;
   name: string;
+  private: boolean;
   cardsCount: number;
   updated: string;
   user_name: string;
@@ -21,53 +18,20 @@ type PropsType = {
 };
 
 const PacksTableRow: FC<PropsType> = (props) => {
-  const dispatch = useAppDispatch();
-  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
-
-  const onUpdatePackHandler = () => {
-    dispatch(
-      packsThunks.updatePack({
-        cardsPack: { _id: props.packId, name: "summertime sadness" },
-      })
-    );
-  };
-  const onDeletePackHandler = () => {
-    dispatch(packsThunks.deletePack({ id: props.packId }));
-  };
-
   return (
     <TableRow>
-      <TableCell className={style.packName}>
-        {props.name.slice(0, 30)}
-        {props.name.length > 35 ? "..." : ""}
-      </TableCell>
-      <TableCell className={style.numberOfCards}>{props.cardsCount}</TableCell>
-      <TableCell>{convertDate(props.updated)}</TableCell>
-      <TableCell>
-        {props.user_name.slice(0, 20)}
-        {props.user_name.length > 20 ? "..." : ""}
-      </TableCell>
-      <TableCell>
-        <IconButton disabled={props.cardsCount === 0 || isLoading}>
-          <SchoolIcon sx={{ width: "20px", height: "20px" }} />
-        </IconButton>
-        {props.packs_user_id === props.user_id && (
-          <IconButton
-            onClick={onUpdatePackHandler}
-            disabled={isLoading || props.user_id !== props.packs_user_id}
-          >
-            <BorderColorIcon sx={{ width: "20px", height: "20px" }} />
-          </IconButton>
-        )}
-        {props.packs_user_id === props.user_id && (
-          <IconButton
-            onClick={onDeletePackHandler}
-            disabled={isLoading || props.user_id !== props.packs_user_id}
-          >
-            <DeleteIcon sx={{ width: "20px", height: "20px" }} />
-          </IconButton>
-        )}
-      </TableCell>
+      <PackName name={props.name} />
+      <CardsCount cardsCount={props.cardsCount} />
+      <Updated updated={props.updated} />
+      <CreatedBy user_name={props.user_name} />
+      <Actions
+        packId={props.packId}
+        name={props.name}
+        private={props.private}
+        cardsCount={props.cardsCount}
+        user_id={props.user_id}
+        packs_user_id={props.packs_user_id}
+      />
     </TableRow>
   );
 };

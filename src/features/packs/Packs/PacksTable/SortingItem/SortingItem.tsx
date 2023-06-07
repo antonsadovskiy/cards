@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { SortByType } from "features/params/paramsSlice";
 import { changeSort } from "common/utils";
-import style from "./SortingItem.module.css";
+import style from "features/packs/Packs/PacksTable/SortingItem/SortingItem.module.css";
 import TableCell from "@mui/material/TableCell";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -36,7 +36,6 @@ const SortingItem: FC<PropsType> = (props) => {
         return <UnfoldMoreIcon />;
     }
   };
-
   return (
     <TableCell
       sx={{ backgroundColor: "#EFEFEF", fontWeight: "600" }}
