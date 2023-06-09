@@ -2,11 +2,12 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import React from "react";
 import style from "features/packs/Packs/SetCardsCount/SetCardsCount.module.css";
-import { useLoading } from "common/hooks";
+import { useAppSelector } from "common/hooks";
 import { useRange } from "features/packs/hooks";
+import { selectorIsLoading } from "app/appSelectors";
 
 const Range = () => {
-  const isLoading = useLoading();
+  const isLoading = useAppSelector(selectorIsLoading);
   const {
     value,
     maxCardsCount,

@@ -8,14 +8,13 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { Outlet } from "react-router-dom";
 import Toast from "common/components/Error/Toast";
 import { useAppDispatch, useAppSelector } from "common/hooks";
+import { selectorIsAppInitialized, selectorIsLoading } from "app/appSelectors";
 
 const Layout = () => {
   const dispatch = useAppDispatch();
 
-  const isAppInitialized = useAppSelector<boolean>(
-    (state) => state.app.isAppInitialized
-  );
-  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+  const isAppInitialized = useAppSelector(selectorIsAppInitialized);
+  const isLoading = useAppSelector(selectorIsLoading);
 
   useEffect(() => {
     dispatch(userThunks.me());

@@ -30,7 +30,7 @@ const Register = () => {
     };
     dispatch(userThunks.register(payload))
       .unwrap()
-      .then((res) => {
+      .then(() => {
         toast.success("you have successfully registered");
         navigate("/login");
       })

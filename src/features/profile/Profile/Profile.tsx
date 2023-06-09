@@ -13,13 +13,12 @@ import { UserModelToUpdateType } from "features/profile/profileAPI";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import IconButton from "@mui/material/IconButton";
 import { useAppDispatch, useAppSelector } from "common/hooks";
+import { selectorProfile } from "features/auth/authSelectors";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
 
-  const profile = useAppSelector<ProfileType | null>(
-    (state) => state.user.profile
-  );
+  const profile = useAppSelector(selectorProfile);
 
   const updateUserHandler = (data: UserModelToUpdateType) => {
     dispatch(userThunks.updateMe(data));

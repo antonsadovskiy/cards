@@ -6,27 +6,23 @@ import TableRow from "@mui/material/TableRow";
 import { StyledTableCell } from "common/styles";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
-import { CardPackType } from "features/packs/packsAPI";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { shallowEqual } from "react-redux";
 import { paramsActions } from "features/params/paramsSlice";
 import SortingItem from "features/packs/Packs/PacksTable/SortingItem/SortingItem";
 import PacksTableRow from "features/packs/Packs/PacksTable/PacksTableRow/PacksTableRow";
+import { selectorCardPacks } from "features/packs/packsSelectors";
+import { selectorSortPacks } from "features/params/paramsSelectors";
+import { selectorUserId } from "features/auth/authSelectors";
 
 const PacksTable = () => {
   const dispatch = useAppDispatch();
 
-  const cardPacks = useAppSelector<CardPackType[]>(
-    (state) => state.packs.cardPacks,
-    shallowEqual
-  );
-  const sortPacks = useAppSelector<string>((state) => state.params.sortPacks);
-  const user_id = useAppSelector<string | null>((state) =>
-    state.user.profile ? state.user.profile._id : null
-  );
+  const cardPacks = useAppSelector(selectorCardPacks);
+  const sortPacks = useAppSelector(selectorSortPacks);
+  const user_id = useAppSelector(selectorUserId);
 
-  const onChangeSortHandler = (newSort: string) => {
-    dispatch(paramsActions.setSortPacks({ sortPacks: newSort }));
+  const onChangeSortHandler = (sortPacks: string) => {
+    dispatch(paramsActions.setSortPacks({ sortPacks }));
   };
 
   return (

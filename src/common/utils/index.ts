@@ -5,3 +5,4 @@ export { validateEmail } from "./validate";
 export { useDebounce } from "./useDebounce";
 export { changeSort } from "./changeSort";
 export { convertDate } from "./convertDate";
+export { cutTheString } from "./cutTheString";

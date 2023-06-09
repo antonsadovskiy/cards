@@ -1,30 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { packsThunks } from "features/packs/packsSlice";
 
 export type SortByType = "name" | "cardsCount" | "updated";
 
-export type ParamsType = {
+export type QueryParamsType = {
   packName: string;
   min: number;
   max: number;
   sortPacks: string;
   page: number;
   pageCount: number;
-  isMyCards: boolean;
+  user_id: string | null;
+};
+
+export type ParamsType = {
+  queryParams: QueryParamsType;
+  isMyPacks: boolean;
   isResetRange: boolean;
-  modalIsOpen: boolean;
 };
 
 const initialState: ParamsType = {
-  page: 1,
-  pageCount: 4,
-  min: 0,
-  max: 0,
-  sortPacks: "",
-  packName: "",
-  isMyCards: false,
+  queryParams: {
+    page: 1,
+    pageCount: 4,
+    min: 0,
+    max: 0,
+    sortPacks: "",
+    packName: "",
+    user_id: null,
+  },
+  isMyPacks: false,
   isResetRange: false,
-  modalIsOpen: false,
 };
 
 const slice = createSlice({
@@ -32,33 +37,37 @@ const slice = createSlice({
   initialState,
   reducers: {
     clearFilters: (state) => {
-      state.page = 1;
-      state.pageCount = 4;
-      state.min = 0;
-      state.max = 0;
-      state.sortPacks = "";
-      state.packName = "";
-      state.isMyCards = false;
+      state.queryParams.page = 1;
+      state.queryParams.pageCount = 4;
+      state.queryParams.min = 0;
+      state.queryParams.max = 0;
+      state.queryParams.sortPacks = "";
+      state.queryParams.packName = "";
+      state.queryParams.user_id = null;
+      state.isMyPacks = false;
       state.isResetRange = true;
     },
     setPackName: (state, action: PayloadAction<{ packName: string }>) => {
-      state.packName = action.payload.packName;
+      state.queryParams.packName = action.payload.packName;
     },
-    setIsMyCards: (state, action: PayloadAction<{ isMyCards: boolean }>) => {
-      state.isMyCards = action.payload.isMyCards;
+    setIsMyPacks: (state, action: PayloadAction<{ isMyPacks: boolean }>) => {
+      state.isMyPacks = action.payload.isMyPacks;
+    },
+    setUserId: (state, action: PayloadAction<{ userId: string | null }>) => {
+      state.queryParams.user_id = action.payload.userId;
     },
     setPage: (state, action: PayloadAction<{ page: number }>) => {
-      state.page = action.payload.page;
+      state.queryParams.page = action.payload.page;
     },
     setPageCount: (state, action: PayloadAction<{ pageCount: number }>) => {
-      state.pageCount = action.payload.pageCount;
+      state.queryParams.pageCount = action.payload.pageCount;
     },
     setRangeCardsCount: (state, action: PayloadAction<{ value: number[] }>) => {
-      state.min = action.payload.value[0];
-      state.max = action.payload.value[1];
+      state.queryParams.min = action.payload.value[0];
+      state.queryParams.max = action.payload.value[1];
     },
     setSortPacks: (state, action: PayloadAction<{ sortPacks: string }>) => {
-      state.sortPacks = action.payload.sortPacks;
+      state.queryParams.sortPacks = action.payload.sortPacks;
     },
     setIsResetRange: (
       state,
@@ -66,17 +75,6 @@ const slice = createSlice({
     ) => {
       state.isResetRange = action.payload.isResetRange;
     },
-    setModalIsOpen: (
-      state,
-      action: PayloadAction<{ modalIsOpen: boolean }>
-    ) => {
-      state.modalIsOpen = action.payload.modalIsOpen;
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(packsThunks.addPack.fulfilled, (state) => {
-      state.modalIsOpen = false;
-    });
   },
 });
 

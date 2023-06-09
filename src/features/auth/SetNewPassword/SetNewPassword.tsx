@@ -3,7 +3,7 @@ import styleForm from "common/styles/Form.module.css";
 import Title from "common/components/Title/Title";
 import style from "features/auth/CheckEmail/CheckEmail.module.css";
 import Button from "@mui/material/Button";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PasswordInput from "common/components/PasswordInput/PasswordInput";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "common/hooks/useAppDispatch";

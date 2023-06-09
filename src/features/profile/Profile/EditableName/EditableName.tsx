@@ -5,6 +5,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import TextField from "@mui/material/TextField";
 import CheckIcon from "@mui/icons-material/Check";
 import { UserModelToUpdateType } from "features/profile/profileAPI";
+import { cutTheString } from "common/utils";
 
 type PropsType = {
   name: string;
@@ -14,6 +15,7 @@ type PropsType = {
 const EditableName: FC<PropsType> = (props) => {
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState("");
+
   const setOnEditModeHandler = () => {
     setName(props.name);
     setEditMode(true);
@@ -55,7 +57,7 @@ const EditableName: FC<PropsType> = (props) => {
         />
       ) : (
         <>
-          <p>{props.name}</p>
+          <p>{cutTheString(props.name, 35)}</p>
           <IconButton onClick={setOnEditModeHandler}>
             <BorderColorIcon fontSize={"small"} />
           </IconButton>

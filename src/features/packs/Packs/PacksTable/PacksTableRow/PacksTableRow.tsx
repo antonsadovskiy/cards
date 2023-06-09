@@ -20,7 +20,7 @@ type PropsType = {
 const PacksTableRow: FC<PropsType> = (props) => {
   return (
     <TableRow>
-      <PackName name={props.name} />
+      <PackName name={props.name} packId={props.packId} />
       <CardsCount cardsCount={props.cardsCount} />
       <Updated updated={props.updated} />
       <CreatedBy user_name={props.user_name} />

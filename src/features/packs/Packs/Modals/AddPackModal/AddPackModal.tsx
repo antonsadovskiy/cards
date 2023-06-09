@@ -6,25 +6,21 @@ import style from "common/styles/Modal.module.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 type PropsType = {
-  onCloseModal: () => void;
-  onAddPackHandler: (name: string, isPrivatePack: boolean) => void;
+  closeModalHandler: () => void;
+  addPackHandler: (name: string, isPrivatePack: boolean) => void;
 };
 
 const AddPackModal: FC<PropsType> = (props) => {
   const [isPrivatePack, setIsPrivatePack] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
 
-  const onCloseModalHandler = () => {
-    props.onCloseModal();
-  };
-  const onAddPackHandler = () => {
-    props.onAddPackHandler(name, isPrivatePack);
-  };
+  const closeModalHandler = () => props.closeModalHandler();
+  const addPackHandler = () => props.addPackHandler(name, isPrivatePack);
 
-  const onChangePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
   };
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeIsPrivateHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPrivatePack(e.currentTarget.checked);
   };
 
@@ -39,27 +35,30 @@ const AddPackModal: FC<PropsType> = (props) => {
         <TextField
           value={name}
           fullWidth
-          onChange={onChangePackNameHandler}
+          onChange={changePackNameHandler}
           variant={"standard"}
           label={"Name pack"}
         />
         <FormControlLabel
           control={
-            <Checkbox checked={isPrivatePack} onChange={onChangeHandler} />
+            <Checkbox
+              checked={isPrivatePack}
+              onChange={changeIsPrivateHandler}
+            />
           }
           label="Private pack"
         />
         <div className={style.buttons}>
           <Button
             className={style.button}
-            onClick={onCloseModalHandler}
+            onClick={closeModalHandler}
             variant={"outlined"}
           >
             Cancel
           </Button>
           <Button
             className={style.button}
-            onClick={onAddPackHandler}
+            onClick={addPackHandler}
             variant={"contained"}
           >
             Add

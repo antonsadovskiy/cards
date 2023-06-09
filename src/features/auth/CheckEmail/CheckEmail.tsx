@@ -6,9 +6,10 @@ import Button from "@mui/material/Button";
 import { NavLink } from "react-router-dom";
 import emailIcon from "../../../assets/images/mail-icon.svg";
 import { useAppSelector } from "common/hooks";
+import { selectorEmail } from "features/auth/authSelectors";
 
 const CheckEmail = () => {
-  const email = useAppSelector<string>((state) => state.user.tempEmail);
+  const email = useAppSelector(selectorEmail);
 
   return (
     <div className={styleForm.form} style={{ gap: "40px" }}>

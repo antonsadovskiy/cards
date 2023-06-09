@@ -6,21 +6,25 @@ import React from "react";
 import style from "features/packs/Packs/Pagination/Pagination.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { paramsActions } from "features/params/paramsSlice";
+import { selectorIsLoading } from "app/appSelectors";
+import {
+  selectorCardPacksTotalCount,
+  selectorPage,
+  selectorPageCount,
+} from "features/packs/packsSelectors";
 
 const MyPagination = () => {
   const dispatch = useAppDispatch();
 
-  const page = useAppSelector<number>((state) => state.packs.page);
-  const pageCount = useAppSelector<number>((state) => state.packs.pageCount);
-  const cardPacksTotalCount = useAppSelector<number>(
-    (state) => state.packs.cardPacksTotalCount
-  );
-  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+  const page = useAppSelector(selectorPage);
+  const pageCount = useAppSelector(selectorPageCount);
+  const cardPacksTotalCount = useAppSelector(selectorCardPacksTotalCount);
+  const isLoading = useAppSelector(selectorIsLoading);
 
   const lastPage = Math.ceil(cardPacksTotalCount / pageCount);
 
-  const onChangePageHandler = (event: any, currentPage: number) => {
-    dispatch(paramsActions.setPage({ page: currentPage }));
+  const onChangePageHandler = (event: any, page: number) => {
+    dispatch(paramsActions.setPage({ page }));
   };
   const onChangePageCountHandler = (event: any) => {
     const pageCount = event.target.value;

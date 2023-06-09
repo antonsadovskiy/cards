@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import style from "common/styles/Modal.module.css";
 import Button from "@mui/material/Button";
+import { cutTheString } from "common/utils";
 
 type PropsType = {
   packName: string;
@@ -9,13 +10,8 @@ type PropsType = {
 };
 
 const DeletePackModal: FC<PropsType> = (props) => {
-  const onCloseModalHandler = () => {
-    props.onCloseModal();
-  };
-
-  const onDeletePackHandler = () => {
-    props.onDeletePackHandler();
-  };
+  const onCloseModalHandler = () => props.onCloseModal();
+  const onDeletePackHandler = () => props.onDeletePackHandler();
 
   return (
     <div className={style.modal}>
@@ -27,8 +23,9 @@ const DeletePackModal: FC<PropsType> = (props) => {
       <div className={style.mainContainer}>
         <div>
           <span>
-            Do you really want to remove <b>{props.packName}</b>? All cards will
-            be deleted.
+            Do you really want to remove{" "}
+            <b>{cutTheString(props.packName, 15)}</b>? All cards will be
+            deleted.
           </span>
         </div>
         <div className={style.buttons}>

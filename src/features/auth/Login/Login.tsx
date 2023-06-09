@@ -14,10 +14,11 @@ import Title from "common/components/Title/Title";
 import PasswordInput from "common/components/PasswordInput/PasswordInput";
 import EmailInput from "common/components/EmailInput/EmailInput";
 import { useAppDispatch, useAppSelector } from "common/hooks";
+import { selectorIsLoggedIn } from "features/auth/authSelectors";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectorIsLoggedIn);
 
   const methods = useForm<ArgLoginType>();
 

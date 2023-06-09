@@ -2,10 +2,11 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDebounce } from "common/utils";
 import { paramsActions } from "features/params/paramsSlice";
+import { selectorPackName } from "features/params/paramsSelectors";
 
 export const useSearch = () => {
   const dispatch = useAppDispatch();
-  const packName = useAppSelector<string>((state) => state.params.packName);
+  const packName = useAppSelector(selectorPackName);
 
   const [search, setSearch] = useState("");
   const debouncedValue = useDebounce<string>(search, 700);

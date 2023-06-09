@@ -6,9 +6,10 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import EditPackModal from "features/packs/Packs/Modals/EditPackModal/EditPackModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TableCell from "@mui/material/TableCell";
-import { useAppDispatch, useLoading } from "common/hooks";
+import { useAppDispatch, useAppSelector, useLoading } from "common/hooks";
 import { packsThunks } from "features/packs/packsSlice";
 import DeletePackModal from "features/packs/Packs/Modals/DeletePackModal/DeletePackModal";
+import { selectorIsLoading } from "app/appSelectors";
 
 type PropsType = {
   packId: string;
@@ -20,32 +21,35 @@ type PropsType = {
 };
 
 const Actions: FC<PropsType> = (props) => {
-  const isLoading = useLoading();
   const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(selectorIsLoading);
 
-  // for opening edit pack modal
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const handleEditOpen = () => setEditOpen(true);
   const handleEditClose = () => setEditOpen(false);
 
-  // for opening delete pack modal
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const handleDeleteOpen = () => setDeleteOpen(true);
   const handleDeleteClose = () => setDeleteOpen(false);
 
-  // edit pack callback
   const onEditPackHandler = (name: string, isPrivatePack: boolean) => {
-    // isPrivatePack ?
     dispatch(
       packsThunks.updatePack({
-        cardsPack: { _id: props.packId, name },
+        cardsPack: { _id: props.packId, name, private: isPrivatePack },
       })
-    );
+    )
+      .unwrap()
+      .then(() => {
+        setEditOpen(false);
+      });
   };
 
-  // delete pack callback
   const onDeletePackHandler = () => {
-    dispatch(packsThunks.deletePack({ id: props.packId }));
+    dispatch(packsThunks.deletePack({ id: props.packId }))
+      .unwrap()
+      .then(() => {
+        setDeleteOpen(false);
+      });
   };
 
   return (

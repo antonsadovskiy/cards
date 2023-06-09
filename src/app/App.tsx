@@ -11,7 +11,7 @@ import { store } from "app/store";
 import { Provider } from "react-redux";
 import Login from "features/auth/Login/Login";
 import Register from "features/auth/Register/Register";
-import Packs from "features/packs/Packs/Packs";
+import PacksList from "features/packs/Packs/PacksList";
 import Layout from "common/layout/Layout";
 import ForgotPassword from "features/auth/ForgotPassword/ForgotPassword";
 import CheckEmail from "features/auth/CheckEmail/CheckEmail";
@@ -19,6 +19,7 @@ import SetNewPassword from "features/auth/SetNewPassword/SetNewPassword";
 import Profile from "features/profile/Profile/Profile";
 import Page404 from "common/components/404/Page404";
 import PrivateRoutes from "common/components/PrivateRoutes/PrivateRoutes";
+import Pack from "features/packs/Packs/Pack/Pack";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -34,7 +35,8 @@ const router = createHashRouter(
 
       <Route element={<PrivateRoutes />}>
         <Route path={"/profile"} element={<Profile />} />
-        <Route path={"/packs"} element={<Packs />} />
+        <Route path={"/packs"} element={<PacksList />} />
+        <Route path={"/packs/:id"} element={<Pack />} />
       </Route>
     </Route>
   )

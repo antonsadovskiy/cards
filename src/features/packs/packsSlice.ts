@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   AddPackArgType,
-  CardPackType,
   DeletePackArgType,
-  GetPacksArgsType,
   GetPacksResponseType,
   packsAPI,
+  PackType,
   UpdatePackArgType,
 } from "features/packs/packsAPI";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
+import { QueryParamsType } from "features/params/paramsSlice";
 
 export type PackStateType = {
-  cardPacks: CardPackType[];
+  cardPacks: PackType[];
   page: number;
   pageCount: number;
   cardPacksTotalCount: number;
@@ -52,7 +52,7 @@ const slice = createSlice({
 
 const getPacks = createAppAsyncThunk<
   { packsData: GetPacksResponseType },
-  GetPacksArgsType
+  QueryParamsType
 >("packs/get", async (arg, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
     const res = await packsAPI.getPacks(arg);
@@ -62,28 +62,47 @@ const getPacks = createAppAsyncThunk<
 const addPack = createAppAsyncThunk<void, AddPackArgType>(
   "packs/add",
   async (arg, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    // const params = getState().params;
+    // const user_id = getState().user.profile?._id;
+    // const payload: GetPacksArgsType = {
+    //   packName: params.params.packName,
+    //   min: params.min,
+    //   max: params.max,
+    //   sortPacks: params.sortPacks,
+    //   page: params.page,
+    //   pageCount: params.pageCount,
+    //   user_id: params.isMyCards ? user_id : null,
+    // };
+    const params = getState().params.queryParams;
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await packsAPI.addPack(arg);
+      await packsAPI.addPack(arg);
+      dispatch(packsThunks.getPacks(params));
     });
   }
 );
 const deletePack = createAppAsyncThunk<void, DeletePackArgType>(
   "packs/delete",
   async (arg, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    const params = getState().params.queryParams;
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await packsAPI.deletePack(arg);
+      await packsAPI.deletePack(arg);
+      dispatch(packsThunks.getPacks(params));
     });
   }
 );
 const updatePack = createAppAsyncThunk<void, UpdatePackArgType>(
   "packs/add",
   async (arg, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    const params = getState().params.queryParams;
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await packsAPI.updatePack(arg);
+      await packsAPI.updatePack(arg);
+      dispatch(packsThunks.getPacks(params));
     });
   }
 );
 
-export const packsActions = slice.actions;
 export const packsReducer = slice.reducer;
 export const packsThunks = { getPacks, addPack, deletePack, updatePack };

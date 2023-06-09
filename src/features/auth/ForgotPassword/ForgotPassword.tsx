@@ -10,7 +10,6 @@ import Title from "common/components/Title/Title";
 import EmailInput from "common/components/EmailInput/EmailInput";
 import { MESSAGE } from "common/utils";
 import { useAppDispatch } from "common/hooks";
-import { toast } from "react-toastify";
 
 type ForgotPasswordType = {
   email: string;

@@ -1,19 +1,18 @@
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { useEffect, useState } from "react";
 import { paramsActions } from "features/params/paramsSlice";
+import { selectorIsResetRange } from "features/params/paramsSelectors";
+import {
+  selectorMaxCardsCount,
+  selectorMinCardsCount,
+} from "features/packs/packsSelectors";
 
 export const useRange = () => {
   const dispatch = useAppDispatch();
 
-  const minCardsCount = useAppSelector<number>(
-    (state) => state.packs.minCardsCount
-  );
-  const maxCardsCount = useAppSelector<number>(
-    (state) => state.packs.maxCardsCount
-  );
-  const isResetRange = useAppSelector<boolean>(
-    (state) => state.params.isResetRange
-  );
+  const minCardsCount = useAppSelector(selectorMinCardsCount);
+  const maxCardsCount = useAppSelector(selectorMaxCardsCount);
+  const isResetRange = useAppSelector(selectorIsResetRange);
 
   const [value, setValue] = useState<number[]>([minCardsCount, maxCardsCount]);
 

@@ -1,45 +1,43 @@
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { ParamsType } from "features/params/paramsSlice";
 import { packsThunks } from "features/packs/packsSlice";
-import { useEffect } from "react";
-import { GetPacksArgsType } from "features/packs/packsAPI";
+import { useEffect, useState } from "react";
+import { selectorIsLoading } from "app/appSelectors";
+import { selectorIsLoggedIn } from "features/auth/authSelectors";
+import { selectorQueryParams } from "features/params/paramsSelectors";
 
 export const usePacks = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector<boolean>((state) => state.user.isLoggedIn);
 
-  const { packName, sortPacks, max, min, page, pageCount, isMyCards } =
-    useAppSelector<ParamsType>((state) => state.params);
+  const isLoading = useAppSelector(selectorIsLoading);
+  const isLoggedIn = useAppSelector(selectorIsLoggedIn);
+  const params = useAppSelector(selectorQueryParams);
 
-  const user_id = useAppSelector<string | null>((state) =>
-    state.user.profile ? state.user.profile._id : null
-  );
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const addPackHandler = (name: string, isPrivatePack: boolean) => {
+    dispatch(
+      packsThunks.addPack({
+        cardsPack: { name, private: isPrivatePack },
+      })
+    )
+      .unwrap()
+      .then(() => {
+        setOpen(false);
+      });
+  };
 
   useEffect(() => {
-    const payload: GetPacksArgsType = {
-      packName: packName,
-      min: min,
-      max: max,
-      sortPacks: sortPacks,
-      page: page,
-      pageCount: pageCount,
-      user_id: isMyCards ? user_id : null,
-    };
-    dispatch(packsThunks.getPacks(payload));
-  }, [
-    dispatch,
-    user_id,
-    isMyCards,
-    packName,
-    min,
-    max,
-    sortPacks,
-    page,
-    pageCount,
-  ]);
+    dispatch(packsThunks.getPacks(params));
+  }, [dispatch, params]);
 
   return {
+    isLoading,
     isLoggedIn,
-    dispatch,
+    open,
+    handleOpen,
+    handleClose,
+    addPackHandler,
   };
 };

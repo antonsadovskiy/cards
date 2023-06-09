@@ -1,7 +1,7 @@
 import { instance } from "app/instance";
 
 export const packsAPI = {
-  getPacks: (data: GetPacksArgsType) => {
+  getPacks: (data: QueryParamsType) => {
     return instance.get<GetPacksResponseType>("cards/pack", {
       params: { ...data },
     });
@@ -16,7 +16,7 @@ export const packsAPI = {
     return instance.put("cards/pack", data);
   },
 };
-export type GetPacksArgsType = {
+type QueryParamsType = {
   packName?: string;
   min?: number;
   max?: number;
@@ -26,7 +26,7 @@ export type GetPacksArgsType = {
   user_id?: string | null;
 };
 export type GetPacksResponseType = {
-  cardPacks: CardPackType[];
+  cardPacks: PackType[];
   cardPacksTotalCount: number;
   maxCardsCount: number;
   minCardsCount: number;
@@ -34,7 +34,7 @@ export type GetPacksResponseType = {
   pageCount: number;
 };
 
-export type CardPackType = {
+export type PackType = {
   cardsCount: number;
   created: string;
   deckCover: string;
@@ -69,5 +69,6 @@ export type UpdatePackArgType = {
   cardsPack: {
     _id: string;
     name?: string;
+    private?: boolean;
   };
 };
