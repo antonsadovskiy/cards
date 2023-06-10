@@ -1,0 +1,30 @@
+.returnBack {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    width: fit-content;
+}
+
+.returnBack p {
+    font-weight: 500;
+    margin: 0;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.titleAndMore {
+    display: flex;
+    align-items: center;
+}
+.cardsList {
+    min-height: 80vh;
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}

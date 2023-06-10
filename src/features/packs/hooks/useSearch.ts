@@ -1,10 +1,9 @@
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDebounce } from "common/utils";
-import { paramsActions } from "features/params/paramsSlice";
-import { selectorPackName } from "features/params/paramsSelectors";
+import { selectorPackName } from "features/packsParams/packsParamsSelectors";
 
-export const useSearch = () => {
+export const useSearch = (onDebouncedHandler: (packName: string) => void) => {
   const dispatch = useAppDispatch();
   const packName = useAppSelector(selectorPackName);
 
@@ -20,7 +19,7 @@ export const useSearch = () => {
   }, [packName]);
 
   useEffect(() => {
-    dispatch(paramsActions.setPackName({ packName: debouncedValue }));
+    onDebouncedHandler(debouncedValue);
   }, [dispatch, debouncedValue]);
 
   return { search, onChangeHandler };

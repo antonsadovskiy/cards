@@ -1,17 +1,25 @@
-import React from "react";
+import React, { FC } from "react";
 import TextField from "@mui/material/TextField";
-import style from "features/packs/Packs/Search/Search.module.css";
+import style from "common/components/Search/Search.module.css";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSearch } from "features/packs/hooks";
 import { useLoading } from "common/hooks";
 
-const Search = () => {
+type PropsType = {
+  onDebouncedHandler: (packName: string) => void;
+  fullWidth?: boolean;
+};
+
+const Search: FC<PropsType> = (props) => {
   const isLoading = useLoading();
-  const { search, onChangeHandler } = useSearch();
+  const { search, onChangeHandler } = useSearch(props.onDebouncedHandler);
 
   return (
-    <div className={style.search}>
+    <div
+      className={style.search}
+      style={{ width: props.fullWidth ? "100%" : "40%" }}
+    >
       <div style={{ fontWeight: "600" }}>Search</div>
       <TextField
         value={search}

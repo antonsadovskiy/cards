@@ -3,7 +3,7 @@ import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import IconButton from "@mui/material/IconButton";
 import style from "features/packs/Packs/ClearFilter/ClearFilter.module.css";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { paramsActions } from "features/params/paramsSlice";
+import { packsParamsActions } from "features/packsParams/packsParamsSlice";
 import { selectorIsLoading } from "app/appSelectors";
 
 const ClearFilter = () => {
@@ -11,7 +11,7 @@ const ClearFilter = () => {
   const isLoading = useAppSelector(selectorIsLoading);
 
   const onClearFilterHandler = () => {
-    dispatch(paramsActions.clearFilters());
+    dispatch(packsParamsActions.clearFilters());
   };
 
   return (

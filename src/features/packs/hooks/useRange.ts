@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { useEffect, useState } from "react";
-import { paramsActions } from "features/params/paramsSlice";
-import { selectorIsResetRange } from "features/params/paramsSelectors";
+import { packsParamsActions } from "features/packsParams/packsParamsSlice";
+import { selectorIsResetRange } from "features/packsParams/packsParamsSelectors";
 import {
   selectorMaxCardsCount,
   selectorMinCardsCount,
@@ -23,7 +23,7 @@ export const useRange = () => {
   useEffect(() => {
     if (isResetRange) {
       setValue([minCardsCount, maxCardsCount]);
-      dispatch(paramsActions.setIsResetRange({ isResetRange: false }));
+      dispatch(packsParamsActions.setIsResetRange({ isResetRange: false }));
     }
   }, [isResetRange]);
 
@@ -31,7 +31,7 @@ export const useRange = () => {
     setValue(value as number[]);
   };
   const onChangeCommittedHandler = () => {
-    dispatch(paramsActions.setRangeCardsCount({ value: value }));
+    dispatch(packsParamsActions.setRangeCardsCount({ value: value }));
   };
 
   return {

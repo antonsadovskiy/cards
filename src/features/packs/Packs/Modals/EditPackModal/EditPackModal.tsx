@@ -8,18 +8,17 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 type PropsType = {
   packName: string;
   private: boolean;
-  onCloseModal: () => void;
-  onEditPackHandler: (name: string, isPrivatePack: boolean) => void;
+  editPackHandler: (name: string, isPrivatePack: boolean) => void;
 };
 
 const EditPackModal: FC<PropsType> = (props) => {
   const [isPrivatePack, setIsPrivatePack] = useState<boolean>(props.private);
   const [name, setName] = useState<string>(props.packName);
 
-  const onCloseModalHandler = () => props.onCloseModal();
+  const onCloseModalHandler = () => {};
 
   const onEditPackHandler = () => {
-    props.onEditPackHandler(name, isPrivatePack);
+    props.editPackHandler(name, isPrivatePack);
   };
 
   const onChangePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {

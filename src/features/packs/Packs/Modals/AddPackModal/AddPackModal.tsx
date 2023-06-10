@@ -6,7 +6,6 @@ import style from "common/styles/Modal.module.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 type PropsType = {
-  closeModalHandler: () => void;
   addPackHandler: (name: string, isPrivatePack: boolean) => void;
 };
 
@@ -14,7 +13,7 @@ const AddPackModal: FC<PropsType> = (props) => {
   const [isPrivatePack, setIsPrivatePack] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
 
-  const closeModalHandler = () => props.closeModalHandler();
+  const closeModalHandler = () => {};
   const addPackHandler = () => props.addPackHandler(name, isPrivatePack);
 
   const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {

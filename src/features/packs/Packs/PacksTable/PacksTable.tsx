@@ -7,11 +7,11 @@ import { StyledTableCell } from "common/styles";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { paramsActions } from "features/params/paramsSlice";
+import { packsParamsActions } from "features/packsParams/packsParamsSlice";
 import SortingItem from "features/packs/Packs/PacksTable/SortingItem/SortingItem";
 import PacksTableRow from "features/packs/Packs/PacksTable/PacksTableRow/PacksTableRow";
 import { selectorCardPacks } from "features/packs/packsSelectors";
-import { selectorSortPacks } from "features/params/paramsSelectors";
+import { selectorSortPacks } from "features/packsParams/packsParamsSelectors";
 import { selectorUserId } from "features/auth/authSelectors";
 
 const PacksTable = () => {
@@ -22,7 +22,7 @@ const PacksTable = () => {
   const user_id = useAppSelector(selectorUserId);
 
   const onChangeSortHandler = (sortPacks: string) => {
-    dispatch(paramsActions.setSortPacks({ sortPacks }));
+    dispatch(packsParamsActions.setSortPacks({ sortPacks }));
   };
 
   return (

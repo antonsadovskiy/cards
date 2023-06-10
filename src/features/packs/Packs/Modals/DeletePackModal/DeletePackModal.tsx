@@ -5,13 +5,12 @@ import { cutTheString } from "common/utils";
 
 type PropsType = {
   packName: string;
-  onCloseModal: () => void;
-  onDeletePackHandler: () => void;
+  deletePackHandler: () => void;
 };
 
 const DeletePackModal: FC<PropsType> = (props) => {
-  const onCloseModalHandler = () => props.onCloseModal();
-  const onDeletePackHandler = () => props.onDeletePackHandler();
+  const onCloseModalHandler = () => {};
+  const onDeletePackHandler = () => props.deletePackHandler();
 
   return (
     <div className={style.modal}>

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type SortByType = "name" | "cardsCount" | "updated";
 
-export type QueryParamsType = {
+export type PacksQueryParamsType = {
   packName: string;
   min: number;
   max: number;
@@ -12,13 +12,16 @@ export type QueryParamsType = {
   user_id: string | null;
 };
 
-export type ParamsType = {
-  queryParams: QueryParamsType;
+export type PacksParamsType = {
+  queryParams: PacksQueryParamsType;
   isMyPacks: boolean;
   isResetRange: boolean;
+  closeAddModal: boolean;
+  closeEditModal: boolean;
+  closeDeleteModal: boolean;
 };
 
-const initialState: ParamsType = {
+const initialState: PacksParamsType = {
   queryParams: {
     page: 1,
     pageCount: 4,
@@ -30,10 +33,13 @@ const initialState: ParamsType = {
   },
   isMyPacks: false,
   isResetRange: false,
+  closeAddModal: false,
+  closeEditModal: false,
+  closeDeleteModal: false,
 };
 
 const slice = createSlice({
-  name: "params",
+  name: "packsParams",
   initialState,
   reducers: {
     clearFilters: (state) => {
@@ -75,8 +81,17 @@ const slice = createSlice({
     ) => {
       state.isResetRange = action.payload.isResetRange;
     },
+    setIsModalOpen: (
+      state,
+      action: PayloadAction<{
+        type: "closeAddModal" | "closeEditModal" | "closeDeleteModal";
+        close: boolean;
+      }>
+    ) => {
+      state[action.payload.type] = action.payload.close;
+    },
   },
 });
 
-export const paramsReducer = slice.reducer;
-export const paramsActions = slice.actions;
+export const packsParamsReducer = slice.reducer;
+export const packsParamsActions = slice.actions;

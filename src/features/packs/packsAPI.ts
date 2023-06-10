@@ -1,7 +1,7 @@
 import { instance } from "app/instance";
 
 export const packsAPI = {
-  getPacks: (data: QueryParamsType) => {
+  getPacks: (data: PacksQueryParamsType) => {
     return instance.get<GetPacksResponseType>("cards/pack", {
       params: { ...data },
     });
@@ -16,7 +16,7 @@ export const packsAPI = {
     return instance.put("cards/pack", data);
   },
 };
-type QueryParamsType = {
+type PacksQueryParamsType = {
   packName?: string;
   min?: number;
   max?: number;

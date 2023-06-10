@@ -1,0 +1,13 @@
+.disable {
+    pointer-events: none;
+    text-decoration: none;
+    color: black;
+}
+.disable a {
+    text-decoration: none;
+    color: black;
+}
+.packName a{
+    text-decoration: none;
+    color: black;
+}

@@ -2,40 +2,38 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Pagination from "@mui/material/Pagination";
 import Select from "@mui/material/Select";
-import React from "react";
-import style from "features/packs/Packs/Pagination/Pagination.module.css";
-import { useAppDispatch, useAppSelector } from "common/hooks";
-import { paramsActions } from "features/params/paramsSlice";
+import React, { FC } from "react";
+import style from "common/components/Pagination/Pagination.module.css";
+import { useAppSelector } from "common/hooks";
 import { selectorIsLoading } from "app/appSelectors";
-import {
-  selectorCardPacksTotalCount,
-  selectorPage,
-  selectorPageCount,
-} from "features/packs/packsSelectors";
 
-const MyPagination = () => {
-  const dispatch = useAppDispatch();
+type PropsType = {
+  page: number;
+  pageCount: number;
+  totalCount: number;
+  changePageHandler: (page: number) => void;
+  changePageCountHandler: (pageCount: number) => void;
+};
 
-  const page = useAppSelector(selectorPage);
-  const pageCount = useAppSelector(selectorPageCount);
-  const cardPacksTotalCount = useAppSelector(selectorCardPacksTotalCount);
+const MyPagination: FC<PropsType> = (props) => {
   const isLoading = useAppSelector(selectorIsLoading);
 
-  const lastPage = Math.ceil(cardPacksTotalCount / pageCount);
+  const lastPage = Math.ceil(props.totalCount / props.pageCount);
 
   const onChangePageHandler = (event: any, page: number) => {
-    dispatch(paramsActions.setPage({ page }));
+    props.changePageHandler(page);
   };
+
   const onChangePageCountHandler = (event: any) => {
     const pageCount = event.target.value;
-    dispatch(paramsActions.setPageCount({ pageCount }));
+    props.changePageCountHandler(pageCount);
   };
 
   return (
     <div className={style.pagination}>
       <Pagination
         color="primary"
-        page={page}
+        page={props.page}
         count={lastPage}
         disabled={isLoading}
         shape="rounded"
@@ -45,7 +43,7 @@ const MyPagination = () => {
       <FormControl sx={{ m: 1, minWidth: 50 }} size="small">
         <Select
           disabled={isLoading}
-          value={pageCount}
+          value={props.pageCount}
           onChange={onChangePageCountHandler}
         >
           <MenuItem value={20}>20</MenuItem>

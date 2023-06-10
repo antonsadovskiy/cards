@@ -19,7 +19,7 @@ import SetNewPassword from "features/auth/SetNewPassword/SetNewPassword";
 import Profile from "features/profile/Profile/Profile";
 import Page404 from "common/components/404/Page404";
 import PrivateRoutes from "common/components/PrivateRoutes/PrivateRoutes";
-import Pack from "features/packs/Packs/Pack/Pack";
+import CardsList from "features/cards/Cards/CardsList";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -36,7 +36,7 @@ const router = createHashRouter(
       <Route element={<PrivateRoutes />}>
         <Route path={"/profile"} element={<Profile />} />
         <Route path={"/packs"} element={<PacksList />} />
-        <Route path={"/packs/:id"} element={<Pack />} />
+        <Route path={"/packs/:id"} element={<CardsList />} />
       </Route>
     </Route>
   )
