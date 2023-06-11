@@ -1,13 +1,14 @@
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppDispatch } from "common/hooks";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDebounce } from "common/utils";
-import { selectorPackName } from "features/packsParams/packsParamsSelectors";
 
-export const useSearch = (onDebouncedHandler: (packName: string) => void) => {
+export const useSearch = (
+  onDebouncedHandler: (value: string) => void,
+  value: string
+) => {
   const dispatch = useAppDispatch();
-  const packName = useAppSelector(selectorPackName);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(value);
   const debouncedValue = useDebounce<string>(search, 700);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,8 +16,8 @@ export const useSearch = (onDebouncedHandler: (packName: string) => void) => {
   };
 
   useEffect(() => {
-    setSearch(packName);
-  }, [packName]);
+    setSearch(value);
+  }, [value]);
 
   useEffect(() => {
     onDebouncedHandler(debouncedValue);

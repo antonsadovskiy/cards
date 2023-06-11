@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import {
-  cardsParamsActions,
-  CardsQueryParamsType,
-} from "features/cardsParams/cardsParamsSlice";
+import { cardsParamsActions } from "features/cardsParams/cardsParamsSlice";
 import { cardsThunks } from "features/cards/cardsSlice";
 import style from "features/cards/Cards/CardsList.module.css";
 import IconButton from "@mui/material/IconButton";
@@ -17,29 +14,42 @@ import { selectorUserId } from "features/auth/authSelectors";
 import { selectorIsLoading } from "app/appSelectors";
 import MyPagination from "common/components/Pagination/Pagination";
 import CardsTable from "features/cards/Cards/CardsTable/CardsTable";
-import { CardType } from "features/cards/cardsAPI";
 import MoreButton from "features/cards/Cards/CardsTable/MoreButton/MoreButton";
+import { BasicModal } from "common/components/Modal/Modal";
+import AddCardModal from "features/cards/Cards/Modals/AddCardModal";
+import { useModalHandle } from "common/hooks/useModalHandle";
+import {
+  selectorCardQuestion,
+  selectorCardsPackId,
+  selectorCardsQueryParams,
+  selectorPage,
+  selectorPageCount,
+} from "features/cardsParams/cardsParamsSelectors";
+import {
+  selectorCards,
+  selectorCardsTotalCount,
+  selectorPackName,
+  selectorPackUserId,
+} from "features/cards/cardsSelectors";
 
 const CardsList = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
+  const { addCardHandler } = useModalHandle(params.id);
 
-  const cardsParams = useAppSelector<CardsQueryParamsType>(
-    (state) => state.cardsParams
-  );
-  const packName = useAppSelector((state) => state.cards.packName);
+  const cardsParams = useAppSelector(selectorCardsQueryParams);
+  const packName = useAppSelector(selectorPackName);
+  const cardsPack_id = useAppSelector(selectorCardsPackId);
   const userId = useAppSelector(selectorUserId);
-  const packUserId = useAppSelector((state) => state.cards.packUserId);
+  const packUserId = useAppSelector(selectorPackUserId);
   const isLoading = useAppSelector(selectorIsLoading);
-  const cards = useAppSelector<CardType[]>((state) => state.cards.cards);
+  const cards = useAppSelector(selectorCards);
+  const cardQuestion = useAppSelector(selectorCardQuestion);
+  const page = useAppSelector(selectorPage);
+  const pageCount = useAppSelector(selectorPageCount);
+  const cardsTotalCount = useAppSelector(selectorCardsTotalCount);
 
   const isMyPack = userId === packUserId;
-
-  const page = useAppSelector((state) => state.cardsParams.page);
-  const pageCount = useAppSelector((state) => state.cardsParams.pageCount);
-  const cardsTotalCount = useAppSelector(
-    (state) => state.cards.cardsTotalCount
-  );
 
   useEffect(() => {
     if (params.id) {
@@ -54,15 +64,9 @@ const CardsList = () => {
   const onDebouncedHandler = (cardQuestion: string) => {
     dispatch(cardsParamsActions.setSearch({ cardQuestion }));
   };
-  const addCardHandler = () => {
-    if (params.id) {
-      dispatch(cardsThunks.addCard({ card: { cardsPack_id: params.id } }));
-    }
-  };
   const learnToPackHandler = () => {
     console.log("LEARN");
   };
-
   const changePageHandler = (page: number) => {
     dispatch(cardsParamsActions.setPage({ page }));
   };
@@ -72,25 +76,24 @@ const CardsList = () => {
 
   return (
     <div className={style.cardsList}>
-      <NavLink to={"/packs"} className={style.returnBack}>
+      <NavLink
+        to={"/packs"}
+        className={isLoading ? style.disabled : style.returnBack}
+      >
         <IconButton>
           <KeyboardBackspaceIcon />
         </IconButton>
-        <p>Back to Packs List</p>
+        <p className={style.btnLabel}>Back to Packs List</p>
       </NavLink>
       <div className={style.title}>
         <div className={style.titleAndMore}>
           <Title title={packName} />
-          <MoreButton />
+          {isMyPack && <MoreButton packId={cardsPack_id} packName={packName} />}
         </div>
         {isMyPack ? (
-          <Button
-            variant={"contained"}
-            disabled={isLoading}
-            onClick={addCardHandler}
-          >
-            add new card
-          </Button>
+          <BasicModal type={"addCardModal"}>
+            <AddCardModal addCardHandler={addCardHandler} />
+          </BasicModal>
         ) : (
           <Button
             variant={"contained"}
@@ -101,7 +104,11 @@ const CardsList = () => {
           </Button>
         )}
       </div>
-      <Search onDebouncedHandler={onDebouncedHandler} fullWidth={true} />
+      <Search
+        value={cardQuestion}
+        onDebouncedHandler={onDebouncedHandler}
+        fullWidth={true}
+      />
       <Table ifNotFound={"cards"} entity={cards}>
         <CardsTable />
       </Table>

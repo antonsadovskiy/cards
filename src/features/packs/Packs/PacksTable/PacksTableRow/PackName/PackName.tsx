@@ -16,7 +16,7 @@ const PackName: FC<PropsType> = (props) => {
   return (
     <TableCell className={isLoading ? style.disable : style.packName}>
       <NavLink to={"/packs/" + props.packId}>
-        {cutTheString(props.name, 30)}
+        {cutTheString(props.name, 35)}
       </NavLink>
     </TableCell>
   );

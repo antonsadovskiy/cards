@@ -7,13 +7,17 @@ import { useSearch } from "features/packs/hooks";
 import { useLoading } from "common/hooks";
 
 type PropsType = {
-  onDebouncedHandler: (packName: string) => void;
+  value: string;
+  onDebouncedHandler: (value: string) => void;
   fullWidth?: boolean;
 };
 
 const Search: FC<PropsType> = (props) => {
   const isLoading = useLoading();
-  const { search, onChangeHandler } = useSearch(props.onDebouncedHandler);
+  const { search, onChangeHandler } = useSearch(
+    props.onDebouncedHandler,
+    props.value
+  );
 
   return (
     <div

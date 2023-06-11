@@ -33,7 +33,6 @@ export type GetPacksResponseType = {
   page: number;
   pageCount: number;
 };
-
 export type PackType = {
   cardsCount: number;
   created: string;
@@ -52,7 +51,6 @@ export type PackType = {
   __v: number;
   _id: string;
 };
-
 export type AddPackArgType = {
   cardsPack: {
     name?: string;
@@ -60,11 +58,9 @@ export type AddPackArgType = {
     private?: boolean;
   };
 };
-
 export type DeletePackArgType = {
   id: string;
 };
-
 export type UpdatePackArgType = {
   cardsPack: {
     _id: string;

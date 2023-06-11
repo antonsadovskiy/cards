@@ -4,7 +4,9 @@ import {
   AddCardArgType,
   cardsAPI,
   CardType,
+  DeleteCardArgType,
   GetCardsResponseType,
+  UpdateCardArgType,
 } from "features/cards/cardsAPI";
 import { CardsQueryParamsType } from "features/cardsParams/cardsParamsSlice";
 
@@ -71,13 +73,38 @@ const getCards = createAppAsyncThunk<
 const addCard = createAppAsyncThunk<void, AddCardArgType>(
   "cards/add",
   async (arg, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    const cardsParams = getState().cardsParams.queryParams;
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await cardsAPI.addCard(arg);
+      await cardsAPI.addCard(arg);
+      dispatch(cardsThunks.getCards(cardsParams));
+    });
+  }
+);
+const deleteCard = createAppAsyncThunk<void, DeleteCardArgType>(
+  "cards/delete",
+  async (arg, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    const cardsParams = getState().cardsParams.queryParams;
+    return thunkTryCatch(thunkAPI, async () => {
       debugger;
+      await cardsAPI.deleteCard(arg);
+      dispatch(cardsThunks.getCards(cardsParams));
+    });
+  }
+);
+const updateCard = createAppAsyncThunk<void, UpdateCardArgType>(
+  "cards/update",
+  async (arg, thunkAPI) => {
+    const { dispatch, getState } = thunkAPI;
+    const cardsParams = getState().cardsParams.queryParams;
+    return thunkTryCatch(thunkAPI, async () => {
+      await cardsAPI.updateCard(arg);
+      dispatch(cardsThunks.getCards(cardsParams));
     });
   }
 );
 
 export const cardsReducer = slice.reducer;
 export const cardsActions = slice.actions;
-export const cardsThunks = { getCards, addCard };
+export const cardsThunks = { getCards, addCard, deleteCard, updateCard };

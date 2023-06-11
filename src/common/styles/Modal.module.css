@@ -15,7 +15,14 @@
     flex-direction: column;
     gap: 20px;
 }
-
+.select {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.selectLabel {
+    color: gray;
+}
 .modal {
     display: flex;
     flex-direction: column;

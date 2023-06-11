@@ -8,6 +8,17 @@ import IconButton from "@mui/material/IconButton";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { packsParamsActions } from "features/packsParams/packsParamsSlice";
+import {
+  selectorCloseAddPackModal,
+  selectorCloseDeletePackModal,
+  selectorCloseEditPackModal,
+} from "features/packsParams/packsParamsSelectors";
+import { cardsParamsActions } from "features/cardsParams/cardsParamsSlice";
+import {
+  selectorCloseAddCardModal,
+  selectorCloseDeleteCardModal,
+  selectorCloseEditCardModal,
+} from "features/cardsParams/cardsParamsSelectors";
 
 export const style = {
   position: "absolute" as "absolute",
@@ -19,18 +30,24 @@ export const style = {
   boxShadow: 14,
 };
 
+type PackModalType = "addPackModal" | "deletePackModal" | "editPackModal";
+type CardModalType = "addCardModal" | "deleteCardModal" | "editCardModal";
+
 type PropsType = {
-  type: "addModal" | "deleteModal" | "editModal";
+  type: PackModalType | CardModalType;
   children: ReactNode;
 };
 
 export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
   const dispatch = useAppDispatch();
-  const addModal = useAppSelector((state) => state.packsParams.closeAddModal);
-  const editModal = useAppSelector((state) => state.packsParams.closeEditModal);
-  const deleteModal = useAppSelector(
-    (state) => state.packsParams.closeDeleteModal
-  );
+
+  const addPackModal = useAppSelector(selectorCloseAddPackModal);
+  const editPackModal = useAppSelector(selectorCloseEditPackModal);
+  const deletePackModal = useAppSelector(selectorCloseDeletePackModal);
+
+  const addCardModal = useAppSelector(selectorCloseAddCardModal);
+  const editCardModal = useAppSelector(selectorCloseEditCardModal);
+  const deleteCardModal = useAppSelector(selectorCloseDeleteCardModal);
 
   const isLoading = useAppSelector(selectorIsLoading);
 
@@ -38,8 +55,9 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // TODO I don't understand this shit the next day
   useEffect(() => {
-    if (addModal) {
+    if (addPackModal) {
       setOpen(false);
       dispatch(
         packsParamsActions.setIsModalOpen({
@@ -48,9 +66,9 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [addModal]);
+  }, [addPackModal]);
   useEffect(() => {
-    if (editModal) {
+    if (editPackModal) {
       setOpen(false);
       dispatch(
         packsParamsActions.setIsModalOpen({
@@ -59,9 +77,9 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [editModal]);
+  }, [editPackModal]);
   useEffect(() => {
-    if (deleteModal) {
+    if (deletePackModal) {
       setOpen(false);
       dispatch(
         packsParamsActions.setIsModalOpen({
@@ -70,14 +88,49 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [deleteModal]);
+  }, [deletePackModal]);
+
+  useEffect(() => {
+    if (addCardModal) {
+      setOpen(false);
+      dispatch(
+        cardsParamsActions.setIsModalOpen({
+          type: "closeAddModal",
+          close: false,
+        })
+      );
+    }
+  }, [addCardModal]);
+  useEffect(() => {
+    if (editCardModal) {
+      setOpen(false);
+      dispatch(
+        cardsParamsActions.setIsModalOpen({
+          type: "closeEditModal",
+          close: false,
+        })
+      );
+    }
+  }, [editCardModal]);
+  useEffect(() => {
+    if (deleteCardModal) {
+      setOpen(false);
+      dispatch(
+        cardsParamsActions.setIsModalOpen({
+          type: "closeDeleteModal",
+          close: false,
+        })
+      );
+    }
+  }, [deleteCardModal]);
 
   const modalBtnDeleteEditView = (
     <IconButton disabled={isLoading} onClick={handleOpen}>
-      {props.type === "editModal" && (
+      {(props.type === "editPackModal" || props.type === "editCardModal") && (
         <BorderColorIcon sx={{ width: "20px", height: "20px" }} />
       )}
-      {props.type === "deleteModal" && (
+      {(props.type === "deletePackModal" ||
+        props.type === "deleteCardModal") && (
         <DeleteIcon sx={{ width: "20px", height: "20px" }} />
       )}
     </IconButton>
@@ -85,14 +138,25 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
 
   return (
     <div>
-      {props.type === "addModal" && (
+      {/*packs buttons*/}
+      {props.type === "addPackModal" && (
         <Button variant={"contained"} disabled={isLoading} onClick={handleOpen}>
           Add new pack
         </Button>
       )}
-      {props.type === "editModal" && modalBtnDeleteEditView}
-      {props.type === "deleteModal" && modalBtnDeleteEditView}
+      {props.type === "editPackModal" && modalBtnDeleteEditView}
+      {props.type === "deletePackModal" && modalBtnDeleteEditView}
 
+      {/*cards buttons*/}
+      {props.type === "addCardModal" && (
+        <Button variant={"contained"} disabled={isLoading} onClick={handleOpen}>
+          Add new card
+        </Button>
+      )}
+      {props.type === "editCardModal" && modalBtnDeleteEditView}
+      {props.type === "deleteCardModal" && modalBtnDeleteEditView}
+
+      {/*common modal*/}
       <Modal id={props.type} open={open} onClose={handleClose}>
         <Box sx={style}>{children}</Box>
       </Modal>

@@ -1,22 +1,31 @@
-import React from "react";
-import IconButton from "@mui/material/IconButton";
+import React, { FC } from "react";
 import TableCell from "@mui/material/TableCell";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { useAppSelector } from "common/hooks";
-import { selectorIsLoading } from "app/appSelectors";
-import Delete from "@mui/icons-material/Delete";
+import { BasicModal } from "common/components/Modal/Modal";
+import EditCardModal from "features/cards/Cards/Modals/EditCardModal";
+import { useModalHandle } from "common/hooks/useModalHandle";
+import DeleteCardModal from "features/cards/Cards/Modals/DeleteCardModal";
 
-const Edit = () => {
-  const isLoading = useAppSelector(selectorIsLoading);
+type PropsType = {
+  cardId: string;
+  question: string;
+  answer: string;
+};
+
+const Edit: FC<PropsType> = (props) => {
+  const { editCardHandler, deleteCardHandler } = useModalHandle(props.cardId);
 
   return (
-    <TableCell>
-      <IconButton disabled={isLoading}>
-        <BorderColorIcon sx={{ width: "20px", height: "20px" }} />
-      </IconButton>
-      <IconButton>
-        <Delete sx={{ width: "20px", height: "20px" }} />
-      </IconButton>
+    <TableCell sx={{ display: "flex" }}>
+      <BasicModal type={"editCardModal"}>
+        <EditCardModal
+          editCardHandler={editCardHandler}
+          question={props.question}
+          answer={props.answer}
+        />
+      </BasicModal>
+      <BasicModal type={"deleteCardModal"}>
+        <DeleteCardModal deleteCardHandler={deleteCardHandler} />
+      </BasicModal>
     </TableCell>
   );
 };

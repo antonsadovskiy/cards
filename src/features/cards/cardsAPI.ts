@@ -9,6 +9,12 @@ export const cardsAPI = {
   addCard: (data: AddCardArgType) => {
     return instance.post("cards/card", data);
   },
+  deleteCard: (data: DeleteCardArgType) => {
+    return instance.delete(`cards/card?id=${data.id}`);
+  },
+  updateCard: (data: UpdateCardArgType) => {
+    return instance.put("cards/card", data);
+  },
 };
 
 type CardsQueryParamsType = {
@@ -48,13 +54,23 @@ export type GetCardsResponseType = {
 export type AddCardArgType = {
   card: {
     cardsPack_id: string;
-    question?: string;
-    answer?: string;
-    grade?: 0;
-    shots?: 0;
-    answerImg?: string;
-    questionImg?: string;
-    questionVideo?: string;
-    answerVideo?: string;
-  };
+  } & CommonCardType;
+};
+export type DeleteCardArgType = {
+  id: string;
+};
+export type UpdateCardArgType = {
+  card: {
+    _id: string;
+  } & CommonCardType;
+};
+export type CommonCardType = {
+  question?: string;
+  answer?: string;
+  grade?: 0;
+  shots?: 0;
+  answerImg?: string;
+  questionImg?: string;
+  questionVideo?: string;
+  answerVideo?: string;
 };

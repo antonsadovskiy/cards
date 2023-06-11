@@ -31,7 +31,7 @@ const PacksTable = () => {
         <TableHead>
           <TableRow>
             <SortingItem
-              width={"25%"}
+              width={"30%"}
               sort={sortPacks}
               value={"name"}
               label={"Name"}
@@ -45,7 +45,7 @@ const PacksTable = () => {
               onChange={onChangeSortHandler}
             />
             <SortingItem
-              width={"25%"}
+              width={"20%"}
               sort={sortPacks}
               value={"updated"}
               label={"Last Updated"}

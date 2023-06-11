@@ -2,7 +2,10 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { packsThunks } from "features/packs/packsSlice";
 import { useEffect } from "react";
 import { selectorIsLoggedIn } from "features/auth/authSelectors";
-import { selectorQueryParams } from "features/packsParams/packsParamsSelectors";
+import {
+  selectorPackName,
+  selectorPacksQueryParams,
+} from "features/packsParams/packsParamsSelectors";
 import { cardsParamsActions } from "features/cardsParams/cardsParamsSlice";
 import { packsParamsActions } from "features/packsParams/packsParamsSlice";
 import { cardsActions } from "features/cards/cardsSlice";
@@ -17,34 +20,18 @@ export const usePacks = () => {
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useAppSelector(selectorIsLoggedIn);
-  const packsParams = useAppSelector(selectorQueryParams);
+  const packsParams = useAppSelector(selectorPacksQueryParams);
   const page = useAppSelector(selectorPage);
   const pageCount = useAppSelector(selectorPageCount);
   const packsTotalCount = useAppSelector(selectorCardPacksTotalCount);
   const cardPacks = useAppSelector(selectorCardPacks);
+  const packName = useAppSelector(selectorPackName);
 
   const changePageHandler = (page: number) => {
     dispatch(packsParamsActions.setPage({ page }));
   };
   const changePageCountHandler = (pageCount: number) => {
     dispatch(packsParamsActions.setPageCount({ pageCount }));
-  };
-
-  const addPackHandler = (name: string, isPrivatePack: boolean) => {
-    dispatch(
-      packsThunks.addPack({
-        cardsPack: { name, private: isPrivatePack },
-      })
-    )
-      .unwrap()
-      .then(() => {
-        dispatch(
-          packsParamsActions.setIsModalOpen({
-            type: "closeAddModal",
-            close: true,
-          })
-        );
-      });
   };
 
   const onDebouncedHandler = (packName: string) => {
@@ -58,12 +45,12 @@ export const usePacks = () => {
   }, [dispatch, packsParams]);
 
   return {
+    packName,
     cardPacks,
     isLoggedIn,
     page,
     pageCount,
     packsTotalCount,
-    addPackHandler,
     onDebouncedHandler,
     changePageHandler,
     changePageCountHandler,

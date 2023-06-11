@@ -7,7 +7,7 @@ type PropsType = {
 };
 
 const Question: FC<PropsType> = (props) => {
-  return <TableCell>{cutTheString(props.question, 30)}</TableCell>;
+  return <TableCell>{cutTheString(props.question, 22)}</TableCell>;
 };
 
 export default Question;

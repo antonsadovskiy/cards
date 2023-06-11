@@ -1,31 +1,36 @@
 import React, { FC } from "react";
 import style from "common/styles/Modal.module.css";
 import Button from "@mui/material/Button";
-import { cutTheString } from "common/utils";
+import { useAppDispatch } from "common/hooks";
+import { cardsParamsActions } from "features/cardsParams/cardsParamsSlice";
 
 type PropsType = {
-  packName: string;
-  deletePackHandler: () => void;
+  deleteCardHandler: () => void;
 };
 
-const DeletePackModal: FC<PropsType> = (props) => {
-  const onCloseModalHandler = () => {};
-  const onDeletePackHandler = () => props.deletePackHandler();
+const DeleteCardModal: FC<PropsType> = (props) => {
+  const dispatch = useAppDispatch();
+
+  const onCloseModalHandler = () => {
+    dispatch(
+      cardsParamsActions.setIsModalOpen({
+        type: "closeDeleteModal",
+        close: true,
+      })
+    );
+  };
+  const deleteCardHandler = () => props.deleteCardHandler();
 
   return (
     <div className={style.modal}>
       <div className={style.titleContainer}>
         <div className={style.titleBlock}>
-          <p className={style.title}>Delete pack</p>
+          <p className={style.title}>Delete card</p>
         </div>
       </div>
       <div className={style.mainContainer}>
         <div>
-          <span>
-            Do you really want to remove{" "}
-            <b>{cutTheString(props.packName, 15)}</b>? All cards will be
-            deleted.
-          </span>
+          <span>Do you really want to remove this card?</span>
         </div>
         <div className={style.buttons}>
           <Button
@@ -37,7 +42,7 @@ const DeletePackModal: FC<PropsType> = (props) => {
           </Button>
           <Button
             className={style.button}
-            onClick={onDeletePackHandler}
+            onClick={deleteCardHandler}
             color={"error"}
             variant={"contained"}
           >
@@ -48,4 +53,4 @@ const DeletePackModal: FC<PropsType> = (props) => {
     </div>
   );
 };
-export default DeletePackModal;
+export default DeleteCardModal;

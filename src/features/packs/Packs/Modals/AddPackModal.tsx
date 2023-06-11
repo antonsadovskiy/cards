@@ -4,27 +4,32 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import style from "common/styles/Modal.module.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { packsParamsActions } from "features/packsParams/packsParamsSlice";
+import { useAppDispatch } from "common/hooks";
 
 type PropsType = {
-  packName: string;
-  private: boolean;
-  editPackHandler: (name: string, isPrivatePack: boolean) => void;
+  addPackHandler: (name: string, isPrivatePack: boolean) => void;
 };
 
-const EditPackModal: FC<PropsType> = (props) => {
-  const [isPrivatePack, setIsPrivatePack] = useState<boolean>(props.private);
-  const [name, setName] = useState<string>(props.packName);
+const AddPackModal: FC<PropsType> = (props) => {
+  const dispatch = useAppDispatch();
+  const [isPrivatePack, setIsPrivatePack] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
 
-  const onCloseModalHandler = () => {};
-
-  const onEditPackHandler = () => {
-    props.editPackHandler(name, isPrivatePack);
+  const closeModalHandler = () => {
+    dispatch(
+      packsParamsActions.setIsModalOpen({
+        type: "closeAddModal",
+        close: true,
+      })
+    );
   };
+  const addPackHandler = () => props.addPackHandler(name, isPrivatePack);
 
-  const onChangePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
   };
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeIsPrivateHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setIsPrivatePack(e.currentTarget.checked);
   };
 
@@ -32,38 +37,40 @@ const EditPackModal: FC<PropsType> = (props) => {
     <div className={style.modal}>
       <div className={style.titleContainer}>
         <div className={style.titleBlock}>
-          <p className={style.title}>Edit pack</p>
+          <p className={style.title}>Add new pack</p>
         </div>
       </div>
       <div className={style.mainContainer}>
         <TextField
           value={name}
           fullWidth
-          onChange={onChangePackNameHandler}
+          onChange={changePackNameHandler}
           variant={"standard"}
           label={"Name pack"}
-          autoFocus
         />
         <FormControlLabel
           control={
-            <Checkbox checked={isPrivatePack} onChange={onChangeHandler} />
+            <Checkbox
+              checked={isPrivatePack}
+              onChange={changeIsPrivateHandler}
+            />
           }
           label="Private pack"
         />
         <div className={style.buttons}>
           <Button
             className={style.button}
-            onClick={onCloseModalHandler}
+            onClick={closeModalHandler}
             variant={"outlined"}
           >
             Cancel
           </Button>
           <Button
             className={style.button}
-            onClick={onEditPackHandler}
+            onClick={addPackHandler}
             variant={"contained"}
           >
-            Save
+            Add
           </Button>
         </div>
       </div>
@@ -71,4 +78,4 @@ const EditPackModal: FC<PropsType> = (props) => {
   );
 };
 
-export default EditPackModal;
+export default AddPackModal;

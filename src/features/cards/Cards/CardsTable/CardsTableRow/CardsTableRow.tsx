@@ -22,7 +22,13 @@ const CardsTableRow: FC<PropsType> = (props) => {
       <Answer answer={props.answer} />
       <Updated updated={props.updated} />
       <Grade grade={props.grade} />
-      {props.isMyPack && <Edit />}
+      {props.isMyPack && (
+        <Edit
+          cardId={props.cardId}
+          question={props.question}
+          answer={props.answer}
+        />
+      )}
     </TableRow>
   );
 };

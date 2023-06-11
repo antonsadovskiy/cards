@@ -28,18 +28,6 @@ const SortingItem: FC<PropsType> = (props) => {
     props.onChange(changeSort(props.sort, down, up));
   };
 
-  const getIcon = () => {
-    switch (props.sort) {
-      case `0${props.value}`:
-        return <KeyboardArrowDownIcon />;
-      case `1${props.value}`:
-        return <KeyboardArrowUpIcon />;
-      case "":
-        return <UnfoldMoreIcon />;
-      default:
-        return <UnfoldMoreIcon />;
-    }
-  };
   return (
     <TableCell
       sx={{ backgroundColor: "#EFEFEF", fontWeight: "600" }}
@@ -48,7 +36,11 @@ const SortingItem: FC<PropsType> = (props) => {
       className={isLoading ? style.disable : style.item}
     >
       <span>{props.label}</span>
-      <IconButton>{getIcon()}</IconButton>
+      <IconButton>
+        {props.sort === `0${props.value}` && <KeyboardArrowDownIcon />}
+        {props.sort === `1${props.value}` && <KeyboardArrowUpIcon />}
+        {props.sort === "" && <UnfoldMoreIcon />}
+      </IconButton>
     </TableCell>
   );
 };

@@ -11,15 +11,27 @@ export type CardsQueryParamsType = {
   pageCount: number;
 };
 
-const initialState: CardsQueryParamsType = {
-  cardAnswer: "",
-  cardQuestion: "",
-  cardsPack_id: "",
-  min: 0,
-  max: 100,
-  sortCards: "",
-  page: 1,
-  pageCount: 4,
+export type CardsParamsType = {
+  queryParams: CardsQueryParamsType;
+  closeAddModal: boolean;
+  closeEditModal: boolean;
+  closeDeleteModal: boolean;
+};
+
+const initialState: CardsParamsType = {
+  queryParams: {
+    cardAnswer: "",
+    cardQuestion: "",
+    cardsPack_id: "",
+    min: 0,
+    max: 100,
+    sortCards: "",
+    page: 1,
+    pageCount: 4,
+  },
+  closeAddModal: false,
+  closeEditModal: false,
+  closeDeleteModal: false,
 };
 
 const slice = createSlice({
@@ -27,29 +39,39 @@ const slice = createSlice({
   initialState,
   reducers: {
     clearParams: (state) => {
-      state.cardsPack_id = "";
-      state.cardAnswer = "";
-      state.cardQuestion = "";
-      state.min = 0;
-      state.max = 100;
-      state.sortCards = "";
-      state.page = 1;
-      state.pageCount = 4;
+      state.queryParams.cardsPack_id = "";
+      state.queryParams.min = 0;
+      state.queryParams.max = 100;
+      state.queryParams.sortCards = "";
+      state.queryParams.page = 1;
+      state.queryParams.pageCount = 4;
     },
     setCardsPackId: (
       state,
       action: PayloadAction<{ cardsPack_id: string }>
     ) => {
-      state.cardsPack_id = action.payload.cardsPack_id;
+      state.queryParams.cardsPack_id = action.payload.cardsPack_id;
     },
     setPage: (state, action: PayloadAction<{ page: number }>) => {
-      state.page = action.payload.page;
+      state.queryParams.page = action.payload.page;
     },
     setPageCount: (state, action: PayloadAction<{ pageCount: number }>) => {
-      state.pageCount = action.payload.pageCount;
+      state.queryParams.pageCount = action.payload.pageCount;
     },
     setSearch: (state, action: PayloadAction<{ cardQuestion: string }>) => {
-      state.cardQuestion = action.payload.cardQuestion;
+      state.queryParams.cardQuestion = action.payload.cardQuestion;
+    },
+    setSortCards: (state, action: PayloadAction<{ sortCards: string }>) => {
+      state.queryParams.sortCards = action.payload.sortCards;
+    },
+    setIsModalOpen: (
+      state,
+      action: PayloadAction<{
+        type: "closeAddModal" | "closeEditModal" | "closeDeleteModal";
+        close: boolean;
+      }>
+    ) => {
+      state[action.payload.type] = action.payload.close;
     },
   },
 });
