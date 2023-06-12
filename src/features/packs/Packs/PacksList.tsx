@@ -30,9 +30,6 @@ const PacksList = () => {
 
   if (!isLoggedIn) return <Navigate to={"/login"} />;
 
-  // TODO fix pack delete, (it is successfully deleted when on CARDS page,
-  //  but when on PACKS page there is error)
-
   return (
     <div className={style.packs}>
       <div className={style.title}>

@@ -57,7 +57,10 @@ const MoreButton: FC<PropsType> = (props) => {
               <EditPackModal
                 private={false}
                 packName={props.packName}
-                editPackHandler={editPackHandler}
+                editPackHandler={(name, isPrivatePack) => {
+                  editPackHandler("cardsList", name, isPrivatePack);
+                  setAnchorEl(null);
+                }}
               />
             </BasicModal>
             <span>Edit</span>
@@ -66,7 +69,7 @@ const MoreButton: FC<PropsType> = (props) => {
             <BasicModal type={"deletePackModal"}>
               <DeletePackModal
                 packName={props.packName}
-                deletePackHandler={deletePackHandler}
+                deletePackHandler={() => deletePackHandler("cardList")}
               />
             </BasicModal>
             <span>Delete</span>

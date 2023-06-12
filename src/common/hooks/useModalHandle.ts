@@ -5,10 +5,15 @@ import { cardsThunks } from "features/cards/cardsSlice";
 import { cardsParamsActions } from "features/cardsParams/cardsParamsSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppSelector } from "common/hooks/useAppSelector";
+import { selectorPacksQueryParams } from "features/packsParams/packsParamsSelectors";
+import { selectorCardsQueryParams } from "features/cardsParams/cardsParamsSelectors";
 
 export const useModalHandle = (id: string = "") => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const packsParams = useAppSelector(selectorPacksQueryParams);
+  const cardsParams = useAppSelector(selectorCardsQueryParams);
 
   const addPackHandler = (name: string, isPrivatePack: boolean) => {
     dispatch(
@@ -27,7 +32,11 @@ export const useModalHandle = (id: string = "") => {
         toast.success("Pack successfully added");
       });
   };
-  const editPackHandler = (name: string, isPrivatePack: boolean) => {
+  const editPackHandler = (
+    from: "cardsList" | "packsList",
+    name: string,
+    isPrivatePack: boolean
+  ) => {
     dispatch(
       packsThunks.updatePack({
         cardsPack: { _id: id, name, private: isPrivatePack },
@@ -41,9 +50,12 @@ export const useModalHandle = (id: string = "") => {
             close: true,
           })
         );
+        from === "packsList"
+          ? dispatch(packsThunks.getPacks(packsParams))
+          : dispatch(cardsThunks.getCards(cardsParams));
       });
   };
-  const deletePackHandler = () => {
+  const deletePackHandler = (from: "cardList" | "packList") => {
     dispatch(packsThunks.deletePack({ id }))
       .unwrap()
       .then(() => {
@@ -54,7 +66,9 @@ export const useModalHandle = (id: string = "") => {
           })
         );
         toast.success("Pack successfully deleted");
-        navigate("/packs");
+        from === "packList"
+          ? dispatch(packsThunks.getPacks(packsParams))
+          : navigate("/packs");
       });
   };
   const addCardHandler = (question: string, answer: string) => {

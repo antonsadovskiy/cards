@@ -87,7 +87,6 @@ const deleteCard = createAppAsyncThunk<void, DeleteCardArgType>(
     const { dispatch, getState } = thunkAPI;
     const cardsParams = getState().cardsParams.queryParams;
     return thunkTryCatch(thunkAPI, async () => {
-      debugger;
       await cardsAPI.deleteCard(arg);
       dispatch(cardsThunks.getCards(cardsParams));
     });

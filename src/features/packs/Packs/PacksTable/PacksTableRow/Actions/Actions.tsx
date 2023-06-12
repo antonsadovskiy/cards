@@ -32,7 +32,9 @@ const Actions: FC<PropsType> = (props) => {
           <EditPackModal
             packName={props.name}
             private={props.private}
-            editPackHandler={editPackHandler}
+            editPackHandler={(name, isPrivatePack) =>
+              editPackHandler("packsList", name, isPrivatePack)
+            }
           />
         </BasicModal>
       )}
@@ -40,7 +42,7 @@ const Actions: FC<PropsType> = (props) => {
         <BasicModal type={"deletePackModal"}>
           <DeletePackModal
             packName={props.name}
-            deletePackHandler={deletePackHandler}
+            deletePackHandler={() => deletePackHandler("packList")}
           />
         </BasicModal>
       )}
