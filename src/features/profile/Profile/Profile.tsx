@@ -5,7 +5,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Title from "common/components/Title/Title";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import { ProfileType } from "features/auth/authAPI";
 import { userThunks } from "features/auth/authSlice";
 import { NavLink } from "react-router-dom";
 import EditableName from "features/profile/Profile/EditableName/EditableName";
@@ -14,6 +13,9 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import IconButton from "@mui/material/IconButton";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { selectorProfile } from "features/auth/authSelectors";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import Badge from "@mui/material/Badge";
+import Icon from "@mui/material/Icon";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -36,11 +38,23 @@ const Profile = () => {
       </NavLink>
       <div className={`${styleForm.form} ${style.profile}`}>
         <Title title={"Personal information"} />
-        <Avatar
-          alt={profile?.name}
-          src={profile?.avatar}
-          sx={{ width: 100, height: 100 }}
-        />
+        <Badge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          badgeContent={
+            <IconButton
+              style={{ borderRadius: "50px", backgroundColor: "lightgray" }}
+            >
+              <PhotoCameraIcon />
+            </IconButton>
+          }
+        >
+          <Avatar
+            alt={profile?.name}
+            src={profile?.avatar}
+            sx={{ width: 100, height: 100 }}
+          />
+        </Badge>
         <EditableName
           name={profile?.name ? profile.name : "no name"}
           updateUserHandler={updateUserHandler}

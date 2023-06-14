@@ -3,7 +3,6 @@ import "app/App.css";
 import {
   createHashRouter,
   createRoutesFromElements,
-  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -25,7 +24,6 @@ const router = createHashRouter(
   createRoutesFromElements(
     <Route path={"/"} element={<Layout />}>
       <Route path={"*"} element={<Page404 />} />
-      <Route path={"/"} element={<Navigate to={"/packs"} />} />
 
       <Route path={"/register"} element={<Register />} />
       <Route path={"/login"} element={<Login />} />
@@ -34,9 +32,9 @@ const router = createHashRouter(
       <Route path={"/set-new-password/:token"} element={<SetNewPassword />} />
 
       <Route element={<PrivateRoutes />}>
+        <Route path={"/packs/:id"} element={<CardsList />} />
         <Route path={"/profile"} element={<Profile />} />
         <Route path={"/packs"} element={<PacksList />} />
-        <Route path={"/packs/:id"} element={<CardsList />} />
       </Route>
     </Route>
   )
