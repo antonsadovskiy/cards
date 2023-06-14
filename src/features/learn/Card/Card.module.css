@@ -2,10 +2,11 @@
     max-width: 360px;
     width: 100%;
     padding: 30px;
-    box-shadow: 1px 2px 3px gray;
     display: flex;
     flex-direction: column;
-    gap: 40px
+    gap: 40px;
+    border: 1px solid lightgrey;
+    box-shadow: 1px 3px 10px lightgrey;
 }
 
 .questionAndAnswer {
