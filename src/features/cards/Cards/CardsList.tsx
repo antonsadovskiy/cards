@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { cardsParamsActions } from "features/cardsParams/cardsParamsSlice";
 import { cardsThunks } from "features/cards/cardsSlice";
@@ -34,6 +34,7 @@ import {
 
 const CardsList = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const params = useParams();
   const { addCardHandler } = useModalHandle(params.id);
 
@@ -55,18 +56,19 @@ const CardsList = () => {
     if (params.id) {
       dispatch(cardsParamsActions.setCardsPackId({ cardsPack_id: params.id }));
     }
-  }, []);
+  }, [dispatch, params.id]);
+
   useEffect(() => {
     if (cardsParams.cardsPack_id) {
       dispatch(cardsThunks.getCards(cardsParams));
     }
   }, [dispatch, cardsParams]);
+
   const onDebouncedHandler = (cardQuestion: string) => {
     dispatch(cardsParamsActions.setSearch({ cardQuestion }));
   };
-  const learnToPackHandler = () => {
-    console.log("LEARN");
-  };
+  const learnPackHandler = () => navigate("/learn/" + cardsPack_id);
+
   const changePageHandler = (page: number) => {
     dispatch(cardsParamsActions.setPage({ page }));
   };
@@ -98,7 +100,7 @@ const CardsList = () => {
           <Button
             variant={"contained"}
             disabled={isLoading}
-            onClick={learnToPackHandler}
+            onClick={learnPackHandler}
           >
             learn to pack
           </Button>

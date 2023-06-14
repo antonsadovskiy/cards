@@ -1,0 +1,36 @@
+.learnPack {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-direction: column;
+}
+.learnPackContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.disabled {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  width: fit-content;
+  pointer-events: none;
+}
+.returnBack {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  width: fit-content;
+}
+
+
+.btnLabel {
+  font-weight: 500;
+  margin: 0;
+}

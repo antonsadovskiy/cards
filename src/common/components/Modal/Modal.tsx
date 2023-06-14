@@ -66,7 +66,7 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [addPackModal]);
+  }, [dispatch, addPackModal]);
   useEffect(() => {
     if (editPackModal) {
       setOpen(false);
@@ -77,7 +77,7 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [editPackModal]);
+  }, [dispatch, editPackModal]);
   useEffect(() => {
     if (deletePackModal) {
       setOpen(false);
@@ -88,7 +88,7 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [deletePackModal]);
+  }, [dispatch, deletePackModal]);
 
   useEffect(() => {
     if (addCardModal) {
@@ -100,7 +100,7 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [addCardModal]);
+  }, [dispatch, addCardModal]);
   useEffect(() => {
     if (editCardModal) {
       setOpen(false);
@@ -111,7 +111,7 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [editCardModal]);
+  }, [dispatch, editCardModal]);
   useEffect(() => {
     if (deleteCardModal) {
       setOpen(false);
@@ -122,7 +122,7 @@ export const BasicModal: FC<PropsType> = ({ children, ...props }) => {
         })
       );
     }
-  }, [deleteCardModal]);
+  }, [dispatch, deleteCardModal]);
 
   const modalBtnDeleteEditView = (
     <IconButton disabled={isLoading} onClick={handleOpen}>

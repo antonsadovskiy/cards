@@ -1,21 +1,26 @@
 .profile {
-  gap: 20px;
-  align-items: center;
-  margin: 0px auto 80px auto;
-  height: 100%;
+    gap: 20px;
+    align-items: center;
+    margin: 0 auto 80px auto;
+    height: 100%;
 }
+
 .profile p {
-  margin: 0;
+    margin: 0;
 }
+
 .email {
-  color: gray;
+    color: gray;
 }
+
 .profilePage {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 80vh;
+    gap: 40px;
 }
+
 .returnBack {
     display: flex;
     align-items: center;
@@ -23,6 +28,7 @@
     color: black;
     width: fit-content;
 }
+
 .returnBack p {
     font-weight: 500;
 }

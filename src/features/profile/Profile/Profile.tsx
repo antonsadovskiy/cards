@@ -15,7 +15,6 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { selectorProfile } from "features/auth/authSelectors";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import Badge from "@mui/material/Badge";
-import Icon from "@mui/material/Icon";
 
 const Profile = () => {
   const dispatch = useAppDispatch();

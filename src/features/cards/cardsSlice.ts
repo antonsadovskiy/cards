@@ -3,12 +3,12 @@ import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 import {
   AddCardArgType,
   cardsAPI,
+  CardsQueryParamsType,
   CardType,
   DeleteCardArgType,
   GetCardsResponseType,
   UpdateCardArgType,
 } from "features/cards/cardsAPI";
-import { CardsQueryParamsType } from "features/cardsParams/cardsParamsSlice";
 
 export type CardsStateType = {
   cards: CardType[];

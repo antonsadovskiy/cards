@@ -39,7 +39,10 @@ const appSlice = createSlice({
         }
       )
       .addMatcher(
-        (action) => action.type.endsWith("/fulfilled"),
+        (action) => {
+          if (action.type === "user/me/fulfilled") return false;
+          return action.type.endsWith("/fulfilled");
+        },
         (state) => {
           state.isLoading = false;
         }

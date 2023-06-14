@@ -26,12 +26,9 @@ const Layout = () => {
       {isLoading && <LinearProgress />}
       <div className={styleContainer.container}>
         <div className={style.main}>
-          {!isAppInitialized && <Preloader />}
-          <div
-            className={style.content}
-            style={isAppInitialized ? {} : { display: "none" }}
-          >
-            <Outlet />
+          <div className={style.content}>
+            {!isAppInitialized && <Preloader />}
+            {isAppInitialized && <Outlet />}
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import DeletePackModal from "features/packs/Packs/Modals/DeletePackModal";
 import { useModalHandle } from "common/hooks/useModalHandle";
 import { useAppSelector } from "common/hooks";
 import { selectorIsLoading } from "app/appSelectors";
+import { useNavigate } from "react-router-dom";
 
 type PropsType = {
   packId: string;
@@ -19,6 +20,7 @@ type PropsType = {
 
 const MoreButton: FC<PropsType> = (props) => {
   const isLoading = useAppSelector(selectorIsLoading);
+  const navigate = useNavigate();
   const { editPackHandler, deletePackHandler } = useModalHandle(props.packId);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -31,6 +33,10 @@ const MoreButton: FC<PropsType> = (props) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const learnPackHandler = () => {
+    navigate("/learn/" + props.packId);
   };
 
   return (
@@ -74,12 +80,7 @@ const MoreButton: FC<PropsType> = (props) => {
             </BasicModal>
             <span>Delete</span>
           </div>
-          <div
-            className={style.btn}
-            onClick={() => {
-              alert("learn");
-            }}
-          >
+          <div className={style.btn} onClick={learnPackHandler}>
             <IconButton>
               <SchoolIcon sx={{ width: "20px", height: "20px" }} />
             </IconButton>

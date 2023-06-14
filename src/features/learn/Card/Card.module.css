@@ -1,0 +1,21 @@
+.card {
+    max-width: 360px;
+    width: 100%;
+    padding: 30px;
+    box-shadow: 1px 2px 3px gray;
+    display: flex;
+    flex-direction: column;
+    gap: 40px
+}
+
+.questionAndAnswer {
+    font-weight: 400;
+    margin: 0;
+    font-size: 18px;
+}
+
+.answer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}

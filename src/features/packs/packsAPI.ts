@@ -16,7 +16,7 @@ export const packsAPI = {
     return instance.put("cards/pack", data);
   },
 };
-type PacksQueryParamsType = {
+export type PacksQueryParamsType = {
   packName?: string;
   min?: number;
   max?: number;

@@ -8,6 +8,7 @@ import { useAppSelector } from "common/hooks";
 import DeletePackModal from "features/packs/Packs/Modals/DeletePackModal";
 import { selectorIsLoading } from "app/appSelectors";
 import { useModalHandle } from "common/hooks/useModalHandle";
+import { useNavigate } from "react-router-dom";
 
 type PropsType = {
   packId: string;
@@ -19,12 +20,19 @@ type PropsType = {
 };
 
 const Actions: FC<PropsType> = (props) => {
+  const navigate = useNavigate();
+
   const isLoading = useAppSelector(selectorIsLoading);
+
   const { editPackHandler, deletePackHandler } = useModalHandle(props.packId);
+  const learnPackHandler = () => navigate("/learn/" + props.packId);
 
   return (
     <TableCell style={{ display: "flex" }} height={"auto"}>
-      <IconButton disabled={props.cardsCount === 0 || isLoading}>
+      <IconButton
+        disabled={props.cardsCount === 0 || isLoading}
+        onClick={learnPackHandler}
+      >
         <SchoolIcon sx={{ width: "20px", height: "20px" }} />
       </IconButton>
       {props.packs_user_id === props.user_id && (

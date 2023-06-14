@@ -3,6 +3,7 @@ import "app/App.css";
 import {
   createHashRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -19,11 +20,13 @@ import Profile from "features/profile/Profile/Profile";
 import Page404 from "common/components/404/Page404";
 import PrivateRoutes from "common/components/PrivateRoutes/PrivateRoutes";
 import CardsList from "features/cards/Cards/CardsList";
+import LearnPack from "features/learn/LearnPack/LearnPack";
 
 const router = createHashRouter(
   createRoutesFromElements(
     <Route path={"/"} element={<Layout />}>
       <Route path={"*"} element={<Page404 />} />
+      <Route path={"/"} element={<Navigate to={"/packs"} />} />
 
       <Route path={"/register"} element={<Register />} />
       <Route path={"/login"} element={<Login />} />
@@ -33,8 +36,9 @@ const router = createHashRouter(
 
       <Route element={<PrivateRoutes />}>
         <Route path={"/packs/:id"} element={<CardsList />} />
-        <Route path={"/profile"} element={<Profile />} />
+        <Route path={"/learn/:id"} element={<LearnPack />} />
         <Route path={"/packs"} element={<PacksList />} />
+        <Route path={"/profile"} element={<Profile />} />
       </Route>
     </Route>
   )

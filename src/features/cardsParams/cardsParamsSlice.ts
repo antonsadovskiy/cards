@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type CardsQueryParamsType = {
+  cardsPack_id: string;
   cardAnswer: string;
   cardQuestion: string;
-  cardsPack_id: string;
   min: number;
   max: number;
   sortCards: string;

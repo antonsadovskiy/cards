@@ -6,6 +6,7 @@ import { packsReducer } from "features/packs/packsSlice";
 import { cardsReducer } from "features/cards/cardsSlice";
 import { packsParamsReducer } from "features/packsParams/packsParamsSlice";
 import { cardsParamsReducer } from "features/cardsParams/cardsParamsSlice";
+import { learnReducer } from "features/learn/learnSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     cards: cardsReducer,
     packsParams: packsParamsReducer,
     cardsParams: cardsParamsReducer,
+    learn: learnReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
