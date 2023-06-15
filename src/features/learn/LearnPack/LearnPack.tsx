@@ -5,14 +5,18 @@ import style from "./LearnPack.module.css";
 import IconButton from "@mui/material/IconButton";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { selectorIsLoading } from "app/appSelectors";
-import { selectorCards, selectorPackName } from "features/cards/cardsSelectors";
+import { selectorPackName } from "features/cards/cardsSelectors";
 import { cardsThunks } from "features/cards/cardsSlice";
 import Title from "common/components/Title/Title";
 import Card from "features/learn/Card/Card";
 import { learnActions } from "features/learn/learnSlice";
 import { getCard } from "common/utils";
 import Preloader from "common/components/Preloader/Preloader";
-import { selectorCurrentCard } from "features/learn/learnSelectors";
+import {
+  selectorCardsToLearn,
+  selectorCurrentCard,
+} from "features/learn/learnSelectors";
+import { GradeType } from "features/cards/cardsAPI";
 
 const LearnPack = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +24,7 @@ const LearnPack = () => {
 
   const isLoading = useAppSelector(selectorIsLoading);
   const packName = useAppSelector(selectorPackName);
-  const cards = useAppSelector(selectorCards);
+  const cards = useAppSelector(selectorCardsToLearn);
   const currentCard = useAppSelector(selectorCurrentCard);
 
   useEffect(() => {
@@ -30,13 +34,11 @@ const LearnPack = () => {
   }, [dispatch, params.id]);
 
   useEffect(() => {
-    const card = getCard(cards);
-    dispatch(learnActions.changeCurrentCard({ card }));
+    dispatch(learnActions.changeCurrentCard({ card: getCard(cards) }));
   }, [dispatch, cards]);
 
-  const showNextCardHandler = () => {
-    const card = getCard(cards);
-    dispatch(learnActions.changeCurrentCard({ card }));
+  const showNextCardHandler = (cardId: string, grade: GradeType) => {
+    dispatch(cardsThunks.updateCardGrade({ card_id: cardId, grade }));
   };
 
   return (

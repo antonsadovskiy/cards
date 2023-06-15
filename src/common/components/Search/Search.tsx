@@ -4,7 +4,8 @@ import style from "common/components/Search/Search.module.css";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSearch } from "features/packs/hooks";
-import { useLoading } from "common/hooks";
+import { useAppSelector } from "common/hooks";
+import { selectorIsLoading } from "app/appSelectors";
 
 type PropsType = {
   value: string;
@@ -13,7 +14,7 @@ type PropsType = {
 };
 
 const Search: FC<PropsType> = (props) => {
-  const isLoading = useLoading();
+  const isLoading = useAppSelector(selectorIsLoading);
   const { search, onChangeHandler } = useSearch(
     props.onDebouncedHandler,
     props.value

@@ -3,10 +3,11 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import style from "features/packs/Packs/ShowPacksCards/ShowPacksCards.module.css";
 import { useShowPacksCards } from "features/packs/hooks";
-import { useLoading } from "common/hooks";
+import { useAppSelector } from "common/hooks";
+import { selectorIsLoading } from "app/appSelectors";
 
 const ShowPacksCards = () => {
-  const isLoading = useLoading();
+  const isLoading = useAppSelector(selectorIsLoading);
   const { isMyPacks, setAllPacks, setMyPacks } = useShowPacksCards();
 
   return (

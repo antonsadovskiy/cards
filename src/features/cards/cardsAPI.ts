@@ -15,6 +15,9 @@ export const cardsAPI = {
   updateCard: (data: UpdateCardArgType) => {
     return instance.put("cards/card", data);
   },
+  updateCardGrade: (data: UpdateCardGradeArgType) => {
+    return instance.put<UpdateCardGradeResponseType>("cards/grade", data);
+  },
 };
 
 export type CardsQueryParamsType = {
@@ -28,6 +31,21 @@ export type CardsQueryParamsType = {
   pageCount?: number;
 };
 
+export type GradeType = 1 | 2 | 3 | 4 | 5;
+export type UpdateCardGradeArgType = {
+  grade: GradeType;
+  card_id: string;
+};
+export type UpdateCardGradeResponseType = {
+  updatedGrade: {
+    _id: string;
+    cardsPack_id: string;
+    card_id: string;
+    user_id: string;
+    grade: number;
+    shots: number;
+  };
+};
 export type CardType = {
   answer: string;
   question: string;

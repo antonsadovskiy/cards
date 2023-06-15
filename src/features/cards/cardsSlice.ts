@@ -8,7 +8,9 @@ import {
   DeleteCardArgType,
   GetCardsResponseType,
   UpdateCardArgType,
+  UpdateCardGradeArgType,
 } from "features/cards/cardsAPI";
+import { learnActions } from "features/learn/learnSlice";
 
 export type CardsStateType = {
   cards: CardType[];
@@ -103,7 +105,23 @@ const updateCard = createAppAsyncThunk<void, UpdateCardArgType>(
     });
   }
 );
+const updateCardGrade = createAppAsyncThunk<void, UpdateCardGradeArgType>(
+  "cards/updateGrade",
+  async (arg, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await cardsAPI.updateCardGrade(arg);
+      dispatch(learnActions.updateCard({ cardData: res.data }));
+    });
+  }
+);
 
 export const cardsReducer = slice.reducer;
 export const cardsActions = slice.actions;
-export const cardsThunks = { getCards, addCard, deleteCard, updateCard };
+export const cardsThunks = {
+  getCards,
+  addCard,
+  deleteCard,
+  updateCard,
+  updateCardGrade,
+};
