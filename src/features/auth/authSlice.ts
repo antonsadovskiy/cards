@@ -69,7 +69,7 @@ const register = createAppAsyncThunk<void, ArgRegisterType>(
   "user/register",
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.register(arg);
+      await authAPI.register(arg);
     });
   }
 );
@@ -89,7 +89,7 @@ const logout = createAppAsyncThunk<{ profile: null }>(
   async (arg, thunkAPI) => {
     const { dispatch } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.logout();
+      await authAPI.logout();
       dispatch(userActions.setIsLoggedIn({ isLoggedIn: false }));
       return { profile: null };
     });
@@ -105,7 +105,7 @@ const forgot = createAppAsyncThunk<void, ForgotPasswordType>(
       from: arg.from,
     };
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.forgot(payload);
+      await authAPI.forgot(payload);
       dispatch(userActions.setTempEmail({ tempEmail: arg.email }));
     });
   }
@@ -114,8 +114,7 @@ const setNewPassword = createAppAsyncThunk<void, SetNewPasswordType>(
   "user/set-new-password",
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
-      const res = await authAPI.setNewPassword(arg);
-      console.log(res);
+      await authAPI.setNewPassword(arg);
     });
   }
 );
@@ -140,3 +139,13 @@ export const userThunks = {
   setNewPassword,
   updateMe,
 };
+//
+// export const authSlice = createApi({
+//   reducerPath: "auth",
+//   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL, credentials: "include" }),
+//   endpoints: (build) => {
+//     return {
+//       me: build.query(),
+//     };
+//   },
+// });

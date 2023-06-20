@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { selectorProfile } from "features/auth/authSelectors";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import Badge from "@mui/material/Badge";
+import TextField from "@mui/material/TextField";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -42,9 +43,16 @@ const Profile = () => {
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           badgeContent={
             <IconButton
-              style={{ borderRadius: "50px", backgroundColor: "lightgray" }}
+              style={{
+                borderRadius: "50px",
+                border: "2px solid white",
+                backgroundColor: "lightgray",
+              }}
             >
               <PhotoCameraIcon />
+              <TextField type={"file"} />
+
+              {/*<input type="file" />*/}
             </IconButton>
           }
         >
@@ -60,7 +68,7 @@ const Profile = () => {
         />
         <p className={style.email}>{profile?.email}</p>
         <Button
-          style={{ boxShadow: "1px 2px 4px gray" }}
+          className={style.logoutBtn}
           startIcon={<LogoutIcon />}
           variant={"outlined"}
           onClick={logoutHandler}
