@@ -29,33 +29,35 @@ const Actions: FC<PropsType> = (props) => {
   const learnPackHandler = () => navigate("/learn/" + props.packId);
 
   return (
-    <TableCell style={{ display: "flex" }}>
-      <IconButton
-        disabled={props.cardsCount === 0 || isLoading}
-        onClick={learnPackHandler}
-      >
-        <SchoolIcon sx={{ width: "20px", height: "20px" }} />
-      </IconButton>
-      {props.packs_user_id === props.user_id && (
-        <BasicModal type={"editPackModal"}>
-          <EditPackModal
-            packName={props.name}
-            private={props.private}
-            deckCover={props.deckCover}
-            editPackHandler={(name, isPrivatePack, deckCover) =>
-              editPackHandler("packsList", name, isPrivatePack, deckCover)
-            }
-          />
-        </BasicModal>
-      )}
-      {props.packs_user_id === props.user_id && (
-        <BasicModal type={"deletePackModal"}>
-          <DeletePackModal
-            packName={props.name}
-            deletePackHandler={() => deletePackHandler("packList")}
-          />
-        </BasicModal>
-      )}
+    <TableCell>
+      <div style={{ display: "flex" }}>
+        <IconButton
+          disabled={props.cardsCount === 0 || isLoading}
+          onClick={learnPackHandler}
+        >
+          <SchoolIcon sx={{ width: "20px", height: "20px" }} />
+        </IconButton>
+        {props.packs_user_id === props.user_id && (
+          <BasicModal type={"editPackModal"}>
+            <EditPackModal
+              packName={props.name}
+              private={props.private}
+              deckCover={props.deckCover}
+              editPackHandler={(name, isPrivatePack, deckCover) =>
+                editPackHandler("packsList", name, isPrivatePack, deckCover)
+              }
+            />
+          </BasicModal>
+        )}
+        {props.packs_user_id === props.user_id && (
+          <BasicModal type={"deletePackModal"}>
+            <DeletePackModal
+              packName={props.name}
+              deletePackHandler={() => deletePackHandler("packList")}
+            />
+          </BasicModal>
+        )}
+      </div>
     </TableCell>
   );
 };

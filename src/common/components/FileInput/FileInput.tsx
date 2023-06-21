@@ -11,12 +11,13 @@ const FileInput: FC<PropsType> = (props) => {
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0];
-
       convertFileToBase64(file, (file64) => {
         props.changeFileHandler(file64);
       });
     }
   };
+
+  const onErrorHandler = () => alert("Такая картинка не подходит");
 
   return (
     <IconButton
@@ -32,6 +33,7 @@ const FileInput: FC<PropsType> = (props) => {
         type="file"
         style={{ display: "none" }}
         accept={"image/*"}
+        onError={onErrorHandler}
         onChange={uploadHandler}
       />
     </IconButton>

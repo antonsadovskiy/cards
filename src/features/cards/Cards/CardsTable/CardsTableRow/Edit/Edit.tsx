@@ -16,18 +16,20 @@ const Edit: FC<PropsType> = (props) => {
   const { editCardHandler, deleteCardHandler } = useModalHandle(props.cardId);
 
   return (
-    <TableCell sx={{ display: "flex" }}>
-      <BasicModal type={"editCardModal"}>
-        <EditCardModal
-          question={props.question}
-          answer={props.answer}
-          questionImg={props.questionImg}
-          editCardHandler={editCardHandler}
-        />
-      </BasicModal>
-      <BasicModal type={"deleteCardModal"}>
-        <DeleteCardModal deleteCardHandler={deleteCardHandler} />
-      </BasicModal>
+    <TableCell>
+      <div style={{ display: "flex" }}>
+        <BasicModal type={"editCardModal"}>
+          <EditCardModal
+            question={props.question}
+            answer={props.answer}
+            questionImg={props.questionImg}
+            editCardHandler={editCardHandler}
+          />
+        </BasicModal>
+        <BasicModal type={"deleteCardModal"}>
+          <DeleteCardModal deleteCardHandler={deleteCardHandler} />
+        </BasicModal>
+      </div>
     </TableCell>
   );
 };
