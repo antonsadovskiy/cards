@@ -139,13 +139,3 @@ export const userThunks = {
   setNewPassword,
   updateMe,
 };
-//
-// export const authSlice = createApi({
-//   reducerPath: "auth",
-//   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL, credentials: "include" }),
-//   endpoints: (build) => {
-//     return {
-//       me: build.query(),
-//     };
-//   },
-// });

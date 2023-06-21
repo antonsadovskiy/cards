@@ -15,6 +15,7 @@ import { learnActions } from "features/learn/learnSlice";
 export type CardsStateType = {
   cards: CardType[];
   packName: string;
+  packDeckCover: string;
   cardsTotalCount: number;
   maxGrade: number;
   minGrade: number;
@@ -26,6 +27,7 @@ export type CardsStateType = {
 const initialState: CardsStateType = {
   cards: [],
   packName: "",
+  packDeckCover: "",
   cardsTotalCount: 0,
   maxGrade: 5,
   minGrade: 0,
@@ -59,6 +61,7 @@ const slice = createSlice({
       state.pageCount = action.payload.cardsData.pageCount;
       state.packUserId = action.payload.cardsData.packUserId;
       state.packName = action.payload.cardsData.packName;
+      state.packDeckCover = action.payload.cardsData.packDeckCover;
     });
   },
 });

@@ -6,17 +6,27 @@ import style from "common/styles/Modal.module.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { packsParamsActions } from "features/packsParams/packsParamsSlice";
 import { useAppDispatch } from "common/hooks";
+import FileInput from "common/components/FileInput/FileInput";
+import UploadIcon from "@mui/icons-material/Upload";
+import imageStyle from "common/styles/ImageInModal.module.css";
+import emptyImage from "assets/images/empty-image.png";
 
 type PropsType = {
   packName: string;
+  deckCover: string;
   private: boolean;
-  editPackHandler: (name: string, isPrivatePack: boolean) => void;
+  editPackHandler: (
+    name: string,
+    isPrivatePack: boolean,
+    deckCover: string
+  ) => void;
 };
 
 const EditPackModal: FC<PropsType> = (props) => {
   const dispatch = useAppDispatch();
   const [isPrivatePack, setIsPrivatePack] = useState<boolean>(props.private);
   const [name, setName] = useState<string>(props.packName);
+  const [deckCover, setDeckCover] = useState<string>(props.deckCover);
 
   const closeModalHandler = () => {
     dispatch(
@@ -27,8 +37,10 @@ const EditPackModal: FC<PropsType> = (props) => {
     );
   };
   const editPackHandler = () => {
-    props.editPackHandler(name, isPrivatePack);
+    props.editPackHandler(name, isPrivatePack, deckCover);
   };
+
+  const changeCoverHandler = (cover: string) => setDeckCover(cover);
 
   const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
@@ -53,6 +65,19 @@ const EditPackModal: FC<PropsType> = (props) => {
           label={"Name pack"}
           autoFocus
         />
+        <div className={style.imgAndBtn}>
+          <img
+            src={deckCover ? deckCover : emptyImage}
+            className={imageStyle.image}
+            alt={"cover"}
+          />
+          <FileInput changeFileHandler={changeCoverHandler}>
+            <>
+              <UploadIcon />
+              <span className={style.btnStyle}>change deck cover</span>
+            </>
+          </FileInput>
+        </div>
         <FormControlLabel
           control={
             <Checkbox checked={isPrivatePack} onChange={changePrivateHandler} />

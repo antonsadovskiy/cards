@@ -15,10 +15,14 @@ export const useModalHandle = (id: string = "") => {
   const packsParams = useAppSelector(selectorPacksQueryParams);
   const cardsParams = useAppSelector(selectorCardsQueryParams);
 
-  const addPackHandler = (name: string, isPrivatePack: boolean) => {
+  const addPackHandler = (
+    name: string,
+    isPrivatePack: boolean,
+    deckCover?: string
+  ) => {
     dispatch(
       packsThunks.addPack({
-        cardsPack: { name, private: isPrivatePack },
+        cardsPack: { name, private: isPrivatePack, deckCover },
       })
     )
       .unwrap()
@@ -35,11 +39,12 @@ export const useModalHandle = (id: string = "") => {
   const editPackHandler = (
     from: "cardsList" | "packsList",
     name: string,
-    isPrivatePack: boolean
+    isPrivatePack: boolean,
+    deckCover: string
   ) => {
     dispatch(
       packsThunks.updatePack({
-        cardsPack: { _id: id, name, private: isPrivatePack },
+        cardsPack: { _id: id, name, private: isPrivatePack, deckCover },
       })
     )
       .unwrap()
@@ -71,11 +76,20 @@ export const useModalHandle = (id: string = "") => {
           : navigate("/packs");
       });
   };
-  const addCardHandler = (question: string, answer: string) => {
+  const addCardHandler = (
+    question: string,
+    answer: string,
+    questionImg: string
+  ) => {
     if (id) {
       dispatch(
         cardsThunks.addCard({
-          card: { cardsPack_id: id, question, answer },
+          card: {
+            cardsPack_id: id,
+            question,
+            questionImg,
+            answer,
+          },
         })
       )
         .unwrap()
@@ -90,13 +104,18 @@ export const useModalHandle = (id: string = "") => {
         });
     }
   };
-  const editCardHandler = (question: string, answer: string) => {
+  const editCardHandler = (
+    question: string,
+    answer: string,
+    questionImg: string
+  ) => {
     dispatch(
       cardsThunks.updateCard({
         card: {
           _id: id,
           question,
           answer,
+          questionImg,
         },
       })
     )

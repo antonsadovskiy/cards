@@ -57,6 +57,8 @@ const CardsTable = () => {
                 cardId={card._id}
                 question={card.question}
                 answer={card.answer}
+                questionImg={card.questionImg}
+                answerImg={card.answerImg}
                 updated={card.updated}
                 grade={card.grade}
                 isMyPack={isMyPack}

@@ -28,6 +28,7 @@ import {
 import {
   selectorCards,
   selectorCardsTotalCount,
+  selectorPackDeckCover,
   selectorPackName,
   selectorPackUserId,
 } from "features/cards/cardsSelectors";
@@ -40,6 +41,7 @@ const CardsList = () => {
 
   const cardsParams = useAppSelector(selectorCardsQueryParams);
   const packName = useAppSelector(selectorPackName);
+  const packDeckCover = useAppSelector(selectorPackDeckCover);
   const cardsPack_id = useAppSelector(selectorCardsPackId);
   const userId = useAppSelector(selectorUserId);
   const packUserId = useAppSelector(selectorPackUserId);
@@ -90,7 +92,13 @@ const CardsList = () => {
       <div className={style.title}>
         <div className={style.titleAndMore}>
           <Title title={packName} />
-          {isMyPack && <MoreButton packId={cardsPack_id} packName={packName} />}
+          {isMyPack && (
+            <MoreButton
+              packId={cardsPack_id}
+              packName={packName}
+              packDeckCover={packDeckCover}
+            />
+          )}
         </div>
         {isMyPack ? (
           <BasicModal type={"addCardModal"}>
@@ -99,7 +107,7 @@ const CardsList = () => {
         ) : (
           <Button
             variant={"contained"}
-            disabled={isLoading}
+            disabled={isLoading || cards.length === 0}
             onClick={learnPackHandler}
           >
             learn to pack

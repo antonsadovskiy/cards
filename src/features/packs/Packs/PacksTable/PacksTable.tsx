@@ -45,20 +45,21 @@ const PacksTable = () => {
               onChange={onChangeSortHandler}
             />
             <SortingItem
-              width={"20%"}
+              width={"15%"}
               sort={sortPacks}
               value={"updated"}
               label={"Last Updated"}
               onChange={onChangeSortHandler}
             />
-            <StyledTableCell width={"20%"}>Created by</StyledTableCell>
-            <StyledTableCell width={"15%"}>Actions</StyledTableCell>
+            <StyledTableCell width={"15%"}>Created by</StyledTableCell>
+            <StyledTableCell width={"12%"}>Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {cardPacks.map((cardPack) => (
             <PacksTableRow
               key={cardPack._id}
+              deckCover={cardPack.deckCover}
               packId={cardPack._id}
               name={cardPack.name}
               private={cardPack.private}

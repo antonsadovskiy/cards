@@ -65,6 +65,7 @@ export type UpdatePackArgType = {
   cardsPack: {
     _id: string;
     name?: string;
+    deckCover?: string;
     private?: boolean;
   };
 };

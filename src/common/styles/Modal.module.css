@@ -9,20 +9,37 @@
     border-bottom: 1px solid lightgray;
 }
 
+.imgAndBtn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btnStyle {
+    font-size: 16px;
+}
+
 .mainContainer {
     padding: 0 24px 24px 24px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
+
+.uploadCover {
+    display: contents;
+}
+
 .select {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
+
 .selectLabel {
     color: gray;
 }
+
 .modal {
     display: flex;
     flex-direction: column;

@@ -8,6 +8,7 @@ import CreatedBy from "features/packs/Packs/PacksTable/PacksTableRow/CreatedBy/C
 
 type PropsType = {
   packId: string;
+  deckCover: string;
   name: string;
   private: boolean;
   cardsCount: number;
@@ -20,13 +21,18 @@ type PropsType = {
 const PacksTableRow: FC<PropsType> = (props) => {
   return (
     <TableRow>
-      <PackName name={props.name} packId={props.packId} />
+      <PackName
+        name={props.name}
+        packId={props.packId}
+        deckCover={props.deckCover}
+      />
       <CardsCount cardsCount={props.cardsCount} />
       <Updated updated={props.updated} />
       <CreatedBy user_name={props.user_name} />
       <Actions
         packId={props.packId}
         name={props.name}
+        deckCover={props.deckCover}
         private={props.private}
         cardsCount={props.cardsCount}
         user_id={props.user_id}

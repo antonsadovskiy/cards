@@ -13,9 +13,9 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import IconButton from "@mui/material/IconButton";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { selectorProfile } from "features/auth/authSelectors";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import Badge from "@mui/material/Badge";
-import TextField from "@mui/material/TextField";
+import FileInput from "common/components/FileInput/FileInput";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -27,6 +27,8 @@ const Profile = () => {
   };
 
   const logoutHandler = () => dispatch(userThunks.logout());
+  const changeAvatarHandler = (avatar: string) => updateUserHandler({ avatar });
+  const changeNameHandler = (name: string) => updateUserHandler({ name });
 
   return (
     <div className={style.profilePage}>
@@ -42,18 +44,9 @@ const Profile = () => {
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           badgeContent={
-            <IconButton
-              style={{
-                borderRadius: "50px",
-                border: "2px solid white",
-                backgroundColor: "lightgray",
-              }}
-            >
+            <FileInput changeFileHandler={changeAvatarHandler}>
               <PhotoCameraIcon />
-              <TextField type={"file"} />
-
-              {/*<input type="file" />*/}
-            </IconButton>
+            </FileInput>
           }
         >
           <Avatar
@@ -64,7 +57,7 @@ const Profile = () => {
         </Badge>
         <EditableName
           name={profile?.name ? profile.name : "no name"}
-          updateUserHandler={updateUserHandler}
+          changeNameHandler={changeNameHandler}
         />
         <p className={style.email}>{profile?.email}</p>
         <Button

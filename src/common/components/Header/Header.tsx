@@ -29,7 +29,7 @@ const Header = () => {
             <p>{cutTheString(profile?.name ? profile.name : "", 35)}</p>
             <Avatar
               alt={profile?.name}
-              src="/static/images/avatar/1.jpg"
+              src={profile?.avatar}
               sx={{ width: 35, height: 35 }}
             />
           </div>

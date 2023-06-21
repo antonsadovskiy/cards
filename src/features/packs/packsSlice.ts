@@ -81,11 +81,8 @@ const deletePack = createAppAsyncThunk<void, DeletePackArgType>(
 const updatePack = createAppAsyncThunk<void, UpdatePackArgType>(
   "packs/add",
   async (arg, thunkAPI) => {
-    // const { dispatch, getState } = thunkAPI;
-    // const packsParams = getState().packsParams.queryParams;
     return thunkTryCatch(thunkAPI, async () => {
       await packsAPI.updatePack(arg);
-      // dispatch(packsThunks.getPacks(packsParams));
     });
   }
 );

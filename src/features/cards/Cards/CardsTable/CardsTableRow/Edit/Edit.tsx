@@ -9,6 +9,7 @@ type PropsType = {
   cardId: string;
   question: string;
   answer: string;
+  questionImg: string;
 };
 
 const Edit: FC<PropsType> = (props) => {
@@ -18,9 +19,10 @@ const Edit: FC<PropsType> = (props) => {
     <TableCell sx={{ display: "flex" }}>
       <BasicModal type={"editCardModal"}>
         <EditCardModal
-          editCardHandler={editCardHandler}
           question={props.question}
           answer={props.answer}
+          questionImg={props.questionImg}
+          editCardHandler={editCardHandler}
         />
       </BasicModal>
       <BasicModal type={"deleteCardModal"}>

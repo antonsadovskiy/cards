@@ -52,6 +52,8 @@ export type CardType = {
   cardsPack_id: string;
   grade: number;
   shots: number;
+  questionImg: string;
+  answerImg: string;
   user_id: string;
   created: string;
   updated: string;
@@ -60,6 +62,7 @@ export type CardType = {
 export type GetCardsResponseType = {
   cards: CardType[];
   packName: string;
+  packDeckCover: string;
   cardsTotalCount: number;
   maxGrade: number;
   minGrade: number;

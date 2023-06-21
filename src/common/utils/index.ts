@@ -7,3 +7,4 @@ export { changeSort } from "./changeSort";
 export { convertDate } from "./convertDate";
 export { cutTheString } from "./cutTheString";
 export { getCard } from "./getCard";
+export { convertFileToBase64 } from "./convertFileToBase64";

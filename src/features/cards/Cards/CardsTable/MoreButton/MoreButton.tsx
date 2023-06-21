@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 type PropsType = {
   packId: string;
   packName: string;
+  packDeckCover: string;
 };
 
 const MoreButton: FC<PropsType> = (props) => {
@@ -63,8 +64,9 @@ const MoreButton: FC<PropsType> = (props) => {
               <EditPackModal
                 private={false}
                 packName={props.packName}
-                editPackHandler={(name, isPrivatePack) => {
-                  editPackHandler("cardsList", name, isPrivatePack);
+                deckCover={props.packDeckCover}
+                editPackHandler={(name, isPrivatePack, deckCover) => {
+                  editPackHandler("cardsList", name, isPrivatePack, deckCover);
                   setAnchorEl(null);
                 }}
               />

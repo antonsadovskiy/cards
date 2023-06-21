@@ -7,17 +7,27 @@ import MenuItem from "@mui/material/MenuItem";
 import { useAppDispatch } from "common/hooks";
 import { cardsParamsActions } from "features/cardsParams/cardsParamsSlice";
 import FormControl from "@mui/material/FormControl";
+import emptyImage from "assets/images/empty-image.png";
+import imageStyle from "common/styles/ImageInModal.module.css";
+import FileInput from "common/components/FileInput/FileInput";
+import UploadIcon from "@mui/icons-material/Upload";
 
 type PropsType = {
   question: string;
   answer: string;
-  editCardHandler: (question: string, answer: string) => void;
+  questionImg: string;
+  editCardHandler: (
+    question: string,
+    answer: string,
+    questionImg: string
+  ) => void;
 };
 
 const EditCardModal: FC<PropsType> = (props) => {
   const dispatch = useAppDispatch();
   const [question, setQuestion] = useState<string>(props.question);
   const [answer, setAnswer] = useState<string>(props.answer);
+  const [questionImg, setQuestionImg] = useState<string>(props.questionImg);
   const [format, setFormat] = useState<"text" | "image">("text");
 
   const closeModalHandler = () => {
@@ -26,17 +36,20 @@ const EditCardModal: FC<PropsType> = (props) => {
     );
   };
 
-  const editCardHandler = () => props.editCardHandler(question, answer);
-
+  const editCardHandler = () => {
+    props.editCardHandler(question, answer, questionImg);
+  };
+  const changeQuestionImgHandler = (questionImg: string) => {
+    setQuestionImg(questionImg);
+  };
   const changeQuestionHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setQuestion(e.currentTarget.value);
   };
   const changeAnswerHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.currentTarget.value);
   };
-  const changeFormatHandler = (event: any) => {
-    setFormat(event.target.value);
-  };
+  const changeFormatHandler = (event: any) => setFormat(event.target.value);
+
   return (
     <div className={style.modal}>
       <div className={style.titleContainer}>
@@ -54,13 +67,32 @@ const EditCardModal: FC<PropsType> = (props) => {
             </Select>
           </FormControl>
         </div>
-        <TextField
-          value={question}
-          fullWidth
-          onChange={changeQuestionHandler}
-          variant={"standard"}
-          label={"Question"}
-        />
+        {format === "text" && (
+          <TextField
+            value={question}
+            fullWidth
+            onChange={changeQuestionHandler}
+            variant={"standard"}
+            label={"Question"}
+          />
+        )}
+        {format === "image" && (
+          <>
+            <img
+              src={questionImg ? questionImg : emptyImage}
+              className={imageStyle.image}
+              alt={"question"}
+            />
+            <FileInput changeFileHandler={changeQuestionImgHandler}>
+              <>
+                <UploadIcon />
+                <span className={style.btnStyle}>
+                  upload a picture question
+                </span>
+              </>
+            </FileInput>
+          </>
+        )}
         <TextField
           value={answer}
           fullWidth

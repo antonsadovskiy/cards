@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 type PropsType = {
   packId: string;
   name: string;
+  deckCover: string;
   private: boolean;
   cardsCount: number;
   user_id: string | null;
@@ -28,7 +29,7 @@ const Actions: FC<PropsType> = (props) => {
   const learnPackHandler = () => navigate("/learn/" + props.packId);
 
   return (
-    <TableCell style={{ display: "flex" }} height={"auto"}>
+    <TableCell style={{ display: "flex" }}>
       <IconButton
         disabled={props.cardsCount === 0 || isLoading}
         onClick={learnPackHandler}
@@ -40,8 +41,9 @@ const Actions: FC<PropsType> = (props) => {
           <EditPackModal
             packName={props.name}
             private={props.private}
-            editPackHandler={(name, isPrivatePack) =>
-              editPackHandler("packsList", name, isPrivatePack)
+            deckCover={props.deckCover}
+            editPackHandler={(name, isPrivatePack, deckCover) =>
+              editPackHandler("packsList", name, isPrivatePack, deckCover)
             }
           />
         </BasicModal>

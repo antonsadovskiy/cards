@@ -6,15 +6,23 @@ import style from "common/styles/Modal.module.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { packsParamsActions } from "features/packsParams/packsParamsSlice";
 import { useAppDispatch } from "common/hooks";
+import imageStyle from "common/styles/ImageInModal.module.css";
+import FileInput from "common/components/FileInput/FileInput";
+import UploadIcon from "@mui/icons-material/Upload";
 
 type PropsType = {
-  addPackHandler: (name: string, isPrivatePack: boolean) => void;
+  addPackHandler: (
+    name: string,
+    isPrivatePack: boolean,
+    deckCover?: string
+  ) => void;
 };
 
 const AddPackModal: FC<PropsType> = (props) => {
   const dispatch = useAppDispatch();
   const [isPrivatePack, setIsPrivatePack] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
+  const [deckCover, setDeckCover] = useState<string>("");
 
   const closeModalHandler = () => {
     dispatch(
@@ -24,7 +32,11 @@ const AddPackModal: FC<PropsType> = (props) => {
       })
     );
   };
-  const addPackHandler = () => props.addPackHandler(name, isPrivatePack);
+  const addPackHandler = () => {
+    props.addPackHandler(name, isPrivatePack, deckCover);
+  };
+
+  const changeCoverHandler = (cover: string) => setDeckCover(cover);
 
   const changePackNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
@@ -48,6 +60,17 @@ const AddPackModal: FC<PropsType> = (props) => {
           variant={"standard"}
           label={"Name pack"}
         />
+        <div className={style.uploadCover}>
+          {deckCover && (
+            <img src={deckCover} className={imageStyle.image} alt={"cover"} />
+          )}
+          <FileInput changeFileHandler={changeCoverHandler}>
+            <>
+              <UploadIcon />
+              <span className={style.btnStyle}>upload deck cover</span>
+            </>
+          </FileInput>
+        </div>
         <FormControlLabel
           control={
             <Checkbox

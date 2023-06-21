@@ -10,6 +10,8 @@ type PropsType = {
   cardId: string;
   question: string;
   answer: string;
+  questionImg: string;
+  answerImg: string;
   updated: string;
   grade: number;
   isMyPack: boolean;
@@ -18,7 +20,7 @@ type PropsType = {
 const CardsTableRow: FC<PropsType> = (props) => {
   return (
     <TableRow>
-      <Question question={props.question} />
+      <Question question={props.question} questionImg={props.questionImg} />
       <Answer answer={props.answer} />
       <Updated updated={props.updated} />
       <Grade grade={props.grade} />
@@ -27,6 +29,7 @@ const CardsTableRow: FC<PropsType> = (props) => {
           cardId={props.cardId}
           question={props.question}
           answer={props.answer}
+          questionImg={props.questionImg}
         />
       )}
     </TableRow>
