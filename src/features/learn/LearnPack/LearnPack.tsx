@@ -11,12 +11,12 @@ import Title from "common/components/Title/Title";
 import Card from "features/learn/Card/Card";
 import { learnActions } from "features/learn/learnSlice";
 import { getCard } from "common/utils";
-import Preloader from "common/components/Preloader/Preloader";
 import {
   selectorCardsToLearn,
   selectorCurrentCard,
 } from "features/learn/learnSelectors";
 import { GradeType } from "features/cards/cardsAPI";
+import CardSkeleton from "common/components/CardSkeleton/CardSkeleton";
 
 const LearnPack = () => {
   const dispatch = useAppDispatch();
@@ -53,16 +53,17 @@ const LearnPack = () => {
         <p className={style.btnLabel}>Back to Cards List</p>
       </NavLink>
       <div className={style.learnPack}>
-        {isLoading && <Preloader />}
-        {!isLoading && (
-          <>
-            <Title title={`Learn "${packName}"`} />
+        <>
+          <Title title={`Learn "${packName}"`} />
+          {isLoading ? (
+            <CardSkeleton />
+          ) : (
             <Card
               showNextCardHandler={showNextCardHandler}
               card={currentCard}
             />
-          </>
-        )}
+          )}
+        </>
       </div>
     </div>
   );

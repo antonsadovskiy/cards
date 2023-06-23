@@ -4,17 +4,16 @@ import styleContainer from "common/styles/Container.module.css";
 import style from "./Layout.module.css";
 import { userThunks } from "features/auth/authSlice";
 import Preloader from "common/components/Preloader/Preloader";
-import LinearProgress from "@mui/material/LinearProgress";
 import { Outlet } from "react-router-dom";
 import Toast from "common/components/Error/Toast";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { selectorIsAppInitialized, selectorIsLoading } from "app/appSelectors";
+import { selectorIsAppInitialized } from "app/appSelectors";
+import LinearLoader from "common/components/LinearLoader/LinearLoader";
 
 const Layout = () => {
   const dispatch = useAppDispatch();
 
   const isAppInitialized = useAppSelector(selectorIsAppInitialized);
-  const isLoading = useAppSelector(selectorIsLoading);
 
   useEffect(() => {
     dispatch(userThunks.me());
@@ -23,7 +22,7 @@ const Layout = () => {
   return (
     <div>
       <Header />
-      {isLoading && <LinearProgress />}
+      <LinearLoader />
       <div className={styleContainer.container}>
         <div className={style.main}>
           <div className={style.content}>
