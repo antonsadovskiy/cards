@@ -40,20 +40,22 @@ const MyPagination: FC<PropsType> = (props) => {
         shape="rounded"
         onChange={onChangePageHandler}
       />
-      <span>Show</span>
-      <FormControl sx={{ m: 1, minWidth: 50 }} size="small">
-        <Select
-          disabled={isLoading}
-          value={props.pageCount}
-          onChange={onChangePageCountHandler}
-        >
-          <MenuItem value={20}>20</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={4}>4</MenuItem>
-        </Select>
-      </FormControl>
-      <span>{props.type} per Page</span>
+      <div className={style.count}>
+        <span>Show</span>
+        <FormControl sx={{ m: 1, minWidth: 50 }} size="small">
+          <Select
+            disabled={isLoading}
+            value={props.pageCount}
+            onChange={onChangePageCountHandler}
+          >
+            <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={7}>7</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+          </Select>
+        </FormControl>
+        <span>{props.type} per Page</span>
+      </div>
     </div>
   );
 };

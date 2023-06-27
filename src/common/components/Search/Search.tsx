@@ -23,7 +23,7 @@ const Search: FC<PropsType> = (props) => {
   return (
     <div
       className={style.search}
-      style={{ width: props.fullWidth ? "100%" : "40%" }}
+      style={{ width: props.fullWidth ? "100%" : "25rem" }}
     >
       <div style={{ fontWeight: "600" }}>Search</div>
       <TextField

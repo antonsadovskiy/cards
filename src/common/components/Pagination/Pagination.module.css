@@ -3,4 +3,9 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.count {
+  display: flex;
+  align-items: center;
 }
