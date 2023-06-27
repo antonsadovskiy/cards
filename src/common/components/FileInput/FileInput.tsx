@@ -1,6 +1,7 @@
 import IconButton from "@mui/material/IconButton";
 import { ChangeEvent, FC, ReactNode } from "react";
 import { convertFileToBase64 } from "common/utils";
+import { toast } from "react-toastify";
 
 type PropsType = {
   changeFileHandler: (file: string) => void;
@@ -11,9 +12,13 @@ const FileInput: FC<PropsType> = (props) => {
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0];
-      convertFileToBase64(file, (file64) => {
-        props.changeFileHandler(file64);
-      });
+      if (file.size < 1000000) {
+        convertFileToBase64(file, (file64) => {
+          props.changeFileHandler(file64);
+        });
+      } else {
+        toast.error("File is too large");
+      }
     }
   };
 

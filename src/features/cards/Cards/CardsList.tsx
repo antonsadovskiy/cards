@@ -97,6 +97,7 @@ const CardsList = () => {
               packId={cardsPack_id}
               packName={packName}
               packDeckCover={packDeckCover}
+              isCardsListNotEmpty={!cards.length}
             />
           )}
         </div>
@@ -126,6 +127,7 @@ const CardsList = () => {
         page={page}
         pageCount={pageCount}
         totalCount={cardsTotalCount}
+        type={"Cards"}
         changePageHandler={changePageHandler}
         changePageCountHandler={changePageCountHandler}
       />

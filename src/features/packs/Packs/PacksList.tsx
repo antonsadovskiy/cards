@@ -51,6 +51,7 @@ const PacksList = () => {
           page={page}
           pageCount={pageCount}
           totalCount={packsTotalCount}
+          type={"Packs"}
           changePageHandler={changePageHandler}
           changePageCountHandler={changePageCountHandler}
         />

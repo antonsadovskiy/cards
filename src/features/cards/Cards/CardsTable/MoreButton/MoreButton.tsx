@@ -17,6 +17,7 @@ type PropsType = {
   packId: string;
   packName: string;
   packDeckCover: string;
+  isCardsListNotEmpty: boolean;
 };
 
 const MoreButton: FC<PropsType> = (props) => {
@@ -82,8 +83,11 @@ const MoreButton: FC<PropsType> = (props) => {
             </BasicModal>
             <span>Delete</span>
           </div>
-          <div className={style.btn} onClick={learnPackHandler}>
-            <IconButton>
+          <div className={style.btn}>
+            <IconButton
+              onClick={learnPackHandler}
+              disabled={props.isCardsListNotEmpty}
+            >
               <SchoolIcon sx={{ width: "20px", height: "20px" }} />
             </IconButton>
             <span>Learn</span>

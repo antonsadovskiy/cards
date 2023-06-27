@@ -11,6 +11,7 @@ type PropsType = {
   page: number;
   pageCount: number;
   totalCount: number;
+  type: "Cards" | "Packs";
   changePageHandler: (page: number) => void;
   changePageCountHandler: (pageCount: number) => void;
 };
@@ -52,7 +53,7 @@ const MyPagination: FC<PropsType> = (props) => {
           <MenuItem value={4}>4</MenuItem>
         </Select>
       </FormControl>
-      <span>Cards per Page</span>
+      <span>{props.type} per Page</span>
     </div>
   );
 };
