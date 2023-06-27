@@ -2,7 +2,7 @@ import React from "react";
 import style from "common/components/Header/Header.module.css";
 import styleContainer from "common/styles/Container.module.css";
 import Button from "@mui/material/Button";
-import logo from "assets/images/logo.svg";
+import logo from "assets/images/logo.png";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "common/hooks/useAppSelector";
