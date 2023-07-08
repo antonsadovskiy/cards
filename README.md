@@ -1,1 +1,1 @@
-### https://cards-three-tan-55.vercel.app/
+### https://stydy-cards.vercel.app
